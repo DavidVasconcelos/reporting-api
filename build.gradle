@@ -17,10 +17,6 @@ plugins {
 	id "io.gitlab.arturbosch.detekt"         version "${detektVersion}"
 }
 
-ext {
-	set('springCloudVersion', "Hoxton.SR8")
-}
-
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'kotlin'
 apply plugin: 'java'
@@ -34,11 +30,6 @@ version     = version + jarSuffix
 
 // Separando dependencias para outro arquivo.
 apply from: 'dependencies.gradle'
-
-// Para funcionar o @DBRef(lazy = true)
-allOpen {
-	annotation("org.springframework.data.mongodb.core.mapping.Document")
-}
 
 repositories {
 	mavenCentral()
