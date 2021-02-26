@@ -1,0 +1,41 @@
+def ninjaSquadVersion        = '2.0.3'
+def jacksonVersion           = '2.11.3'
+def valiktorVersion          = '0.12.0'
+def springFoxVersion         = '2.9.2'
+def swaggerModelsVersion     = '1.5.21'
+
+dependencies {
+
+    //Spring boot
+    implementation("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
+    implementation("org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}")
+    implementation("org.springframework.boot:spring-boot-starter-data-mongodb:${springBootVersion}")
+    implementation "org.springframework.boot:spring-boot-starter-validation:${springBootVersion}"
+
+    //Spring boot test
+    testImplementation("org.springframework.boot:spring-boot-starter-test:${springBootVersion}") {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+        exclude group: "org.mockito", module: "mockito-core"
+    }
+
+    //Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}"
+
+    //Jackson
+    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:${jacksonVersion}"
+
+    //Valiktor
+    implementation "org.valiktor:valiktor-core:${valiktorVersion}"
+
+    //Swagger2
+    implementation ("io.springfox:springfox-swagger2:${springFoxVersion}") {
+        exclude group: "io.swagger", module: "swagger-annotations"
+        exclude group: "io.swagger", module: "swagger-models"
+    }
+    implementation "io.springfox:springfox-swagger-ui:${springFoxVersion}"
+    implementation "io.swagger:swagger-models:${swaggerModelsVersion}"
+
+    //Mockk
+    testImplementation "com.ninja-squad:springmockk:${ninjaSquadVersion}"
+}
