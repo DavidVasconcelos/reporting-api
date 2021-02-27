@@ -1,7 +1,14 @@
 package com.speedyteller.reporting.api.domain.model
 
+import com.speedyteller.reporting.api.domain.entity.MerchantEntity
+
 data class Merchant(
 
-    val id: Long? = null,
-    val name: String? = null
-)
+    var id: Long? = null,
+    var name: String? = null
+) {
+    constructor(entity: MerchantEntity) : this() {
+        this.id = entity.id
+        this.name = entity.name
+    }
+}

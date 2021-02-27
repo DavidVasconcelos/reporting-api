@@ -1,8 +1,16 @@
 package com.speedyteller.reporting.api.domain.model
 
+import com.speedyteller.reporting.api.domain.entity.InstantPaymentNotificationEntity
+
 data class InstantPaymentNotification(
 
-    val id: Long? = null,
-    val transactionId: Int? = null,
-    val received: Boolean? = null
-)
+    var id: Long? = null,
+    var transactionId: Int? = null,
+    var received: Boolean? = null
+) {
+    constructor(enity: InstantPaymentNotificationEntity) : this() {
+        this.id = enity.id
+        this.transactionId = enity.transactionId
+        this.received = enity.received
+    }
+}

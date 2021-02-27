@@ -1,9 +1,18 @@
 package com.speedyteller.reporting.api.domain.model
 
-data class AgentInfo (
+import com.speedyteller.reporting.api.domain.entity.AgentInfoEntity
 
-	val id : Long? = null,
-	val customerIp : String? = null,
-	val customerUserAgent : String? = null,
-	val merchantIp : String? = null
-)
+data class AgentInfo(
+
+    var id: Long? = null,
+    var customerIp: String? = null,
+    var customerUserAgent: String? = null,
+    var merchantIp: String? = null
+) {
+    constructor(entity: AgentInfoEntity) : this() {
+        this.id = entity.id
+        this.customerIp = entity.customerIp
+        this.customerUserAgent = entity.customerUserAgent
+        this.merchantIp = entity.merchantIp
+    }
+}

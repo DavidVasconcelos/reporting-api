@@ -11,13 +11,28 @@ import com.speedyteller.reporting.api.exception.NotFoundException
 import com.speedyteller.reporting.api.extension.unwrap
 import com.speedyteller.reporting.api.port.PostgresPort
 import com.speedyteller.reporting.api.repository.AcquirerRepository
+import com.speedyteller.reporting.api.repository.AgentInfoRepository
+import com.speedyteller.reporting.api.repository.CustomerRepository
+import com.speedyteller.reporting.api.repository.FXTransactionRepository
+import com.speedyteller.reporting.api.repository.InstantPaymentNotificationRepository
+import com.speedyteller.reporting.api.repository.MerchantRepository
+import com.speedyteller.reporting.api.repository.TransactionRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
-class PostgresPortImpl @Autowired constructor(val acquirerRepository: AcquirerRepository) : PostgresPort {
+class PostgresPortImpl @Autowired constructor(
+    val acquirerRepository: AcquirerRepository,
+    val agentInfoRepository: AgentInfoRepository,
+    val customerRepository: CustomerRepository,
+    val fxTransactionRepository: FXTransactionRepository,
+    val instantPaymentNotificationRepository: InstantPaymentNotificationRepository,
+    val merchantRepository: MerchantRepository,
+    val transactionRepository: TransactionRepository
+) : PostgresPort {
 
-    override fun getAcquirer(id: Long): Acquirer {
+
+    override fun findAcquirerById(id: Long): Acquirer {
 
         val acquirerEntity =
             acquirerRepository.findById(id).unwrap() ?: throw NotFoundException("Acquirer $NOT_FOUND_ERROR_MESSAGE")
@@ -25,28 +40,52 @@ class PostgresPortImpl @Autowired constructor(val acquirerRepository: AcquirerRe
         return Acquirer(entity = acquirerEntity)
     }
 
-    override fun getAgentInfo(id: Long): AgentInfo {
-        TODO("Not yet implemented")
+    override fun findAgentInfoById(id: Long): AgentInfo {
+
+        val agentInfoEntity =
+            agentInfoRepository.findById(id).unwrap() ?: throw NotFoundException("AgentInfo $NOT_FOUND_ERROR_MESSAGE")
+
+        return AgentInfo(entity = agentInfoEntity)
     }
 
-    override fun getCustomer(id: Long): Customer {
-        TODO("Not yet implemented")
+    override fun findCustomerById(id: Long): Customer {
+
+        val customerEntity =
+            customerRepository.findById(id).unwrap() ?: throw NotFoundException("Customer $NOT_FOUND_ERROR_MESSAGE")
+
+        return Customer(entity = customerEntity)
     }
 
-    override fun getFXTransaction(id: Long): FXTransaction {
-        TODO("Not yet implemented")
+    override fun findFXTransactionById(id: Long): FXTransaction {
+
+        val fxTransactionEntity = fxTransactionRepository.findById(id).unwrap()
+            ?: throw NotFoundException("FXTransaction $NOT_FOUND_ERROR_MESSAGE")
+
+        return FXTransaction(entity = fxTransactionEntity)
     }
 
-    override fun getInstantPaymentNotification(id: Long): InstantPaymentNotification {
-        TODO("Not yet implemented")
+    override fun findInstantPaymentNotificationById(id: Long): InstantPaymentNotification {
+
+        val instantPaymentNotificationEntity = instantPaymentNotificationRepository.findById(id).unwrap()
+            ?: throw NotFoundException("IPN $NOT_FOUND_ERROR_MESSAGE")
+
+        return InstantPaymentNotification(enity = instantPaymentNotificationEntity)
     }
 
-    override fun getMerchant(id: Long): Merchant {
-        TODO("Not yet implemented")
+    override fun findMerchantById(id: Long): Merchant {
+
+        val merchantEntity =
+            merchantRepository.findById(id).unwrap() ?: throw NotFoundException("Merchant $NOT_FOUND_ERROR_MESSAGE")
+
+        return Merchant(entity = merchantEntity)
     }
 
-    override fun getTransaction(id: Long): Transaction {
-        TODO("Not yet implemented")
+    override fun findTransactionById(transactionId: String): Transaction {
+
+        val transaction = transactionRepository.findByTransactionId(transactionId = transactionId)
+            ?: throw NotFoundException("Transaction $NOT_FOUND_ERROR_MESSAGE")
+
+        return Transaction()
     }
 
     companion object {
