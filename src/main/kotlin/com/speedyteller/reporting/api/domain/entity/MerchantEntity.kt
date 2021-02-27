@@ -6,16 +6,13 @@ import javax.persistence.Id
 import javax.persistence.Table
 
 @Entity
-@Table(name = "instant_payment_notification")
-data class InstantPaymentNotification(
+@Table(name = "merchant")
+data class MerchantEntity(
 
     @Id
     @Column(name = "id")
     val id: Long? = null,
 
-    @Column(name = "transaction_id")
-    val transactionId: Int? = null,
-
-    @Column(name = "received")
-    val received: Boolean? = null
+    @Column(name = "name")
+    val name: String? = null
 )
