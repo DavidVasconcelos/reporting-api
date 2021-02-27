@@ -31,7 +31,6 @@ class PostgresPortImpl @Autowired constructor(
     val transactionRepository: TransactionRepository
 ) : PostgresPort {
 
-
     override fun findAcquirerById(id: Long): Acquirer {
 
         val acquirerEntity =
@@ -80,7 +79,7 @@ class PostgresPortImpl @Autowired constructor(
         return Merchant(entity = merchantEntity)
     }
 
-    override fun findTransactionById(transactionId: String): Transaction {
+    override fun findTransactionByTransactionId(transactionId: String): Transaction {
 
         val transaction = transactionRepository.findByTransactionId(transactionId = transactionId)
             ?: throw NotFoundException("Transaction $NOT_FOUND_ERROR_MESSAGE")

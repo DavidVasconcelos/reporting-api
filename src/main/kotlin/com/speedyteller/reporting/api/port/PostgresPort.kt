@@ -22,6 +22,6 @@ interface PostgresPort {
 
     fun findMerchantById(id: Long): Merchant
 
-    fun findTransactionById(transactionId: String): Transaction
+    fun findTransactionByTransactionId(transactionId: String): Transaction
 
 }
