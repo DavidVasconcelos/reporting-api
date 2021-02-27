@@ -1,7 +1,8 @@
 package com.speedyteller.reporting.api.domain.model
 
 data class Acquirer(
-    val id: Int? = null,
+
+    val id: Long? = null,
     val name: String? = null,
-    val code: Int? = null
+    val code: Long? = null
 )

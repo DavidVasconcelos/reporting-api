@@ -2,9 +2,9 @@ package com.speedyteller.reporting.api.domain.model
 
 import java.time.LocalDateTime
 
-data class Client (
+data class Customer (
 
-	val id : Int? = null,
+	val id : Long? = null,
 	val createdAt : LocalDateTime? = null,
 	val updatedAt : LocalDateTime? = null,
 	val deletedAt : LocalDateTime? = null,

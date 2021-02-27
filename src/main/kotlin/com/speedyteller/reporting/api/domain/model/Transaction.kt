@@ -2,7 +2,7 @@ package com.speedyteller.reporting.api.domain.model
 
 data class Transaction (
 
-	val id : Int? = null,
+	val id : Long? = null,
 	val referenceNo : String? = null,
 	val merchantId : Int? = null,
 	val status : String? = null,
