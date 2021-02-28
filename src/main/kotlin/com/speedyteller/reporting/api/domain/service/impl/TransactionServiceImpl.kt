@@ -4,15 +4,18 @@ import com.speedyteller.reporting.api.domain.model.Acquirer
 import com.speedyteller.reporting.api.domain.model.Customer
 import com.speedyteller.reporting.api.domain.model.FXTransaction
 import com.speedyteller.reporting.api.domain.model.Merchant
+import com.speedyteller.reporting.api.domain.model.request.GetTransactionListRequest
 import com.speedyteller.reporting.api.domain.model.response.FXMerchant
 import com.speedyteller.reporting.api.domain.model.response.FXResponse
 import com.speedyteller.reporting.api.domain.model.response.GetTransactionAcquirerResponse
+import com.speedyteller.reporting.api.domain.model.response.GetTransactionListResponse
 import com.speedyteller.reporting.api.domain.model.response.GetTransactionMerchantResponse
 import com.speedyteller.reporting.api.domain.model.response.GetTransactionMerchantTransactionResponse
 import com.speedyteller.reporting.api.domain.model.response.GetTransactionResponse
 import com.speedyteller.reporting.api.domain.service.TransactionService
 import com.speedyteller.reporting.api.port.PostgresPort
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Page
 import org.springframework.stereotype.Service
 
 @Service
@@ -40,6 +43,10 @@ class TransactionServiceImpl : TransactionService {
             merchant = GetTransactionMerchantResponse(merchant = merchant),
             transaction = GetTransactionMerchantTransactionResponse(merchant = transaction)
         )
+    }
+
+    override fun getTransactionList(request: GetTransactionListRequest): Page<GetTransactionListResponse> {
+        TODO("Not yet implemented")
     }
 
     private fun getFxTransaction(fxTransactionId: Long) =
