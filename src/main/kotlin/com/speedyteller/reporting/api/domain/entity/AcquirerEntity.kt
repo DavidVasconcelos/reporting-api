@@ -17,5 +17,8 @@ data class AcquirerEntity(
     val name: String? = null,
 
     @Column(name = "code")
-    val code: Long? = null
+    val code: String? = null,
+
+    @Column(name = "type")
+    val type: String? = null
 )

@@ -1,5 +1,6 @@
 package com.speedyteller.reporting.api.domain.entity
 
+import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.Id
@@ -41,10 +42,10 @@ data class TransactionEntity(
     val fxTransactionId: Long? = null,
 
     @Column(name = "updated_at")
-    val updatedAt: String? = null,
+    val updatedAt: LocalDateTime? = null,
 
     @Column(name = "created_at")
-    val createdAt: String? = null,
+    val createdAt: LocalDateTime? = null,
 
     @Column(name = "acquirer_transaction_id")
     val acquirerTransactionId: Long? = null,

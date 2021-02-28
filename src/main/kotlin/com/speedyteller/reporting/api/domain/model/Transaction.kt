@@ -1,6 +1,7 @@
 package com.speedyteller.reporting.api.domain.model
 
 import com.speedyteller.reporting.api.domain.entity.TransactionEntity
+import java.time.LocalDateTime
 
 data class Transaction(
 
@@ -14,13 +15,14 @@ data class Transaction(
     var agentInfoId: Long? = null,
     var operation: String? = null,
     var fxTransactionId: Long? = null,
-    var updatedAt: String? = null,
-    var createdAt: String? = null,
+    var updatedAt: LocalDateTime? = null,
+    var createdAt: LocalDateTime? = null,
     var acquirerTransactionId: Long? = null,
     var code: Int? = null,
     var message: String? = null,
     var transactionId: String? = null,
-    var customerId: Long? = null
+    var customerId: Long? = null,
+    var agent: AgentInfo? = null
 ) {
     constructor(entity: TransactionEntity) : this() {
         this.id = entity.id

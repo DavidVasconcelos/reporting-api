@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface TransactionRepository : JpaRepository<TransactionEntity, Long> {
 
-    fun findByTransactionId(transactionId: String): Transaction?
+    fun findByTransactionId(transactionId: String): TransactionEntity?
 }

@@ -81,10 +81,10 @@ class PostgresPortImpl @Autowired constructor(
 
     override fun findTransactionByTransactionId(transactionId: String): Transaction {
 
-        val transaction = transactionRepository.findByTransactionId(transactionId = transactionId)
+        val transactionEntity = transactionRepository.findByTransactionId(transactionId = transactionId)
             ?: throw NotFoundException("Transaction $NOT_FOUND_ERROR_MESSAGE")
 
-        return Transaction()
+        return Transaction(entity = transactionEntity)
     }
 
     companion object {
