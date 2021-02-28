@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/client")
@@ -27,13 +28,21 @@ class CustomerController {
         value = [
             ApiResponse(code = 200, message = "When call has be succeeded", response = CustomerDTO::class),
             ApiResponse(
-                code = 400, message = "",
+                code = 404, message = "Transaction not found",
+                response = ErrorResponse::class
+            ),
+            ApiResponse(
+                code = 404, message = "Customer not found",
+                response = ErrorResponse::class
+            ),
+            ApiResponse(
+                code = 404, message = "Customer id not present on transaction",
                 response = ErrorResponse::class
             )
         ]
     )
     @PostMapping
-    fun getClient(@RequestBody transactionId: String): ResponseEntity<CustomerDTO> {
+    fun getClient(@Valid @RequestBody transactionId: String): ResponseEntity<CustomerDTO> {
 
         val customer = customerService.getCustomer(transactionId = transactionId)
 
