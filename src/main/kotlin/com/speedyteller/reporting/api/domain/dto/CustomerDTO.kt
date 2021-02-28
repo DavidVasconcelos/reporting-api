@@ -1,6 +1,7 @@
 package com.speedyteller.reporting.api.domain.dto
 
 import com.speedyteller.reporting.api.domain.model.Customer
+import com.speedyteller.reporting.api.domain.model.GetCustomerResponse
 import java.time.LocalDateTime
 
 data class CustomerDTO(

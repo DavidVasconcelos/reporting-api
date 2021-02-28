@@ -1,6 +1,6 @@
 package com.speedyteller.reporting.api.domain.service.impl
 
-import com.speedyteller.reporting.api.domain.model.Customer
+import com.speedyteller.reporting.api.domain.model.GetCustomerResponse
 import com.speedyteller.reporting.api.domain.service.CustomerService
 import com.speedyteller.reporting.api.exception.NotFoundException
 import com.speedyteller.reporting.api.port.PostgresPort
@@ -13,13 +13,15 @@ class CustomerServiceImpl : CustomerService {
     @Autowired
     private lateinit var postgresPort: PostgresPort
 
-    override fun getCustomer(transactionId: String): Customer {
+    override fun getCustomer(transactionId: String): GetCustomerResponse {
 
         val transaction = postgresPort.findTransactionByTransactionId(transactionId = transactionId)
 
         transaction.customerId?.let { id ->
 
-            return postgresPort.findCustomerById(id = id)
+            val customer = postgresPort.findCustomerById(id = id)
+
+            return GetCustomerResponse(customerInfo = customer)
 
         } ?: throw NotFoundException(CUSTOMER_ID_NOT_PRESSENT_ERROR_MESSAGE)
 

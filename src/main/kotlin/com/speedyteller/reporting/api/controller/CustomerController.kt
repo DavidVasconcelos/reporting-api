@@ -1,6 +1,6 @@
 package com.speedyteller.reporting.api.controller
 
-import com.speedyteller.reporting.api.domain.dto.CustomerDTO
+import com.speedyteller.reporting.api.domain.dto.GetCustomerResponseDTO
 import com.speedyteller.reporting.api.domain.service.CustomerService
 import com.speedyteller.reporting.api.exception.ErrorResponse
 import io.swagger.annotations.Api
@@ -23,10 +23,10 @@ class CustomerController {
     @Autowired
     private lateinit var customerService: CustomerService
 
-    @ApiOperation(httpMethod = "POST", value = "When business validation failed")
+    @ApiOperation(httpMethod = "POST", value = "Get Client")
     @ApiResponses(
         value = [
-            ApiResponse(code = 200, message = "When call has be succeeded", response = CustomerDTO::class),
+            ApiResponse(code = 200, message = "When call has be succeeded", response = GetCustomerResponseDTO::class),
             ApiResponse(
                 code = 404, message = "Transaction not found",
                 response = ErrorResponse::class
@@ -42,10 +42,10 @@ class CustomerController {
         ]
     )
     @PostMapping
-    fun getClient(@Valid @RequestBody transactionId: String): ResponseEntity<CustomerDTO> {
+    fun getClient(@Valid @RequestBody transactionId: String): ResponseEntity<GetCustomerResponseDTO> {
 
-        val customer = customerService.getCustomer(transactionId = transactionId)
+        val customerResponse = customerService.getCustomer(transactionId = transactionId)
 
-        return ResponseEntity.ok(CustomerDTO(model = customer))
+        return ResponseEntity.ok(GetCustomerResponseDTO(model = customerResponse))
     }
 }
