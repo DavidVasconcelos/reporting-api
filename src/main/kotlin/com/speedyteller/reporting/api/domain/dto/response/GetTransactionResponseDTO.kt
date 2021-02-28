@@ -1,11 +1,11 @@
-package com.speedyteller.reporting.api.domain.dto
+package com.speedyteller.reporting.api.domain.dto.response
 
-import com.speedyteller.reporting.api.domain.model.Customer
-import com.speedyteller.reporting.api.domain.model.FXResponse
-import com.speedyteller.reporting.api.domain.model.GetTransactionAcquirerResponse
-import com.speedyteller.reporting.api.domain.model.GetTransactionMerchantResponse
-import com.speedyteller.reporting.api.domain.model.GetTransactionMerchantTransactionResponse
-import com.speedyteller.reporting.api.domain.model.GetTransactionResponse
+import com.speedyteller.reporting.api.domain.dto.CustomerDTO
+import com.speedyteller.reporting.api.domain.dto.TransactionDTO
+import com.speedyteller.reporting.api.domain.model.response.GetTransactionAcquirerResponse
+import com.speedyteller.reporting.api.domain.model.response.GetTransactionMerchantResponse
+import com.speedyteller.reporting.api.domain.model.response.GetTransactionMerchantTransactionResponse
+import com.speedyteller.reporting.api.domain.model.response.GetTransactionResponse
 
 data class GetTransactionResponseDTO(
     val fx: FXResponseDTO,

@@ -15,8 +15,8 @@ data class Transaction(
     var agentInfoId: Long? = null,
     var operation: String? = null,
     var fxTransactionId: Long? = null,
-    var updatedAt: LocalDateTime? = null,
-    var createdAt: LocalDateTime? = null,
+    var updated_at: LocalDateTime? = null,
+    var created_at: LocalDateTime? = null,
     var acquirerTransactionId: Long? = null,
     var code: Int? = null,
     var message: String? = null,
@@ -35,8 +35,8 @@ data class Transaction(
         this.agentInfoId = entity.agentInfoId
         this.operation = entity.operation
         this.fxTransactionId = entity.fxTransactionId
-        this.updatedAt = entity.updatedAt
-        this.createdAt = entity.createdAt
+        this.updated_at = entity.updated_at
+        this.created_at = entity.created_at
         this.acquirerTransactionId = entity.acquirerTransactionId
         this.code = entity.code
         this.message = entity.message

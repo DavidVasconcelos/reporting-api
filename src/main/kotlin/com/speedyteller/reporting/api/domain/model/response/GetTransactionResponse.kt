@@ -1,4 +1,9 @@
-package com.speedyteller.reporting.api.domain.model
+package com.speedyteller.reporting.api.domain.model.response
+
+import com.speedyteller.reporting.api.domain.model.Acquirer
+import com.speedyteller.reporting.api.domain.model.Customer
+import com.speedyteller.reporting.api.domain.model.Merchant
+import com.speedyteller.reporting.api.domain.model.Transaction
 
 data class GetTransactionResponse(
     val fx: FXResponse,

@@ -1,7 +1,6 @@
 package com.speedyteller.reporting.api.controller
 
-import com.speedyteller.reporting.api.domain.dto.CustomerDTO
-import com.speedyteller.reporting.api.domain.dto.GetTransactionResponseDTO
+import com.speedyteller.reporting.api.domain.dto.response.GetTransactionResponseDTO
 import com.speedyteller.reporting.api.domain.service.TransactionService
 import com.speedyteller.reporting.api.exception.ErrorResponse
 import io.swagger.annotations.Api
@@ -27,7 +26,11 @@ class TransactionController {
     @ApiOperation(httpMethod = "POST", value = "Get Transaction")
     @ApiResponses(
         value = [
-            ApiResponse(code = 200, message = "When call has be succeeded", response = GetTransactionResponseDTO::class),
+            ApiResponse(
+                code = 200,
+                message = "When call has be succeeded",
+                response = GetTransactionResponseDTO::class
+            ),
             ApiResponse(
                 code = 404, message = "Transaction not found",
                 response = ErrorResponse::class
@@ -41,4 +44,27 @@ class TransactionController {
 
         return ResponseEntity.ok(GetTransactionResponseDTO(model = transactionResponse))
     }
+
+//    @ApiOperation(httpMethod = "POST", value = "TRANSACTION QUERY")
+//    @ApiResponses(
+//        value = [
+//            ApiResponse(
+//                code = 200,
+//                message = "When call has be succeeded",
+//                response = GetTransactionResponseDTO::class,
+//                responseContainer = "List"
+//            ),
+//            ApiResponse(
+//                code = 404, message = "Transaction not found",
+//                response = ErrorResponse::class
+//            )
+//        ]
+//    )
+//    @PostMapping("/list")
+//    fun getTransactionList(@Valid @RequestParam(defaultValue = "0") page: Int): ResponseEntity<GetTransactionResponseDTO> {
+//
+//        val transactionResponse = transactionService.getTransaction(transactionId = transactionId)
+//
+//        return ResponseEntity.ok(GetTransactionResponseDTO(model = transactionResponse))
+//    }
 }

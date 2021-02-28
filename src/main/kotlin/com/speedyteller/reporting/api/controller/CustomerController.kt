@@ -1,6 +1,6 @@
 package com.speedyteller.reporting.api.controller
 
-import com.speedyteller.reporting.api.domain.dto.GetCustomerResponseDTO
+import com.speedyteller.reporting.api.domain.dto.response.GetCustomerResponseDTO
 import com.speedyteller.reporting.api.domain.service.CustomerService
 import com.speedyteller.reporting.api.exception.ErrorResponse
 import io.swagger.annotations.Api

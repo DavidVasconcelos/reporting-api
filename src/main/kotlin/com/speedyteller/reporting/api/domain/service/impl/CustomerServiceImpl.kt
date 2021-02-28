@@ -1,6 +1,6 @@
 package com.speedyteller.reporting.api.domain.service.impl
 
-import com.speedyteller.reporting.api.domain.model.GetCustomerResponse
+import com.speedyteller.reporting.api.domain.model.response.GetCustomerResponse
 import com.speedyteller.reporting.api.domain.service.CustomerService
 import com.speedyteller.reporting.api.exception.NotFoundException
 import com.speedyteller.reporting.api.port.PostgresPort

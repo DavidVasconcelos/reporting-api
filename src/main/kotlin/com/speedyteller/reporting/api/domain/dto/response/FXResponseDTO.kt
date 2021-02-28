@@ -1,7 +1,7 @@
-package com.speedyteller.reporting.api.domain.dto
+package com.speedyteller.reporting.api.domain.dto.response
 
-import com.speedyteller.reporting.api.domain.model.FXMerchant
-import com.speedyteller.reporting.api.domain.model.FXResponse
+import com.speedyteller.reporting.api.domain.model.response.FXMerchant
+import com.speedyteller.reporting.api.domain.model.response.FXResponse
 import java.math.BigDecimal
 
 data class FXResponseDTO(val merchant: FXMerchantDTO) {

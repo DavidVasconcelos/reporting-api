@@ -6,8 +6,8 @@ import java.time.LocalDateTime
 data class Customer(
 
     var id: Long? = null,
-    var createdAt: LocalDateTime? = null,
-    var updatedAt: LocalDateTime? = null,
+    var created_at: LocalDateTime? = null,
+    var updated_at: LocalDateTime? = null,
     var deletedAt: LocalDateTime? = null,
     var number: String? = null,
     var expiryMonth: String? = null,
@@ -45,8 +45,8 @@ data class Customer(
 ) {
     constructor(entity: CustomerEntity) : this() {
         this.id = entity.id
-        this.createdAt = entity.createdAt
-        this.updatedAt = entity.updatedAt
+        this.created_at = entity.created_at
+        this.updated_at = entity.updated_at
         this.deletedAt = entity.deletedAt
         this.number = entity.number
         this.expiryMonth = entity.expiryMonth

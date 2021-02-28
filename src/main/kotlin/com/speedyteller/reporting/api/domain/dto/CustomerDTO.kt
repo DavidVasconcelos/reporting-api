@@ -1,14 +1,13 @@
 package com.speedyteller.reporting.api.domain.dto
 
 import com.speedyteller.reporting.api.domain.model.Customer
-import com.speedyteller.reporting.api.domain.model.GetCustomerResponse
 import java.time.LocalDateTime
 
 data class CustomerDTO(
 
     var id: Long? = null,
-    var createdAt: LocalDateTime? = null,
-    var updatedAt: LocalDateTime? = null,
+    var created_at: LocalDateTime? = null,
+    var updated_at: LocalDateTime? = null,
     var deletedAt: LocalDateTime? = null,
     var number: String? = null,
     var expiryMonth: String? = null,
@@ -46,8 +45,8 @@ data class CustomerDTO(
 ){
     constructor(model: Customer) : this() {
         this.id = model.id
-        this.createdAt = model.createdAt
-        this.updatedAt = model.updatedAt
+        this.created_at = model.created_at
+        this.updated_at = model.updated_at
         this.deletedAt = model.deletedAt
         this.number = model.number
         this.expiryMonth = model.expiryMonth

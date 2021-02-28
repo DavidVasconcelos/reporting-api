@@ -13,7 +13,7 @@ enum class PaymentMethod {
     CITADEL;
 
     companion object {
-        fun getPaymentMethod(poaymentMethod: String) =
-            values().firstOrNull { it.name == poaymentMethod.trim().toUpperCase() }
+        fun getPaymentMethod(paymentMethod: String) =
+            values().firstOrNull { it.name == paymentMethod.trim().toUpperCase() }
     }
 }

@@ -1,5 +1,6 @@
-package com.speedyteller.reporting.api.domain.model
+package com.speedyteller.reporting.api.domain.model.response
 
+import com.speedyteller.reporting.api.domain.model.FXTransaction
 import java.math.BigDecimal
 
 data class FXResponse(val merchant: FXMerchant)
