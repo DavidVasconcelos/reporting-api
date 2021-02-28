@@ -1,14 +1,14 @@
 package com.speedyteller.reporting.api.domain.dto
 
 import com.speedyteller.reporting.api.domain.model.Customer
-import java.time.LocalDateTime
+import com.speedyteller.reporting.api.extension.toStringPattern
 
 data class CustomerDTO(
 
     var id: Long? = null,
-    var created_at: LocalDateTime? = null,
-    var updated_at: LocalDateTime? = null,
-    var deletedAt: LocalDateTime? = null,
+    var created_at: String? = null,
+    var updated_at: String? = null,
+    var deletedAt: String? = null,
     var number: String? = null,
     var expiryMonth: String? = null,
     var expiryYear: String? = null,
@@ -16,7 +16,7 @@ data class CustomerDTO(
     var startYear: String? = null,
     var issueNumber: String? = null,
     var email: String? = null,
-    var birthday: LocalDateTime? = null,
+    var birthday: String? = null,
     var gender: String? = null,
     var billingTitle: String? = null,
     var billingFirstName: String? = null,
@@ -45,9 +45,9 @@ data class CustomerDTO(
 ){
     constructor(model: Customer) : this() {
         this.id = model.id
-        this.created_at = model.created_at
-        this.updated_at = model.updated_at
-        this.deletedAt = model.deletedAt
+        this.created_at = model.created_at?.toStringPattern()
+        this.updated_at = model.updated_at?.toStringPattern()
+        this.deletedAt = model.deletedAt?.toStringPattern()
         this.number = model.number
         this.expiryMonth = model.expiryMonth
         this.expiryYear = model.expiryYear
@@ -55,7 +55,7 @@ data class CustomerDTO(
         this.startYear = model.startYear
         this.issueNumber = model.issueNumber
         this.email = model.email
-        this.birthday = model.birthday
+        this.birthday = model.birthday?.toStringPattern()
         this.gender = model.gender
         this.billingTitle = model.billingTitle
         this.billingFirstName = model.billingFirstName

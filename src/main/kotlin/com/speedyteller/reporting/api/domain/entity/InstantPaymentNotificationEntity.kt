@@ -14,7 +14,7 @@ data class InstantPaymentNotificationEntity(
     val id: Long? = null,
 
     @Column(name = "transaction_id")
-    val transactionId: Int? = null,
+    val transactionId: String? = null,
 
     @Column(name = "received")
     val received: Boolean? = null

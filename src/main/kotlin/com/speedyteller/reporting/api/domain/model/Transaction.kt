@@ -18,11 +18,13 @@ data class Transaction(
     var updated_at: LocalDateTime? = null,
     var created_at: LocalDateTime? = null,
     var acquirerTransactionId: Long? = null,
-    var code: Int? = null,
+    var code: String? = null,
     var message: String? = null,
     var transactionId: String? = null,
     var customerId: Long? = null,
+    var refundable: Boolean? = null,
     var agent: AgentInfo? = null
+
 ) {
     constructor(entity: TransactionEntity) : this() {
         this.id = entity.id
@@ -42,5 +44,6 @@ data class Transaction(
         this.message = entity.message
         this.transactionId = entity.transactionId
         this.customerId = entity.customerId
+        this.refundable = entity.refundable
     }
 }

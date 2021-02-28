@@ -1,7 +1,7 @@
 package com.speedyteller.reporting.api.domain.dto
 
 import com.speedyteller.reporting.api.domain.model.Transaction
-import java.time.LocalDateTime
+import com.speedyteller.reporting.api.extension.toStringPattern
 
 data class TransactionDTO(
 
@@ -15,13 +15,14 @@ data class TransactionDTO(
     var agentInfoId: Long? = null,
     var operation: String? = null,
     var fxTransactionId: Long? = null,
-    var updated_at: LocalDateTime? = null,
-    var created_at: LocalDateTime? = null,
+    var updated_at: String? = null,
+    var created_at: String? = null,
     var acquirerTransactionId: Long? = null,
-    var code: Int? = null,
+    var code: String? = null,
     var message: String? = null,
     var transactionId: String? = null,
     var customerId: Long? = null,
+    var refundable: Boolean? = null,
     var agent: AgentInfoDTO? = null
 ) {
     constructor(model: Transaction) : this() {
@@ -35,13 +36,14 @@ data class TransactionDTO(
         this.agentInfoId = model.agentInfoId
         this.operation = model.operation
         this.fxTransactionId = model.fxTransactionId
-        this.updated_at = model.updated_at
-        this.created_at = model.created_at
+        this.updated_at = model.updated_at?.toStringPattern()
+        this.created_at = model.created_at?.toStringPattern()
         this.acquirerTransactionId = model.acquirerTransactionId
         this.code = model.code
         this.message = model.message
         this.transactionId = model.transactionId
         this.customerId = model.customerId
+        this.refundable = model.refundable
         this.agent = model.agent?.let { AgentInfoDTO(model = it) }
     }
 }

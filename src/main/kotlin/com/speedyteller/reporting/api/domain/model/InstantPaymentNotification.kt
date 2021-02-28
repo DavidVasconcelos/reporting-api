@@ -5,7 +5,7 @@ import com.speedyteller.reporting.api.domain.entity.InstantPaymentNotificationEn
 data class InstantPaymentNotification(
 
     var id: Long? = null,
-    var transactionId: Int? = null,
+    var transactionId: String? = null,
     var received: Boolean? = null
 ) {
     constructor(enity: InstantPaymentNotificationEntity) : this() {

@@ -51,7 +51,7 @@ data class TransactionEntity(
     val acquirerTransactionId: Long? = null,
 
     @Column(name = "code")
-    val code: Int? = null,
+    val code: String? = null,
 
     @Column(name = "message")
     val message: String? = null,
@@ -60,5 +60,8 @@ data class TransactionEntity(
     val transactionId: String? = null,
 
     @Column(name = "customer_id")
-    val customerId: Long? = null
+    val customerId: Long? = null,
+
+    @Column(name = "refundable")
+    var refundable: Boolean? = null
 )
