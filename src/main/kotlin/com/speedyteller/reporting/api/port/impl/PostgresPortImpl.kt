@@ -150,6 +150,18 @@ class PostgresPortImpl @Autowired constructor(
             }
         }
 
+        request.merchantId?.let {
+
+            query.append("AND tr.merchant_id = :merchantId ")
+            parameters.plusAssign(Pair("merchantId", it))
+        }
+
+        request.acquirerId?.let {
+
+            query.append("AND tr.acquirer_transaction_id = :acquirerId ")
+            parameters.plusAssign(Pair("acquirerId", it))
+        }
+
         val resultList =
             transactionRepository.getTransactionList(query = query.toString(), page = page, parameters = parameters)
 
