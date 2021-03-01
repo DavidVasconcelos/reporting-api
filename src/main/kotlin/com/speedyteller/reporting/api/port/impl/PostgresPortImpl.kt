@@ -1,5 +1,6 @@
 package com.speedyteller.reporting.api.port.impl
 
+import com.speedyteller.reporting.api.domain.constant.BusinessConstants
 import com.speedyteller.reporting.api.domain.model.Acquirer
 import com.speedyteller.reporting.api.domain.model.AgentInfo
 import com.speedyteller.reporting.api.domain.model.Customer
@@ -26,6 +27,7 @@ import java.math.BigDecimal
 import java.math.BigInteger
 import java.sql.Timestamp
 import java.time.LocalDateTime
+import java.time.LocalTime
 
 @Component
 class PostgresPortImpl @Autowired constructor(
@@ -98,64 +100,67 @@ class PostgresPortImpl @Autowired constructor(
 
         val parameters = mutableMapOf<String, Any>()
 
-        val query = """SELECT ft.original_amount as originalAmount,
-       ft.original_currency as originalCurrency,
-       c.number,
-       c.email,
-       c.billing_first_name as billingFirstName,
-       c.billing_last_name as billingLastName,
-       m.id as merchantId,
-       m.name as merchantName,
-       ipn.received,
-       tr.reference_no as referenceNo,
-       tr.status,
-       tr.operation,
-       tr.message,
-       tr.created_at,
-       tr.transaction_id as transactionId,
-       a.id as acquirerId,
-       a.name as acquirerName,
-       a.code as acquirerCode,
-       a.type as acquirerType,
-       tr.refundable
-FROM transaction tr left join fx_transaction ft on tr.fx_transaction_td = ft.id
-left join customer c on tr.customer_id = c.id
-left join merchant m on tr.merchant_id = m.id
-left join instant_payment_notification ipn on tr.transaction_id = ipn.transaction_id
-left join acquirer a on tr.acquirer_transaction_id = a.id"""
+        val query = StringBuilder().append(BusinessConstants.QUER_GET_TRANSACTION_LIST)
+
+        request.fromDate?.let {
+
+            query.append("AND tr.created_at >= :created_at_start ")
+            parameters.plusAssign(Pair("created_at_start", LocalDateTime.of(it, LocalTime.MIDNIGHT)))
+        }
+
+        request.toDate?.let {
+
+            query.append("AND tr.created_at <= :created_at_end ")
+            parameters.plusAssign(Pair("created_at_end", LocalDateTime.of(it, LocalTime.MAX)))
+        }
+
+        request.status?.let {
+
+            query.append("AND tr.status = :status ")
+            parameters.plusAssign(Pair("status", it.name))
+        }
+
+        request.operation?.let {
+
+            query.append("AND tr.operation = :operation ")
+            parameters.plusAssign(Pair("operation", it.operation))
+        }
 
         val resultList =
-            transactionRepository.getTransactionList(query = query, page = page, parameters = parameters)
+            transactionRepository.getTransactionList(query = query.toString(), page = page, parameters = parameters)
 
         val transactionList = mutableListOf<GetTransactionList>()
 
-        resultList.stream().forEach { record ->
-
-            transactionList.add(GetTransactionList(
-                originalAmount = record[ORIGINAL_AMOUNT] as? BigDecimal,
-                originalCurrency = record[ORIGINAL_CURRENCY] as? String,
-                number = record[NUMBER] as? String,
-                email = record[EMAIL] as? String,
-                billingFirstName =  record[BILLING_FIRST_NAME] as? String,
-                billingLastName = record[BILLING_LAST_NAME] as? String,
-                merchantId = (record[MERCHANT_ID] as? BigInteger)?.toLong(),
-                merchantName = record[MERCHANT_NAME] as? String,
-                received = record[RECEIVED] as? Boolean,
-                referenceNo = record[REFERENCE_NO] as? String,
-                status = record[STATUS] as? String,
-                operation = record[OPERATION] as? String,
-                message = record[MESSAGE] as? String,
-                created_at = (record[CREATED_AT] as? Timestamp)?.toLocalDateTime(),
-                transactionId = record[TRANSACTION_ID] as? String,
-                acquirerId = (record[ACQUIRER_ID] as? BigInteger)?.toLong(),
-                acquirerName = record[ACQUIRER_NAME] as? String,
-                acquirerCode = record[ACQUIRER_CODE] as? String,
-                acquirerType = record[ACQUIRER_TYPE] as? String,
-                refundable = record[REFUNDABLE] as? Boolean ?: false
-            ))
-        }
+        resultList.stream().forEach { record -> transactionList.add(getTransactionRecord(record = record)) }
 
         return transactionList
+    }
+
+    private fun getTransactionRecord(record: Array<Any>): GetTransactionList {
+
+        return GetTransactionList(
+            originalAmount = record[ORIGINAL_AMOUNT] as? BigDecimal,
+            originalCurrency = record[ORIGINAL_CURRENCY] as? String,
+            number = record[NUMBER] as? String,
+            email = record[EMAIL] as? String,
+            billingFirstName = record[BILLING_FIRST_NAME] as? String,
+            billingLastName = record[BILLING_LAST_NAME] as? String,
+            merchantId = (record[MERCHANT_ID] as? BigInteger)?.toLong(),
+            merchantName = record[MERCHANT_NAME] as? String,
+            received = record[RECEIVED] as? Boolean,
+            referenceNo = record[REFERENCE_NO] as? String,
+            status = record[STATUS] as? String,
+            operation = record[OPERATION] as? String,
+            message = record[MESSAGE] as? String,
+            created_at = (record[CREATED_AT] as? Timestamp)?.toLocalDateTime(),
+            transactionId = record[TRANSACTION_ID] as? String,
+            acquirerId = (record[ACQUIRER_ID] as? BigInteger)?.toLong(),
+            acquirerName = record[ACQUIRER_NAME] as? String,
+            acquirerCode = record[ACQUIRER_CODE] as? String,
+            acquirerType = record[ACQUIRER_TYPE] as? String,
+            refundable = record[REFUNDABLE] as? Boolean ?: false
+        )
+
     }
 
     companion object {

@@ -8,7 +8,6 @@ import com.speedyteller.reporting.api.domain.dto.response.GetTransactionResponse
 import com.speedyteller.reporting.api.domain.model.request.GetTransactionListRequest
 import com.speedyteller.reporting.api.domain.service.TransactionService
 import com.speedyteller.reporting.api.exception.ErrorResponse
-import com.speedyteller.reporting.api.repository.impl.TransactionRepositoryImpl
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.ApiResponse
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
-import java.net.URI
 import javax.validation.Valid
 import javax.validation.constraints.Min
 
@@ -81,7 +79,7 @@ class TransactionController {
         @Valid
         @Min(value = 1, message = "Use 1 instead 0 on page")
         @RequestParam(defaultValue = "1") page: Int,
-        @RequestBody dto: GetTransactionListRequestDTO
+        @Valid @RequestBody dto: GetTransactionListRequestDTO
     ): ResponseEntity<CustomPageDTO> {
 
         val pageRequest = PageRequest.of(page, DEAFULT_PAGE_SIZE)
@@ -100,7 +98,6 @@ class TransactionController {
 
         return ResponseEntity.ok(pageDTO)
     }
-
 
     private fun getUri(): String {
         return ServletUriComponentsBuilder
