@@ -106,6 +106,23 @@ class PostgresPortImpl @Autowired constructor(
 
         val query = StringBuilder().append(BusinessConstants.QUERY_GET_TRANSACTION_LIST)
 
+        this.setParametersGetTransactionList(request = request, query = query, parameters = parameters)
+
+        val resultList =
+            transactionRepository.executeNativeQuery(query = query.toString(), page = page, parameters = parameters)
+
+        val transactionList = mutableListOf<GetTransactionList>()
+
+        resultList.stream().forEach { record -> transactionList.add(getTransactionRecord(record = record)) }
+
+        return transactionList
+    }
+
+    private fun setParametersGetTransactionList(
+        request: GetTransactionListRequest,
+        query: StringBuilder,
+        parameters: MutableMap<String, Any>
+    ) {
         request.fromDate?.let {
 
             query.append("AND tr.created_at >= :created_at_start ")
@@ -163,15 +180,6 @@ class PostgresPortImpl @Autowired constructor(
             query.append("AND tr.acquirer_transaction_id = :acquirerId ")
             parameters.plusAssign(Pair("acquirerId", it))
         }
-
-        val resultList =
-            transactionRepository.executeNativeQuery(query = query.toString(), page = page, parameters = parameters)
-
-        val transactionList = mutableListOf<GetTransactionList>()
-
-        resultList.stream().forEach { record -> transactionList.add(getTransactionRecord(record = record)) }
-
-        return transactionList
     }
 
     override fun getReport(request: GetReportRequest): List<GetReportResponse> {
@@ -180,6 +188,25 @@ class PostgresPortImpl @Autowired constructor(
 
         val query = StringBuilder().append(BusinessConstants.QUERY_GET_REPORT)
 
+        this.setParametersGetReport(request = request, query = query, parameters = parameters)
+
+        query.append(" GROUP BY ft.original_currency")
+
+        val resultList =
+            transactionRepository.executeNativeQuery(query = query.toString(), parameters = parameters)
+
+        val transactionList = mutableListOf<GetReportResponse>()
+
+        resultList.stream().forEach { record -> transactionList.add(getReportRecord(record = record)) }
+
+        return transactionList
+    }
+
+    private fun setParametersGetReport(
+        request: GetReportRequest,
+        query: StringBuilder,
+        parameters: MutableMap<String, Any>
+    ) {
         request.fromDate?.let {
 
             query.append("AND tr.created_at >= :created_at_start ")
@@ -203,17 +230,6 @@ class PostgresPortImpl @Autowired constructor(
             query.append("AND tr.acquirer_transaction_id = :acquirer ")
             parameters.plusAssign(Pair("acquirer", it))
         }
-
-        query.append(" GROUP BY ft.original_currency")
-
-        val resultList =
-            transactionRepository.executeNativeQuery(query = query.toString(), parameters = parameters)
-
-        val transactionList = mutableListOf<GetReportResponse>()
-
-        resultList.stream().forEach { record -> transactionList.add(getReportRecord(record = record)) }
-
-        return transactionList
     }
 
     private fun getTransactionRecord(record: Array<Any>): GetTransactionList {
