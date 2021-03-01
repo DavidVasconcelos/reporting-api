@@ -163,7 +163,7 @@ class PostgresPortImpl @Autowired constructor(
         }
 
         val resultList =
-            transactionRepository.getTransactionList(query = query.toString(), page = page, parameters = parameters)
+            transactionRepository.executeNativeQuery(query = query.toString(), page = page, parameters = parameters)
 
         val transactionList = mutableListOf<GetTransactionList>()
 

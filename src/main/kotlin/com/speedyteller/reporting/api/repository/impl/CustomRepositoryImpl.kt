@@ -1,17 +1,16 @@
 package com.speedyteller.reporting.api.repository.impl
 
-import com.speedyteller.reporting.api.domain.model.GetTransactionList
-import com.speedyteller.reporting.api.repository.CustomTransactionRepository
+import com.speedyteller.reporting.api.repository.CustomRepository
 import org.springframework.data.domain.Pageable
 import javax.persistence.EntityManager
 import javax.persistence.PersistenceContext
 
-class TransactionRepositoryImpl : CustomTransactionRepository {
+class CustomRepositoryImpl : CustomRepository {
 
     @PersistenceContext
     private lateinit var em: EntityManager
 
-    override fun getTransactionList(
+    override fun executeNativeQuery(
         query: String,
         parameters: Map<String, Any>,
         page: Pageable
