@@ -4,9 +4,12 @@ import com.speedyteller.reporting.api.domain.model.Acquirer
 import com.speedyteller.reporting.api.domain.model.AgentInfo
 import com.speedyteller.reporting.api.domain.model.Customer
 import com.speedyteller.reporting.api.domain.model.FXTransaction
+import com.speedyteller.reporting.api.domain.model.GetTransactionList
 import com.speedyteller.reporting.api.domain.model.InstantPaymentNotification
 import com.speedyteller.reporting.api.domain.model.Merchant
 import com.speedyteller.reporting.api.domain.model.Transaction
+import com.speedyteller.reporting.api.domain.model.request.GetTransactionListRequest
+import org.springframework.data.domain.Pageable
 
 interface PostgresPort {
 
@@ -23,5 +26,7 @@ interface PostgresPort {
     fun findMerchantById(id: Long): Merchant
 
     fun findTransactionByTransactionId(transactionId: String): Transaction
+
+    fun findTransactionList(request: GetTransactionListRequest, page: Pageable): List<GetTransactionList>
 
 }

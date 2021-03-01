@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.context.request.WebRequest
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
+import javax.validation.ConstraintViolationException
 
 @ControllerAdvice
 class RestResponseEntityExceptionHandler : ResponseEntityExceptionHandler() {
@@ -21,6 +22,17 @@ class RestResponseEntityExceptionHandler : ResponseEntityExceptionHandler() {
         val errorResponse = ErrorResponse(INTERNAL_SERVER_ERROR_MESSAGE, errors)
 
         return ResponseEntity(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+
+    @ExceptionHandler(ConstraintViolationException::class)
+    fun handleConstraintViolationException(ex: ConstraintViolationException, request: WebRequest?):
+            ResponseEntity<Any?> {
+        val errors = arrayListOf(
+            Error(codigo = HttpStatus.BAD_REQUEST.value(),
+                mensagem = ex.localizedMessage.run { this.substringAfter(COLON).trimStart() })
+        )
+        val errorResponse = ErrorResponse(VALIDATION_FAILED_MESSAGE, errors)
+        return ResponseEntity(errorResponse, HttpStatus.BAD_REQUEST)
     }
 
 
@@ -55,5 +67,6 @@ class RestResponseEntityExceptionHandler : ResponseEntityExceptionHandler() {
         const val NOT_FOUND_FAIL_MESSAGE = "NotFound"
         const val INTERNAL_SERVER_ERROR_MESSAGE = "Internal Server Error"
         const val VALIDATION_FAILED_MESSAGE = "Validation failed"
+        const val COLON = ":"
     }
 }

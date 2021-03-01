@@ -16,6 +16,7 @@ import com.speedyteller.reporting.api.domain.service.TransactionService
 import com.speedyteller.reporting.api.port.PostgresPort
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 
 @Service
@@ -45,8 +46,14 @@ class TransactionServiceImpl : TransactionService {
         )
     }
 
-    override fun getTransactionList(request: GetTransactionListRequest): Page<GetTransactionListResponse> {
-        TODO("Not yet implemented")
+    override fun getTransactionList(
+        request: GetTransactionListRequest,
+        page: Pageable
+    ): List<GetTransactionListResponse> {
+
+        val transactionList = postgresPort.findTransactionList(request = request, page = page)
+
+        return transactionList.map { GetTransactionListResponse(model = it) }
     }
 
     private fun getFxTransaction(fxTransactionId: Long) =
