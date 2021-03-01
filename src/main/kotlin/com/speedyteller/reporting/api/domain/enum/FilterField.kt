@@ -10,7 +10,7 @@ enum class FilterField(val filterField: String) {
 
     companion object {
         fun getFilterField(filterField: String) =
-            values().firstOrNull { it.filterField == filterField.trim().toUpperCase() }
+            values().firstOrNull { it.filterField == filterField.trim() }
     }
 }
 

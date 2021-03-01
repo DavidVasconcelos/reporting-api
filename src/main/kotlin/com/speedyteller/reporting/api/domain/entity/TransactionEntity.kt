@@ -63,5 +63,8 @@ data class TransactionEntity(
     val customerId: Long? = null,
 
     @Column(name = "refundable")
-    var refundable: Boolean? = null
+    var refundable: Boolean? = null,
+
+    @Column(name = "error_code")
+    var errodCode: String? = null
 )

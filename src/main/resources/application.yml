@@ -13,7 +13,7 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     database-platform: org.hibernate.dialect.PostgreSQL9Dialect
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     show-sql: true
 
 logging:

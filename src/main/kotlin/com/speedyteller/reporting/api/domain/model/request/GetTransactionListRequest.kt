@@ -14,14 +14,9 @@ import org.valiktor.functions.matches
 import org.valiktor.validate
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import javax.validation.constraints.Pattern
 
 data class GetTransactionListRequest(
 
-    @Pattern(
-        regexp = BusinessConstants.REGEX_DATE_FORMAT_VALIDATOR,
-        message = BusinessConstants.DATE_FORMAT_VALIDATOR_MESSAGE
-    )
     var fromDate: LocalDate? = null,
     var toDate: LocalDate? = null,
     var status: Status? = null,
@@ -37,9 +32,8 @@ data class GetTransactionListRequest(
 
         try {
 
-
-
             validate(dto) {
+
                 validate(GetTransactionListRequestDTO::fromDate)
                     .matches(Regex(BusinessConstants.REGEX_DATE_FORMAT_VALIDATOR))
                 validate(GetTransactionListRequestDTO::toDate)
@@ -48,6 +42,12 @@ data class GetTransactionListRequest(
                     .isIn(enumValues<Status>().toList().map { it.name })
                 validate(GetTransactionListRequestDTO::operation)
                     .isIn(enumValues<Operation>().toList().map { it.operation })
+                validate(GetTransactionListRequestDTO::paymentMethod)
+                    .isIn(enumValues<PaymentMethod>().toList().map { it.name })
+                validate(GetTransactionListRequestDTO::errorCode)
+                    .isIn(enumValues<ErrorCode>().toList().map { it.errorCode })
+                validate(GetTransactionListRequestDTO::filterField)
+                    .isIn(enumValues<FilterField>().toList().map { it.filterField })
             }
 
             this.fromDate = dto.fromDate?.let { LocalDate.parse(it, DateTimeFormatter.ISO_DATE) }
@@ -84,6 +84,18 @@ data class GetTransactionListRequest(
 
             (error.property == "operation" && error.constraint.name == "In") -> {
                 throw BusinessValidationException(BusinessConstants.OPERATION_VALIDATOR_MESSAGE)
+            }
+
+            (error.property == "paymentMethod" && error.constraint.name == "In") -> {
+                throw BusinessValidationException(BusinessConstants.PAYMENT_METHOD_VALIDATOR_MESSAGE)
+            }
+
+            (error.property == "errorCode" && error.constraint.name == "In") -> {
+                throw BusinessValidationException(BusinessConstants.ERROR_CODE_VALIDATOR_MESSAGE)
+            }
+
+            (error.property == "filterField" && error.constraint.name == "In") -> {
+                throw BusinessValidationException(BusinessConstants.FILTER_FIELD_VALIDATOR_MESSAGE)
             }
 
             else -> throw BusinessValidationException("${error.property}: ${error.constraint.name}")

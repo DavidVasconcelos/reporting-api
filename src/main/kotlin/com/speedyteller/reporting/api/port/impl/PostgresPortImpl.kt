@@ -1,5 +1,6 @@
 package com.speedyteller.reporting.api.port.impl
 
+import com.speedyteller.reporting.api.config.FilterFieldComponent
 import com.speedyteller.reporting.api.domain.constant.BusinessConstants
 import com.speedyteller.reporting.api.domain.model.Acquirer
 import com.speedyteller.reporting.api.domain.model.AgentInfo
@@ -37,7 +38,8 @@ class PostgresPortImpl @Autowired constructor(
     val fxTransactionRepository: FXTransactionRepository,
     val instantPaymentNotificationRepository: InstantPaymentNotificationRepository,
     val merchantRepository: MerchantRepository,
-    val transactionRepository: TransactionRepository
+    val transactionRepository: TransactionRepository,
+    val filterFieldComponent: FilterFieldComponent
 ) : PostgresPort {
 
     override fun findAcquirerById(id: Long): Acquirer {
@@ -124,6 +126,28 @@ class PostgresPortImpl @Autowired constructor(
 
             query.append("AND tr.operation = :operation ")
             parameters.plusAssign(Pair("operation", it.operation))
+        }
+
+        request.paymentMethod?.let {
+
+            query.append("AND a.type = :paymentMethod ")
+            parameters.plusAssign(Pair("paymentMethod", it.name))
+        }
+
+        request.errorCode?.let {
+
+            query.append("AND tr.error_code = :errorCode ")
+            parameters.plusAssign(Pair("errorCode", it.errorCode))
+        }
+
+        request.filterValue?.let { filterValue ->
+            request.filterField?.let { filterField ->
+
+                val field = filterFieldComponent.interpret(filterField)
+
+                query.append("AND $field = :customField ")
+                parameters.plusAssign(Pair("customField", filterValue))
+            }
         }
 
         val resultList =
