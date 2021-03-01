@@ -13,14 +13,14 @@ class CustomRepositoryImpl : CustomRepository {
     override fun executeNativeQuery(
         query: String,
         parameters: Map<String, Any>,
-        page: Pageable
+        page: Pageable?
     ): List<Array<Any>> {
 
         val nativeQuery = em.createNativeQuery(query)
 
         parameters.forEach { (key, value) -> nativeQuery.setParameter(key, value) }
 
-        page.let {
+        page?.let {
             nativeQuery.firstResult = (it.pageNumber.minus(ONE)).times(it.pageSize)
             nativeQuery.maxResults = it.pageSize
         }

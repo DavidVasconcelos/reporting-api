@@ -2,9 +2,13 @@ package com.speedyteller.reporting.api.controller
 
 import com.speedyteller.reporting.api.config.PaginationComponent
 import com.speedyteller.reporting.api.domain.dto.page.CustomPageDTO
+import com.speedyteller.reporting.api.domain.dto.request.GetReportRequestDTO
 import com.speedyteller.reporting.api.domain.dto.request.GetTransactionListRequestDTO
+import com.speedyteller.reporting.api.domain.dto.response.GetReportDTO
+import com.speedyteller.reporting.api.domain.dto.response.GetReportResponseDTO
 import com.speedyteller.reporting.api.domain.dto.response.GetTransactionListResponseDTO
 import com.speedyteller.reporting.api.domain.dto.response.GetTransactionResponseDTO
+import com.speedyteller.reporting.api.domain.model.request.GetReportRequest
 import com.speedyteller.reporting.api.domain.model.request.GetTransactionListRequest
 import com.speedyteller.reporting.api.domain.service.TransactionService
 import com.speedyteller.reporting.api.exception.ErrorResponse
@@ -67,10 +71,6 @@ class TransactionController {
                 message = "When call has be succeeded",
                 response = GetTransactionResponseDTO::class,
                 responseContainer = "List"
-            ),
-            ApiResponse(
-                code = 404, message = "Transaction not found",
-                response = ErrorResponse::class
             )
         ]
     )
@@ -79,7 +79,7 @@ class TransactionController {
         @Valid
         @Min(value = 1, message = "Use 1 instead 0 on page")
         @RequestParam(defaultValue = "1") page: Int,
-        @Valid @RequestBody dto: GetTransactionListRequestDTO
+        @RequestBody dto: GetTransactionListRequestDTO
     ): ResponseEntity<CustomPageDTO> {
 
         val pageRequest = PageRequest.of(page, DEAFULT_PAGE_SIZE)
@@ -97,6 +97,27 @@ class TransactionController {
         )
 
         return ResponseEntity.ok(pageDTO)
+    }
+
+    @ApiOperation(httpMethod = "POST", value = "Get Report")
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                code = 200,
+                message = "When call has be succeeded",
+                response = GetReportResponseDTO::class,
+                responseContainer = "List"
+            )
+        ]
+    )
+    @PostMapping("/report")
+    fun getReport(@RequestBody dto: GetReportRequestDTO): ResponseEntity<GetReportResponseDTO> {
+
+        val listOfResonse = transactionService.getReport(request = GetReportRequest(dto = dto))
+
+        val responseDTO = GetReportResponseDTO(response = listOfResonse.map { GetReportDTO(model = it) })
+
+        return ResponseEntity.ok(responseDTO)
     }
 
     private fun getUri(): String {

@@ -4,9 +4,11 @@ import com.speedyteller.reporting.api.domain.model.Acquirer
 import com.speedyteller.reporting.api.domain.model.Customer
 import com.speedyteller.reporting.api.domain.model.FXTransaction
 import com.speedyteller.reporting.api.domain.model.Merchant
+import com.speedyteller.reporting.api.domain.model.request.GetReportRequest
 import com.speedyteller.reporting.api.domain.model.request.GetTransactionListRequest
 import com.speedyteller.reporting.api.domain.model.response.FXMerchant
 import com.speedyteller.reporting.api.domain.model.response.FXResponse
+import com.speedyteller.reporting.api.domain.model.response.GetReportResponse
 import com.speedyteller.reporting.api.domain.model.response.GetTransactionAcquirerResponse
 import com.speedyteller.reporting.api.domain.model.response.GetTransactionListResponse
 import com.speedyteller.reporting.api.domain.model.response.GetTransactionMerchantResponse
@@ -54,6 +56,10 @@ class TransactionServiceImpl : TransactionService {
         val transactionList = postgresPort.findTransactionList(request = request, page = page)
 
         return transactionList.map { GetTransactionListResponse(model = it) }
+    }
+
+    override fun getReport(request: GetReportRequest): List<GetReportResponse> {
+        return postgresPort.getReport(request = request)
     }
 
     private fun getFxTransaction(fxTransactionId: Long) =

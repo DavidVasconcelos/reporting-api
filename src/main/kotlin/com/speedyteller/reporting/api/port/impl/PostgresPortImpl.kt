@@ -10,7 +10,9 @@ import com.speedyteller.reporting.api.domain.model.GetTransactionList
 import com.speedyteller.reporting.api.domain.model.InstantPaymentNotification
 import com.speedyteller.reporting.api.domain.model.Merchant
 import com.speedyteller.reporting.api.domain.model.Transaction
+import com.speedyteller.reporting.api.domain.model.request.GetReportRequest
 import com.speedyteller.reporting.api.domain.model.request.GetTransactionListRequest
+import com.speedyteller.reporting.api.domain.model.response.GetReportResponse
 import com.speedyteller.reporting.api.exception.NotFoundException
 import com.speedyteller.reporting.api.extension.unwrap
 import com.speedyteller.reporting.api.port.PostgresPort
@@ -102,7 +104,7 @@ class PostgresPortImpl @Autowired constructor(
 
         val parameters = mutableMapOf<String, Any>()
 
-        val query = StringBuilder().append(BusinessConstants.QUER_GET_TRANSACTION_LIST)
+        val query = StringBuilder().append(BusinessConstants.QUERY_GET_TRANSACTION_LIST)
 
         request.fromDate?.let {
 
@@ -172,54 +174,86 @@ class PostgresPortImpl @Autowired constructor(
         return transactionList
     }
 
+    override fun getReport(request: GetReportRequest): List<GetReportResponse> {
+
+        val parameters = mutableMapOf<String, Any>()
+
+        val query = StringBuilder().append(BusinessConstants.QUERY_GET_REPORT)
+
+        request.fromDate?.let {
+
+            query.append("AND tr.created_at >= :created_at_start ")
+            parameters.plusAssign(Pair("created_at_start", LocalDateTime.of(it, LocalTime.MIDNIGHT)))
+        }
+
+        request.toDate?.let {
+
+            query.append("AND tr.created_at <= :created_at_end ")
+            parameters.plusAssign(Pair("created_at_end", LocalDateTime.of(it, LocalTime.MAX)))
+        }
+
+        request.merchant?.let {
+
+            query.append("AND tr.merchant_id = :merchant ")
+            parameters.plusAssign(Pair("merchant", it))
+        }
+
+        request.acquirer?.let {
+
+            query.append("AND tr.acquirer_transaction_id = :acquirer ")
+            parameters.plusAssign(Pair("acquirer", it))
+        }
+
+        query.append(" GROUP BY ft.original_currency")
+
+        val resultList =
+            transactionRepository.executeNativeQuery(query = query.toString(), parameters = parameters)
+
+        val transactionList = mutableListOf<GetReportResponse>()
+
+        resultList.stream().forEach { record -> transactionList.add(getReportRecord(record = record)) }
+
+        return transactionList
+    }
+
     private fun getTransactionRecord(record: Array<Any>): GetTransactionList {
 
         return GetTransactionList(
-            originalAmount = record[ORIGINAL_AMOUNT] as? BigDecimal,
-            originalCurrency = record[ORIGINAL_CURRENCY] as? String,
-            number = record[NUMBER] as? String,
-            email = record[EMAIL] as? String,
-            billingFirstName = record[BILLING_FIRST_NAME] as? String,
-            billingLastName = record[BILLING_LAST_NAME] as? String,
-            merchantId = (record[MERCHANT_ID] as? BigInteger)?.toLong(),
-            merchantName = record[MERCHANT_NAME] as? String,
-            received = record[RECEIVED] as? Boolean,
-            referenceNo = record[REFERENCE_NO] as? String,
-            status = record[STATUS] as? String,
-            operation = record[OPERATION] as? String,
-            message = record[MESSAGE] as? String,
-            created_at = (record[CREATED_AT] as? Timestamp)?.toLocalDateTime(),
-            transactionId = record[TRANSACTION_ID] as? String,
-            acquirerId = (record[ACQUIRER_ID] as? BigInteger)?.toLong(),
-            acquirerName = record[ACQUIRER_NAME] as? String,
-            acquirerCode = record[ACQUIRER_CODE] as? String,
-            acquirerType = record[ACQUIRER_TYPE] as? String,
-            refundable = record[REFUNDABLE] as? Boolean ?: false
+            originalAmount = record[BusinessConstants.ORIGINAL_AMOUNT] as? BigDecimal,
+            originalCurrency = record[BusinessConstants.ORIGINAL_CURRENCY] as? String,
+            number = record[BusinessConstants.NUMBER] as? String,
+            email = record[BusinessConstants.EMAIL] as? String,
+            billingFirstName = record[BusinessConstants.BILLING_FIRST_NAME] as? String,
+            billingLastName = record[BusinessConstants.BILLING_LAST_NAME] as? String,
+            merchantId = (record[BusinessConstants.MERCHANT_ID] as? BigInteger)?.toLong(),
+            merchantName = record[BusinessConstants.MERCHANT_NAME] as? String,
+            received = record[BusinessConstants.RECEIVED] as? Boolean,
+            referenceNo = record[BusinessConstants.REFERENCE_NO] as? String,
+            status = record[BusinessConstants.STATUS] as? String,
+            operation = record[BusinessConstants.OPERATION] as? String,
+            message = record[BusinessConstants.MESSAGE] as? String,
+            created_at = (record[BusinessConstants.CREATED_AT] as? Timestamp)?.toLocalDateTime(),
+            transactionId = record[BusinessConstants.TRANSACTION_ID] as? String,
+            acquirerId = (record[BusinessConstants.ACQUIRER_ID] as? BigInteger)?.toLong(),
+            acquirerName = record[BusinessConstants.ACQUIRER_NAME] as? String,
+            acquirerCode = record[BusinessConstants.ACQUIRER_CODE] as? String,
+            acquirerType = record[BusinessConstants.ACQUIRER_TYPE] as? String,
+            refundable = record[BusinessConstants.REFUNDABLE] as? Boolean ?: false
+        )
+
+    }
+
+    private fun getReportRecord(record: Array<Any>): GetReportResponse {
+
+        return GetReportResponse(
+            count = (record[BusinessConstants.COUNT] as? BigInteger)?.toLong(),
+            total = record[BusinessConstants.TOTAL] as? BigDecimal,
+            currency = record[BusinessConstants.CURRENCY] as? String
         )
 
     }
 
     companion object {
         const val NOT_FOUND_ERROR_MESSAGE = "not found"
-        const val ORIGINAL_AMOUNT = 0
-        const val ORIGINAL_CURRENCY = 1
-        const val NUMBER = 2
-        const val EMAIL = 3
-        const val BILLING_FIRST_NAME = 4
-        const val BILLING_LAST_NAME = 5
-        const val MERCHANT_ID = 6
-        const val MERCHANT_NAME = 7
-        const val RECEIVED = 8
-        const val REFERENCE_NO = 9
-        const val STATUS = 10
-        const val OPERATION = 11
-        const val MESSAGE = 12
-        const val CREATED_AT = 13
-        const val TRANSACTION_ID = 14
-        const val ACQUIRER_ID = 15
-        const val ACQUIRER_NAME = 16
-        const val ACQUIRER_CODE = 17
-        const val ACQUIRER_TYPE = 18
-        const val REFUNDABLE = 19
     }
 }
