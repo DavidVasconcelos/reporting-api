@@ -151,7 +151,7 @@ left join acquirer a on tr.acquirer_transaction_id = a.id"""
                 acquirerName = record[ACQUIRER_NAME] as? String,
                 acquirerCode = record[ACQUIRER_CODE] as? String,
                 acquirerType = record[ACQUIRER_TYPE] as? String,
-                refundable = record[REFUNDABLE] as? Boolean
+                refundable = record[REFUNDABLE] as? Boolean ?: false
             ))
         }
 

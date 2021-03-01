@@ -53,7 +53,7 @@ data class GetTransactionListResponse(
                         transactionId = model.transactionId
                     )
                 ),
-                refundable = model.refundable!!
+                refundable = model.refundable
             )
 }
 

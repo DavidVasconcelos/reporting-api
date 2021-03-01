@@ -24,5 +24,5 @@ data class GetTransactionList (
 	val acquirerName : String? = null,
 	val acquirerCode : String? = null,
 	val acquirerType : String? = null,
-	val refundable : Boolean? = false
+	val refundable : Boolean = false
 )

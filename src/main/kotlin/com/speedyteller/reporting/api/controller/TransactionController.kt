@@ -1,5 +1,6 @@
 package com.speedyteller.reporting.api.controller
 
+import com.speedyteller.reporting.api.config.PaginationComponent
 import com.speedyteller.reporting.api.domain.dto.page.CustomPageDTO
 import com.speedyteller.reporting.api.domain.dto.request.GetTransactionListRequestDTO
 import com.speedyteller.reporting.api.domain.dto.response.GetTransactionListResponseDTO
@@ -34,6 +35,9 @@ class TransactionController {
 
     @Autowired
     private lateinit var transactionService: TransactionService
+
+    @Autowired
+    private lateinit var paginationComponent: PaginationComponent
 
     @ApiOperation(httpMethod = "POST", value = "Get Transaction")
     @ApiResponses(
@@ -87,28 +91,24 @@ class TransactionController {
 
         val listResponseDTO = listOfResonse.map { GetTransactionListResponseDTO(model = it) }
 
-        val pageDTO = CustomPageDTO(
-            per_page = DEAFULT_PAGE_SIZE,
-            current_page = page,
-            next_page_url = getUri(page.plus(ONE)),
-            prev_page_url = if (page > ONE) getUri(page.minus(ONE)) else null,
-            from = (page).times(DEAFULT_PAGE_SIZE),
-            to = listResponseDTO.count().plus((page).times(DEAFULT_PAGE_SIZE)),
+        val pageDTO = paginationComponent.getPagination(
+            pageSize = DEAFULT_PAGE_SIZE,
+            page = page,
+            uri = getUri(),
             data = listResponseDTO
         )
 
         return ResponseEntity.ok(pageDTO)
     }
 
-    private fun getUri(page: Int): String {
+
+    private fun getUri(): String {
         return ServletUriComponentsBuilder
             .fromCurrentRequest()
-            .path("/?page={page}")
-            .buildAndExpand(page).toUriString()
+            .toUriString()
     }
 
     companion object {
-        const val DEAFULT_PAGE_SIZE = 1
-        const val ONE = 1
+        const val DEAFULT_PAGE_SIZE = 50
     }
 }
