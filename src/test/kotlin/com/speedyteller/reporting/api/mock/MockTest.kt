@@ -164,14 +164,14 @@ class MockTest {
 
         return mutableListOf(
             GetReportResponse(
-                count = 283,
-                total = BigDecimal("28300"),
-                currency = "USD"
+                count = 1,
+                total = BigDecimal("100.00"),
+                currency = "EUR"
             ),
             GetReportResponse(
-                count = 280,
-                total = BigDecimal("1636515"),
-                currency = "EUR"
+                count = 2,
+                total = BigDecimal("375.00"),
+                currency = "USD"
             )
         )
     }
