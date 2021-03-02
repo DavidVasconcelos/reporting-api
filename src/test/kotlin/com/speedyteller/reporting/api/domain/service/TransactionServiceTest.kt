@@ -2,6 +2,8 @@ package com.speedyteller.reporting.api.domain.service
 
 import com.speedyteller.reporting.api.ReportingApiApplicationTests
 import com.speedyteller.reporting.api.config.PostgresContainerSetup
+import com.speedyteller.reporting.api.controller.TransactionController
+import com.speedyteller.reporting.api.domain.model.request.GetTransactionListRequest
 import com.speedyteller.reporting.api.domain.model.response.GetTransactionResponse
 import com.speedyteller.reporting.api.mock.MockTest
 import com.speedyteller.reporting.api.port.PostgresPort
@@ -11,6 +13,7 @@ import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.data.domain.PageRequest
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit.jupiter.SpringExtension
 
@@ -38,5 +41,16 @@ class TransactionServiceTest {
 
         Assertions.assertEquals(transaction, savedTransaction)
 
+    }
+
+    @Test
+    fun `Get Transaction List`() {
+
+        val transaction = mockTest.getTransactionListResponse()
+
+        val savedTransaction = service.getTransactionList(request = GetTransactionListRequest(merchantId = 3,
+            acquirerId = 12), page =  PageRequest.of(1, TransactionController.DEAFULT_PAGE_SIZE))
+
+        Assertions.assertEquals(transaction, savedTransaction)
     }
 }

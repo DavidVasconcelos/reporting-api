@@ -1,6 +1,5 @@
 package com.speedyteller.reporting.api.mock
 
-import com.google.gson.Gson
 import com.speedyteller.reporting.api.domain.model.Acquirer
 import com.speedyteller.reporting.api.domain.model.AgentInfo
 import com.speedyteller.reporting.api.domain.model.Customer
@@ -113,61 +112,40 @@ class MockTest {
 
     fun getTransactionListResponse(): List<GetTransactionListResponse> {
 
-        val gson = Gson()
 
-        val fxJson = """{
-                          "merchant": {
-                            "originalAmount": 5,
-                            "originalCurrency": "EUR"
-                          }
-                        }"""
+        val fxResponse = FXMerchant().apply {
 
-        val fxResponse = gson.fromJson(fxJson, FXMerchant::class.java)
+            originalAmount = BigDecimal("5.00")
+            originalCurrency = "EUR"
+        }
 
-        val acquirerJson = """{
-                              "acquirer": {
-                                "id": 12,
-                                "name": "Mergen Bank",
-                                "code": "MB",
-                                "type": "CREDITCARD"
-                              }
-                            }"""
+        val acquirerResponse = Acquirer().apply {
+            id = 12
+            name = "Mergen Bank"
+            code = "MB"
+            type = "CREDITCARD"
+        }
 
-        val acquirerResponse = gson.fromJson(acquirerJson, Acquirer::class.java)
+        val customerResponse = GetTransactionListCustmerResponse().apply {
+            number = "448574XXXXXX3395"
+            email = "aykut.aras@bumin.com.tr"
+            billingFirstName = "Aykut"
+            billingLastName = "Aras"
+        }
 
-        val customerJson = """{
-          "customerInfo": {
-            "number": " 448574XXXXXX3395",
-            "email": "aykut.aras@bumin.com.tr",
-            "billingFirstName": "Aykut",
-            "billingLastName": "Aras"
-          }
-        }"""
+        val merchantResponse = GetTransactionListMerchantResponse().apply {
+            id = 3
+            name = "Dev-Merchant"
+        }
 
-        val customerResponse = gson.fromJson(customerJson, GetTransactionListCustmerResponse::class.java)
-
-        val merchantJson = """{
-          "merchant": {
-            "id" : 3,
-            "name": "Dev-Merchant"
-          }
-        }"""
-
-        val merchantResponse = gson.fromJson(merchantJson, GetTransactionListMerchantResponse::class.java)
-
-        val transactionJson = """{
-                                  "merchant": {
-                                    "referenceNo": "api_560a4a9314208",
-                                    "status": " APPROVED",
-                                    "operation": "3DAUTH",
-                                    "message": "Auth3D is APPROVED",
-                                    "created_at": " 2015-09-29 08:24:42",
-                                    "transactionId": "2827-1443515082-3"
-                                  }
-                                }"""
-
-        val transactionResponse = gson.fromJson(transactionJson, GetTransactionListTransactionResponse::class.java)
-
+        val transactionResponse = GetTransactionListTransactionResponse().apply {
+            referenceNo = "api_560a4a9314208"
+            status = "APPROVED"
+            operation = "3DAUTH"
+            message = "Auth3D is APPROVED"
+            created_at = LocalDateTime.of(LocalDate.of(2015, 9, 29), LocalTime.of(8, 24, 42))
+            transactionId = "2827-1443515082-3"
+        }
 
         val getTransactionListResponse = GetTransactionListResponse(
             fx = FXResponse(merchant = fxResponse),
