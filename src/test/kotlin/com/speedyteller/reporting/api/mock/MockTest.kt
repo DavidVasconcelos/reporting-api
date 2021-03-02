@@ -1,7 +1,15 @@
 package com.speedyteller.reporting.api.mock
 
 import com.google.gson.Gson
+import com.speedyteller.reporting.api.domain.model.Acquirer
 import com.speedyteller.reporting.api.domain.model.Customer
+import com.speedyteller.reporting.api.domain.model.Transaction
+import com.speedyteller.reporting.api.domain.model.response.FXMerchant
+import com.speedyteller.reporting.api.domain.model.response.FXResponse
+import com.speedyteller.reporting.api.domain.model.response.GetTransactionAcquirerResponse
+import com.speedyteller.reporting.api.domain.model.response.GetTransactionMerchantResponse
+import com.speedyteller.reporting.api.domain.model.response.GetTransactionMerchantTransactionResponse
+import com.speedyteller.reporting.api.domain.model.response.GetTransactionResponse
 import org.springframework.stereotype.Component
 
 @Component
@@ -14,8 +22,8 @@ class MockTest {
         val json = """{
                       "customer": {
                         "id": 1,
-                        "created_at": " 2015-10-09 12:09:10",
-                        "updated_at": " 2015-10-09 12:09:10",
+                        "created_at": "2015-10-09 12:09:10",
+                        "updated_at": "2015-10-09 12:09:10",
                         "deleted_at": null,
                         "number": "401288XXXXXX1881",
                         "expiryMonth": "6",
@@ -54,5 +62,67 @@ class MockTest {
                     }"""
 
         return gson.fromJson(json, Customer::class.java)
+    }
+
+    fun getTransactionResponse(): GetTransactionResponse {
+
+        val gson = Gson()
+
+        val fxJson = """{
+                          "merchant": {
+                            "originalAmount": 100,
+                            "originalCurrency": "EUR"
+                          }
+                        }"""
+
+        val fxResponse = gson.fromJson(fxJson, FXMerchant::class.java)
+
+        val acquirerJson = """{
+          "acquirer": {
+            "name": "Mergen Bank",
+            "code": "MB"
+          }
+        }"""
+
+        val acquirerResponse = gson.fromJson(acquirerJson, GetTransactionAcquirerResponse::class.java)
+
+        val merchantJson = """{
+          "merchant": {
+            " name": "Dev-Merchant"
+          }
+        }"""
+
+        val merchantResponse = gson.fromJson(merchantJson, GetTransactionMerchantResponse::class.java)
+
+        val transactionJson = """{
+                                  "transaction": {
+                                    "referenceNo": "reference_5617ae66281ee",
+                                    "merchantId": 1,
+                                    "status": " WAITING",
+                                    "channel": "API",
+                                    "customData": null,
+                                    "chainId": "5617ae666b4cb",
+                                    "agentInfoId": 1,
+                                    "operation": "DIRECT",
+                                    "fxTransactionId": 1,
+                                    "updated_at": "2015-10-09 12:09:12",
+                                    "created_at": "2015-10-09 12:09:10",
+                                    "id": 1,
+                                    "acquirerTransactionId": 1,
+                                    "code": "00",
+                                    "message": "Waiting",
+                                    "transactionId": "1-1444392550-1"                                    
+                                  }
+                                }"""
+
+        val transactionResponse = gson.fromJson(transactionJson, Transaction::class.java)
+
+        return GetTransactionResponse(
+            fx = FXResponse(merchant = fxResponse),
+            customerInfo = this.getCustumer(),
+            acquirer = acquirerResponse,
+            merchant = merchantResponse,
+            transaction = GetTransactionMerchantTransactionResponse(merchant = transactionResponse)
+        )
     }
 }
