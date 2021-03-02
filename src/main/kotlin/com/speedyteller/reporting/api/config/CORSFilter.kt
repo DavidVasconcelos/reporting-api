@@ -14,11 +14,6 @@ import javax.servlet.ServletResponse
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-/**
- * Classe CORSFilter - representa a configuracao de CORSFilter
- * @author Ben Visa Vale 2019
- * @version 1.0
- */
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 class CORSFilter : Filter {
