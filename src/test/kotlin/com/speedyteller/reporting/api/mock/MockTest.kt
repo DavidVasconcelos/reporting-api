@@ -6,6 +6,7 @@ import com.speedyteller.reporting.api.domain.model.Customer
 import com.speedyteller.reporting.api.domain.model.Transaction
 import com.speedyteller.reporting.api.domain.model.response.FXMerchant
 import com.speedyteller.reporting.api.domain.model.response.FXResponse
+import com.speedyteller.reporting.api.domain.model.response.GetReportResponse
 import com.speedyteller.reporting.api.domain.model.response.GetTransactionAcquirerResponse
 import com.speedyteller.reporting.api.domain.model.response.GetTransactionListCustmerResponse
 import com.speedyteller.reporting.api.domain.model.response.GetTransactionListIPNResponse
@@ -17,6 +18,7 @@ import com.speedyteller.reporting.api.domain.model.response.GetTransactionMercha
 import com.speedyteller.reporting.api.domain.model.response.GetTransactionMerchantTransactionResponse
 import com.speedyteller.reporting.api.domain.model.response.GetTransactionResponse
 import org.springframework.stereotype.Component
+import java.math.BigDecimal
 
 @Component
 class MockTest {
@@ -201,5 +203,21 @@ class MockTest {
         )
 
         return mutableListOf(getTransactionListResponse)
+    }
+
+    fun getReportResponse(): List<GetReportResponse> {
+
+        return mutableListOf(
+            GetReportResponse(
+                count = 283,
+                total = BigDecimal("28300"),
+                currency = "USD"
+            ),
+            GetReportResponse(
+                count = 280,
+                total = BigDecimal("1636515"),
+                currency = "EUR"
+            )
+        )
     }
 }

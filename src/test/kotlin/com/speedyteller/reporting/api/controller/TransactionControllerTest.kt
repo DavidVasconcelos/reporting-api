@@ -6,6 +6,8 @@ import com.speedyteller.reporting.api.ReportingApiApplicationTests
 import com.speedyteller.reporting.api.config.JwtTokenComponent
 import com.speedyteller.reporting.api.config.PaginationComponent
 import com.speedyteller.reporting.api.config.PostgresContainerSetup
+import com.speedyteller.reporting.api.domain.dto.response.GetReportDTO
+import com.speedyteller.reporting.api.domain.dto.response.GetReportResponseDTO
 import com.speedyteller.reporting.api.domain.dto.response.GetTransactionListResponseDTO
 import com.speedyteller.reporting.api.domain.dto.response.GetTransactionResponseDTO
 import com.speedyteller.reporting.api.domain.service.TransactionService
@@ -161,6 +163,49 @@ class TransactionControllerTest {
             status { isUnauthorized }
         }
 
+    }
+
+    @Test
+    fun `Get Report`() {
+
+        val response = mockTest.getReportResponse()
+
+        val responseDTO = GetReportResponseDTO(response = response.map { GetReportDTO(model = it) })
+
+        val dtoJSON = mapper.writeValueAsString(responseDTO) as String
+
+        every { service.getReport(any()) } returns response
+
+        mockMvc.post("/transaction/report") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+            content = dtoJSON
+            header("Authorization", values = *arrayOf(token!!))
+        }.andExpect {
+            status { isOk }
+            content { contentType(MediaType.APPLICATION_JSON) }
+            content { json(dtoJSON) }
+        }
+    }
+
+    @Test
+    fun `Get Report Unauthorized`() {
+
+        val response = mockTest.getReportResponse()
+
+        val responseDTO = GetReportResponseDTO(response = response.map { GetReportDTO(model = it) })
+
+        val dtoJSON = mapper.writeValueAsString(responseDTO) as String
+
+        every { service.getReport(any()) } returns response
+
+        mockMvc.post("/transaction/report") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+            content = dtoJSON
+        }.andExpect {
+            status { isUnauthorized }
+        }
     }
 
 
