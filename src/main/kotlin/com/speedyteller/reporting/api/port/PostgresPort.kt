@@ -8,6 +8,7 @@ import com.speedyteller.reporting.api.domain.model.GetTransactionList
 import com.speedyteller.reporting.api.domain.model.InstantPaymentNotification
 import com.speedyteller.reporting.api.domain.model.Merchant
 import com.speedyteller.reporting.api.domain.model.Transaction
+import com.speedyteller.reporting.api.domain.model.User
 import com.speedyteller.reporting.api.domain.model.request.GetReportRequest
 import com.speedyteller.reporting.api.domain.model.request.GetTransactionListRequest
 import com.speedyteller.reporting.api.domain.model.response.GetReportResponse
@@ -31,6 +32,7 @@ interface PostgresPort {
 
     fun findTransactionList(request: GetTransactionListRequest, page: Pageable): List<GetTransactionList>
 
-    fun getReport(request: GetReportRequest) : List<GetReportResponse>
+    fun getReport(request: GetReportRequest): List<GetReportResponse>
 
+    fun getUser(email: String): User
 }

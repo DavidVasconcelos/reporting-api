@@ -16,6 +16,16 @@ spring:
       ddl-auto: update
     show-sql: true
 
+jwt:
+  secret: zdtlD3JK56m6wTTgsNFhqzjqP
+  issuer: speedyteller
+
+springdoc:
+  api-docs:
+    path: /rest-api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
 logging:
   level:
     ROOT: ${LOGGING_LEVEL_ROOT:INFO}

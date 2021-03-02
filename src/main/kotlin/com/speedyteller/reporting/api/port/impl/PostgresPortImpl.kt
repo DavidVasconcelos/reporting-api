@@ -10,6 +10,7 @@ import com.speedyteller.reporting.api.domain.model.GetTransactionList
 import com.speedyteller.reporting.api.domain.model.InstantPaymentNotification
 import com.speedyteller.reporting.api.domain.model.Merchant
 import com.speedyteller.reporting.api.domain.model.Transaction
+import com.speedyteller.reporting.api.domain.model.User
 import com.speedyteller.reporting.api.domain.model.request.GetReportRequest
 import com.speedyteller.reporting.api.domain.model.request.GetTransactionListRequest
 import com.speedyteller.reporting.api.domain.model.response.GetReportResponse
@@ -23,8 +24,10 @@ import com.speedyteller.reporting.api.repository.FXTransactionRepository
 import com.speedyteller.reporting.api.repository.InstantPaymentNotificationRepository
 import com.speedyteller.reporting.api.repository.MerchantRepository
 import com.speedyteller.reporting.api.repository.TransactionRepository
+import com.speedyteller.reporting.api.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Pageable
+import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Component
 import java.math.BigDecimal
 import java.math.BigInteger
@@ -41,6 +44,7 @@ class PostgresPortImpl @Autowired constructor(
     val instantPaymentNotificationRepository: InstantPaymentNotificationRepository,
     val merchantRepository: MerchantRepository,
     val transactionRepository: TransactionRepository,
+    val userRepository: UserRepository,
     val filterFieldComponent: FilterFieldComponent
 ) : PostgresPort {
 
@@ -230,6 +234,14 @@ class PostgresPortImpl @Autowired constructor(
             query.append("AND tr.acquirer_transaction_id = :acquirer ")
             parameters.plusAssign(Pair("acquirer", it))
         }
+    }
+
+    override fun getUser(email: String): User {
+
+        val userEntity = userRepository.findByEmail(email = email)
+            ?: throw UsernameNotFoundException("User not found with email: $email")
+
+        return User(entity = userEntity)
     }
 
     private fun getTransactionRecord(record: Array<Any>): GetTransactionList {
