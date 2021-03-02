@@ -20,7 +20,6 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.data.domain.PageRequest
 import org.springframework.http.MediaType
 import org.springframework.security.core.userdetails.User
 import org.springframework.test.context.ContextConfiguration
@@ -114,7 +113,7 @@ class TransactionControllerTest {
         val pageDTO = paginationComponent.getPagination(
             pageSize = TransactionController.DEAFULT_PAGE_SIZE,
             page = page,
-            uri = "http://localhost/transaction/list/?page=1",
+            uri = "http://localhost/transaction/list/?page=$page",
             data = listResponseDTO
         )
 
@@ -122,7 +121,7 @@ class TransactionControllerTest {
 
         every { service.getTransactionList(any(), any()) } returns response
 
-        mockMvc.post("/transaction/list/?page=1") {
+        mockMvc.post("/transaction/list/?page=$page") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
             content = dtoJSON
@@ -147,7 +146,7 @@ class TransactionControllerTest {
         val pageDTO = paginationComponent.getPagination(
             pageSize = TransactionController.DEAFULT_PAGE_SIZE,
             page = page,
-            uri = "http://localhost/transaction/list/?page=1",
+            uri = "http://localhost/transaction/list/?page=$page",
             data = listResponseDTO
         )
 
@@ -155,7 +154,7 @@ class TransactionControllerTest {
 
         every { service.getTransactionList(any(), any()) } returns response
 
-        mockMvc.post("/transaction/list/?page=1") {
+        mockMvc.post("/transaction/list/?page=$page") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
             content = dtoJSON
@@ -207,6 +206,4 @@ class TransactionControllerTest {
             status { isUnauthorized }
         }
     }
-
-
 }
