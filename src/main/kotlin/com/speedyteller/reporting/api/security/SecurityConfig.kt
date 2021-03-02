@@ -57,6 +57,7 @@ class SecurityConfig : WebSecurityConfigurerAdapter {
     }
 
     override fun configure(http: HttpSecurity) {
+
         // Enable CORS and disable CSRF
         var http = http
         http = http.cors().and().csrf().disable()
@@ -70,7 +71,9 @@ class SecurityConfig : WebSecurityConfigurerAdapter {
         // Set unauthorized requests exception handler
         http = http
             .exceptionHandling()
-            .authenticationEntryPoint { request: HttpServletRequest?, response: HttpServletResponse, ex: AuthenticationException ->
+            .authenticationEntryPoint { request: HttpServletRequest?,
+                                        response: HttpServletResponse,
+                                        ex: AuthenticationException ->
                 logger.error("Unauthorized request - {}", ex.message)
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ex.message)
             }
@@ -78,15 +81,16 @@ class SecurityConfig : WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
             .antMatchers("/").permitAll()
-            // Our public endpoints
+            // Public endpoints
             .antMatchers("/merchant/**").permitAll()
-            // Our private endpoints
+            // Private endpoints
             .anyRequest().authenticated()
 
         // Add JWT token filter
         http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter::class.java)
     }
 
+    //For Swagger
     override fun configure(web: WebSecurity) {
         web.ignoring().antMatchers(
             "/v2/api-docs",
@@ -115,6 +119,4 @@ class SecurityConfig : WebSecurityConfigurerAdapter {
     override fun authenticationManagerBean(): AuthenticationManager? {
         return super.authenticationManagerBean()
     }
-
-
 }

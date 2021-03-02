@@ -4,9 +4,9 @@ spring:
   main:
     banner-mode: 'OFF'
   datasource:
-    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/postgres?currentSchema=speedyteller}
-    username: ${POSTGRES_USERNAME:postgres}
-    password: ${POSTGRES_PASSWORD:password}
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
   jpa:
     properties:
       hibernate:
@@ -17,7 +17,7 @@ spring:
     show-sql: true
 
 jwt:
-  secret: zdtlD3JK56m6wTTgsNFhqzjqP
+  secret: teste
   issuer: speedyteller
 
 logging:
@@ -28,7 +28,7 @@ logging:
         reporting: ${LOGGING_COM_SPEEDYTELLER:DEBUG}
 
 server:
-  port: ${SERVER_PORT:8080}
+  port: ${SERVER_PORT:8086}
   servlet:
     encoding:
       enabled: true
@@ -37,10 +37,11 @@ server:
 
 info:
   app:
-    name: reporting-api
-    description: Reporting REST API
+    name: '@name@'
+    description: '@project.description@'
   build:
-    groupId: com.speedyteller.reporting.api
-    artifact: reporting-api-1.0.0.jar
-    name: reporting-api
-    version: 1.0.0
+    groupId: '@project.groupId@'
+    artifact: '@project.artifactId@'
+    name: '@project.name@'
+    version: '@project.version@'
+

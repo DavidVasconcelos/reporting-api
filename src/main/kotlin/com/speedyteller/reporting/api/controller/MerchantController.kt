@@ -56,6 +56,7 @@ class MerchantController {
 
             val authenticate: Authentication = authenticationManager
                 .authenticate(UsernamePasswordAuthenticationToken(loginRequestDTO.email, loginRequestDTO.password))
+
             val user = authenticate.principal as User
 
             ResponseEntity.ok().body(LoginResponseDTO(token = jwtTokenComponent.generateAccessToken(user)!!))

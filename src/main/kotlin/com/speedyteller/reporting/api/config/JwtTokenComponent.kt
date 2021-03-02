@@ -32,7 +32,7 @@ class JwtTokenComponent {
             .setSubject(user.username)
             .setIssuer(issuer)
             .setIssuedAt(Date())
-            .setExpiration(Date(System.currentTimeMillis() + 10 * 60 * 1000)) // 10 minutes
+            .setExpiration(Date(System.currentTimeMillis() + JWT_EXPIRATION_TIME))
             .signWith(SignatureAlgorithm.HS512, secret)
             .compact()
     }
@@ -61,6 +61,10 @@ class JwtTokenComponent {
             logger.error("JWT claims string is empty - {}", ex.message)
         }
         return false
+    }
+
+    companion object {
+        const val JWT_EXPIRATION_TIME = 10 * 60 * 1000 // 10 minutes
     }
 
 }

@@ -1,13 +1,12 @@
 package com.speedyteller.reporting.api
 
-import org.junit.jupiter.api.Test
-import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.runApplication
 
-@SpringBootTest
-class ReportingApiApplicationTests {
+@SpringBootApplication
+class ReportingApiApplicationTests
 
-	@Test
-	fun contextLoads() {
-	}
-
+fun main(args: Array<String>) {
+    runApplication<ReportingApiApplicationTests>(*args)
 }
+

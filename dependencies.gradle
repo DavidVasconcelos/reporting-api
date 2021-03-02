@@ -4,6 +4,7 @@ def valiktorVersion          = '0.12.0'
 def springFoxVersion         = '2.9.2'
 def swaggerModelsVersion     = '1.5.21'
 def postgresVersion          = '42.2.10'
+def testContainerVersion     = '1.15.1'
 
 dependencies {
 
@@ -46,4 +47,12 @@ dependencies {
 
     //Mockk
     testImplementation "com.ninja-squad:springmockk:${ninjaSquadVersion}"
+
+    //commons
+    implementation "com.google.code.gson:gson:${gsonVersion}"
+
+    //Testcontainer
+    testImplementation "org.testcontainers:testcontainers:${testContainerVersion}"
+    testImplementation "org.testcontainers:junit-jupiter:${testContainerVersion}"
+    testImplementation "org.testcontainers:postgresql:${testContainerVersion}"
 }
