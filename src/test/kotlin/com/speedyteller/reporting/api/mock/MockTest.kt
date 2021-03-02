@@ -2,6 +2,7 @@ package com.speedyteller.reporting.api.mock
 
 import com.google.gson.Gson
 import com.speedyteller.reporting.api.domain.model.Acquirer
+import com.speedyteller.reporting.api.domain.model.AgentInfo
 import com.speedyteller.reporting.api.domain.model.Customer
 import com.speedyteller.reporting.api.domain.model.Transaction
 import com.speedyteller.reporting.api.domain.model.response.FXMerchant
@@ -55,64 +56,59 @@ class MockTest {
 
     fun getTransactionResponse(): GetTransactionResponse {
 
-        val gson = Gson()
-
-        val fxJson = """{
-                          "merchant": {
-                            "originalAmount": 100,
-                            "originalCurrency": "EUR"
-                          }
-                        }"""
-
-        val fxResponse = gson.fromJson(fxJson, FXMerchant::class.java)
-
-        val acquirerJson = """{
-          "acquirer": {
-            "name": "Mergen Bank",
-            "code": "MB"
-          }
-        }"""
-
-        val acquirerResponse = gson.fromJson(acquirerJson, GetTransactionAcquirerResponse::class.java)
-
-        val merchantJson = """{
-          "merchant": {
-            " name": "Dev-Merchant"
-          }
-        }"""
-
-        val merchantResponse = gson.fromJson(merchantJson, GetTransactionMerchantResponse::class.java)
-
-        val transactionJson = """{
-                                  "transaction": {
-                                    "referenceNo": "reference_5617ae66281ee",
-                                    "merchantId": 1,
-                                    "status": " WAITING",
-                                    "channel": "API",
-                                    "customData": null,
-                                    "chainId": "5617ae666b4cb",
-                                    "agentInfoId": 1,
-                                    "operation": "DIRECT",
-                                    "fxTransactionId": 1,
-                                    "updated_at": "2015-10-09 12:09:12",
-                                    "created_at": "2015-10-09 12:09:10",
-                                    "id": 1,
-                                    "acquirerTransactionId": 1,
-                                    "code": "00",
-                                    "message": "Waiting",
-                                    "transactionId": "1-1444392550-1"                                    
-                                  }
-                                }"""
-
-        val transactionResponse = gson.fromJson(transactionJson, Transaction::class.java)
-
         return GetTransactionResponse(
-            fx = FXResponse(merchant = fxResponse),
+            fx = FXResponse(merchant = this.getFXMerchant()),
             customerInfo = this.getCustumer(),
-            acquirer = acquirerResponse,
-            merchant = merchantResponse,
-            transaction = GetTransactionMerchantTransactionResponse(merchant = transactionResponse)
+            acquirer = this.getGetTransactionAcquirerResponse(),
+            merchant = GetTransactionMerchantResponse(name = "Dev-Merchant"),
+            transaction = GetTransactionMerchantTransactionResponse(merchant = this.getTransaction())
         )
+    }
+
+    fun getGetTransactionAcquirerResponse(): GetTransactionAcquirerResponse {
+
+        return GetTransactionAcquirerResponse().apply {
+            name = "Comitten Bank"
+            code = "CB"
+        }
+    }
+
+    fun getFXMerchant(): FXMerchant {
+
+        return FXMerchant().apply {
+
+            originalAmount = BigDecimal("100.00")
+            originalCurrency = "EUR"
+        }
+
+    }
+
+    fun getTransaction(): Transaction {
+
+        val agentInfo =
+            AgentInfo(id = 1, customerIp = "192.168.1.2", customerUserAgent = "Agent", merchantIp = "127.0.0.1")
+
+
+        return Transaction().apply {
+            referenceNo = "reference_5617ae66281ee"
+            merchantId = 1
+            status = "WAITING"
+            channel = "API"
+            chainId = "5617ae666b4cb"
+            agentInfoId = 1
+            operation = "DIRECT"
+            fxTransactionId = 1
+            updated_at = LocalDateTime.of(LocalDate.of(2015, 10, 9), LocalTime.of(12, 9, 12))
+            created_at = LocalDateTime.of(LocalDate.of(2015, 10, 9), LocalTime.of(12, 9, 10))
+            id = 1
+            acquirerTransactionId = 1
+            code = "00"
+            message = "Waiting"
+            transactionId = "1-1444392550-1"
+            agent = agentInfo
+            customerId = 1
+            refundable = true
+        }
     }
 
     fun getTransactionListResponse(): List<GetTransactionListResponse> {
