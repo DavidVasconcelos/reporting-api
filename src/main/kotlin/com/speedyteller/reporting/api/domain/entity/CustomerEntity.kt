@@ -21,7 +21,7 @@ data class CustomerEntity (
 	val updated_at : LocalDateTime? = null,
 
 	@Column(name = "deleted_at")
-	val deletedAt : LocalDateTime? = null,
+	val deleted_at : LocalDateTime? = null,
 
 	@Column(name = "number")
 	val number : String? = null,

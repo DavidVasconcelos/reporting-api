@@ -19,57 +19,38 @@ import com.speedyteller.reporting.api.domain.model.response.GetTransactionMercha
 import com.speedyteller.reporting.api.domain.model.response.GetTransactionResponse
 import org.springframework.stereotype.Component
 import java.math.BigDecimal
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
 
 @Component
 class MockTest {
 
     fun getCustumer(): Customer {
 
-        val gson = Gson()
+        return Customer().apply {
+            id = 1
+            created_at = LocalDateTime.of(LocalDate.of(2015, 10, 9), LocalTime.of(12, 9, 10))
+            updated_at = LocalDateTime.of(LocalDate.of(2015, 10, 9), LocalTime.of(12, 9, 10))
+            number = "401288XXXXXX1881"
+            expiryMonth = "6"
+            expiryYear = "2017"
+            email = "michael@gmail.com"
+            birthday = LocalDateTime.of(LocalDate.of(1986, 3, 20), LocalTime.of(12, 9, 10))
+            billingFirstName = "Michael"
+            billingLastName = "Kara"
+            billingAddress1 = "test address"
+            billingCity = "Antalya"
+            billingPostcode = "07070"
+            billingCountry = "TR"
+            shippingFirstName = "Michael"
+            shippingLastName = "Kara"
+            shippingAddress1 = "test address"
+            shippingCity = "Antalya"
+            shippingPostcode = "07070"
+            shippingCountry = "TR"
 
-        val json = """{
-                      "customer": {
-                        "id": 1,
-                        "created_at": "2015-10-09 12:09:10",
-                        "updated_at": "2015-10-09 12:09:10",
-                        "deleted_at": null,
-                        "number": "401288XXXXXX1881",
-                        "expiryMonth": "6",
-                        "expiryYear": " 2017",
-                        "startMonth": null,
-                        "startYear": null,
-                        "issueNumber": null,
-                        "email": "michael@gmail.com",
-                        "birthday": "1986-03-20 12:09:10",
-                        "gender": null,
-                        "billingTitle": null,
-                        "billingFirstName": "Michael",
-                        "billingLastName": "Kara",
-                        "billingCompany": null,
-                        "billingAddress1": "test address",
-                        "billingAddress2": null,
-                        "billingCity": "Antalya",
-                        "billingPostcode": "07070",
-                        "billingState": null,
-                        "billingCountry": " TR",
-                        "billingPhone": null,
-                        "billingFax": null,
-                        "shippingTitle": null,
-                        "shippingFirstName": "Michael",
-                        "shippingLastName": "Kara",
-                        "shippingCompany": null,
-                        "shippingAddress1": "test address",
-                        "shippingAddress2": null,
-                        "shippingCity": "Antalya",
-                        "shippingPostcode": "07070",
-                        "shippingState": null,
-                        "shippingCountry": "TR",
-                        "shippingPhone": null,
-                        "shippingFax": null
-                      }
-                    }"""
-
-        return gson.fromJson(json, Customer::class.java)
+        }
     }
 
     fun getTransactionResponse(): GetTransactionResponse {
@@ -134,7 +115,7 @@ class MockTest {
         )
     }
 
-    fun getTransactionListResponse() : List<GetTransactionListResponse> {
+    fun getTransactionListResponse(): List<GetTransactionListResponse> {
 
         val gson = Gson()
 
