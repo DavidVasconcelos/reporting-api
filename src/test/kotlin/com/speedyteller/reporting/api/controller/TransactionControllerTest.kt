@@ -4,7 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
 import com.speedyteller.reporting.api.ReportingApiApplicationTests
 import com.speedyteller.reporting.api.config.JwtTokenComponent
+import com.speedyteller.reporting.api.config.PaginationComponent
 import com.speedyteller.reporting.api.config.PostgresContainerSetup
+import com.speedyteller.reporting.api.domain.dto.response.GetTransactionListResponseDTO
 import com.speedyteller.reporting.api.domain.dto.response.GetTransactionResponseDTO
 import com.speedyteller.reporting.api.domain.service.TransactionService
 import com.speedyteller.reporting.api.mock.MockTest
@@ -16,6 +18,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.data.domain.PageRequest
 import org.springframework.http.MediaType
 import org.springframework.security.core.userdetails.User
 import org.springframework.test.context.ContextConfiguration
@@ -44,6 +47,9 @@ class TransactionControllerTest {
 
     @Autowired
     private lateinit var jwtTokenComponent: JwtTokenComponent
+
+    @Autowired
+    private lateinit var paginationComponent: PaginationComponent
 
     private var token: String? = null
 
@@ -74,4 +80,88 @@ class TransactionControllerTest {
         }
 
     }
+
+    @Test
+    fun `Get Transaction Unauthorized`() {
+
+        val response = mockTest.getTransactionResponse()
+
+        val dtoJSON = mapper.writeValueAsString(GetTransactionResponseDTO(model = response)) as String
+
+        every { service.getTransaction(any()) } returns response
+
+        mockMvc.post("/transaction") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+            content = dtoJSON
+        }.andExpect {
+            status { isUnauthorized }
+        }
+
+    }
+
+    @Test
+    fun `Get Transaction List`() {
+
+        val page = 1
+
+        val response = mockTest.getTransactionListResponse()
+
+        val listResponseDTO = response.map { GetTransactionListResponseDTO(model = it) }
+
+        val pageDTO = paginationComponent.getPagination(
+            pageSize = TransactionController.DEAFULT_PAGE_SIZE,
+            page = page,
+            uri = "http://localhost/transaction/list/?page=1",
+            data = listResponseDTO
+        )
+
+        val dtoJSON = mapper.writeValueAsString(pageDTO) as String
+
+        every { service.getTransactionList(any(), any()) } returns response
+
+        mockMvc.post("/transaction/list/?page=1") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+            content = dtoJSON
+            header("Authorization", values = *arrayOf(token!!))
+        }.andExpect {
+            status { isOk }
+            content { contentType(MediaType.APPLICATION_JSON) }
+            content { json(dtoJSON) }
+        }
+
+    }
+
+    @Test
+    fun `Get Transaction List Unauthorized`() {
+
+        val page = 1
+
+        val response = mockTest.getTransactionListResponse()
+
+        val listResponseDTO = response.map { GetTransactionListResponseDTO(model = it) }
+
+        val pageDTO = paginationComponent.getPagination(
+            pageSize = TransactionController.DEAFULT_PAGE_SIZE,
+            page = page,
+            uri = "http://localhost/transaction/list/?page=1",
+            data = listResponseDTO
+        )
+
+        val dtoJSON = mapper.writeValueAsString(pageDTO) as String
+
+        every { service.getTransactionList(any(), any()) } returns response
+
+        mockMvc.post("/transaction/list/?page=1") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+            content = dtoJSON
+        }.andExpect {
+            status { isUnauthorized }
+        }
+
+    }
+
+
 }
