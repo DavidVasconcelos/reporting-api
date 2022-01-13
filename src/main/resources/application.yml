@@ -17,8 +17,8 @@ spring:
     show-sql: true
 
 jwt:
-  secret: zdtlD3JK56m6wTTgsNFhqzjqP
-  issuer: speedyteller
+  secret: ${JWT_SECRET}
+  issuer: ${JWT_ISSUER}
 
 logging:
   level:
