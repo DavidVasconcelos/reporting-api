@@ -3,7 +3,6 @@ package com.speedyteller.reporting.api.domain.model
 import com.speedyteller.reporting.api.domain.entity.InstantPaymentNotificationEntity
 
 data class InstantPaymentNotification(
-
     var id: Long? = null,
     var transactionId: String? = null,
     var received: Boolean? = null

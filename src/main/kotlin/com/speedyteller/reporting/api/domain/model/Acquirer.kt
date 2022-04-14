@@ -3,7 +3,6 @@ package com.speedyteller.reporting.api.domain.model
 import com.speedyteller.reporting.api.domain.entity.AcquirerEntity
 
 data class Acquirer(
-
     var id: Long? = null,
     var name: String? = null,
     var code: String? = null,

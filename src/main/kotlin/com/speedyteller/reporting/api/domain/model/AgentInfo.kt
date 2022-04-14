@@ -3,7 +3,6 @@ package com.speedyteller.reporting.api.domain.model
 import com.speedyteller.reporting.api.domain.entity.AgentInfoEntity
 
 data class AgentInfo(
-
     var id: Long? = null,
     var customerIp: String? = null,
     var customerUserAgent: String? = null,

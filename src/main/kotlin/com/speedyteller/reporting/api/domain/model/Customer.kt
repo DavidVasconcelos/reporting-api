@@ -4,7 +4,6 @@ import com.speedyteller.reporting.api.domain.entity.CustomerEntity
 import java.time.LocalDateTime
 
 data class Customer(
-
     var id: Long? = null,
     var createdAt: LocalDateTime? = null,
     var updatedAt: LocalDateTime? = null,

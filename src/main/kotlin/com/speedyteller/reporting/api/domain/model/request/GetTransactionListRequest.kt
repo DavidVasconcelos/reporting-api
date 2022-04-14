@@ -66,7 +66,6 @@ data class GetTransactionListRequest(
                 validate(GetTransactionListRequestDTO::filterField)
                     .isIn(enumValues<FilterField>().toList().map { it.filterField })
             }
-
         } catch (ex: ConstraintViolationException) {
             this.interpretConstraintViolation(error = ex.constraintViolations.toList().first())
         }

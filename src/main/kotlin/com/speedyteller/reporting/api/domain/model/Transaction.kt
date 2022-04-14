@@ -4,7 +4,6 @@ import com.speedyteller.reporting.api.domain.entity.TransactionEntity
 import java.time.LocalDateTime
 
 data class Transaction(
-
     var id: Long? = null,
     var referenceNo: String? = null,
     var merchantId: Long? = null,
