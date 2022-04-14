@@ -10,6 +10,7 @@ import com.speedyteller.reporting.api.domain.dto.response.GetTransactionListResp
 import com.speedyteller.reporting.api.domain.dto.response.GetTransactionResponseDTO
 import com.speedyteller.reporting.api.domain.model.request.GetReportRequest
 import com.speedyteller.reporting.api.domain.model.request.GetTransactionListRequest
+import com.speedyteller.reporting.api.domain.service.ReportService
 import com.speedyteller.reporting.api.domain.service.TransactionService
 import org.springframework.data.domain.PageRequest
 import org.springframework.http.ResponseEntity
@@ -26,7 +27,9 @@ import javax.validation.constraints.Min
 @RestController
 @RequestMapping("/transaction")
 @Validated
-class TransactionController(val transactionService: TransactionService, val paginationComponent: PaginationComponent) {
+class TransactionController(val transactionService: TransactionService,
+                            val reportService: ReportService,
+                            val paginationComponent: PaginationComponent) {
     @PostMapping
     fun getTransaction(@Valid @RequestBody transactionId: String): ResponseEntity<GetTransactionResponseDTO> {
         val transactionResponse = transactionService.getTransaction(transactionId = transactionId)
@@ -54,7 +57,7 @@ class TransactionController(val transactionService: TransactionService, val pagi
     }
     @PostMapping("/report")
     fun getReport(@RequestBody dto: GetReportRequestDTO): ResponseEntity<GetReportResponseDTO> {
-        val listOfResponse = transactionService.getReport(request = GetReportRequest(dto = dto))
+        val listOfResponse = reportService.getReport(request = GetReportRequest(dto = dto))
         val responseDTO = GetReportResponseDTO(response = listOfResponse.map { GetReportDTO(model = it) })
         return ResponseEntity.ok(responseDTO)
     }

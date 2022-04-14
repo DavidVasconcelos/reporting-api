@@ -44,9 +44,6 @@ class TransactionService(val postgresPort: PostgresPort) {
     ): List<GetTransactionListResponse> =
         postgresPort.findTransactionList(request = request, page = page).map { GetTransactionListResponse(model = it) }
 
-    fun getReport(request: GetReportRequest): List<GetReportResponse> =
-        postgresPort.getReport(request = request)
-
     private fun getFxTransaction(fxTransactionId: Long) =
         postgresPort.findFXTransactionById(id = fxTransactionId)
 
