@@ -7,12 +7,12 @@ import org.springframework.stereotype.Component
 class PaginationComponent {
 
     fun getPagination(pageSize: Int, page: Int, uri: String, data: List<Any>): CustomPageDTO {
-
-        val nextPageUrl = uri.substringBeforeLast("").plus("${page.plus(ONE)}")
-        val prevPageUrl = if (page > ONE) uri.substringBeforeLast("").plus("${page.minus(ONE)}") else null
-        val from = (page.minus(ONE)).times(pageSize).plus(ONE)
-        val to = (from.minus(ONE)).plus(data.count())
-
+        val nextPageUrl = uri.substringBeforeLast("").plus("${page.plus(PAGE_INITIAL_SIZE)}")
+        val prevPageUrl =
+            if (page > PAGE_INITIAL_SIZE) uri.substringBeforeLast("")
+                .plus("${page.minus(PAGE_INITIAL_SIZE)}") else null
+        val from = (page.minus(PAGE_INITIAL_SIZE)).times(pageSize).plus(PAGE_INITIAL_SIZE)
+        val to = (from.minus(PAGE_INITIAL_SIZE)).plus(data.count())
         return CustomPageDTO(
             perPage = pageSize,
             currentPage = page,
@@ -25,6 +25,6 @@ class PaginationComponent {
     }
 
     companion object {
-        const val ONE = 1
+        const val PAGE_INITIAL_SIZE = 1
     }
 }

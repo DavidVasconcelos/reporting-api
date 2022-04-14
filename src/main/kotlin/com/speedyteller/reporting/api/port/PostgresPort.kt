@@ -17,22 +17,13 @@ import org.springframework.data.domain.Pageable
 interface PostgresPort {
 
     fun findAcquirerById(id: Long): Acquirer
-
     fun findAgentInfoById(id: Long): AgentInfo
-
     fun findCustomerById(id: Long): Customer
-
     fun findFXTransactionById(id: Long): FXTransaction
-
     fun findInstantPaymentNotificationById(id: Long): InstantPaymentNotification
-
     fun findMerchantById(id: Long): Merchant
-
     fun findTransactionByTransactionId(transactionId: String): Transaction
-
     fun findTransactionList(request: GetTransactionListRequest, page: Pageable): List<GetTransactionList>
-
     fun getReport(request: GetReportRequest): List<GetReportResponse>
-
     fun getUser(email: String): User
 }

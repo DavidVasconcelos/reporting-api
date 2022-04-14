@@ -4,13 +4,13 @@ import com.speedyteller.reporting.api.domain.enum.FilterField
 import com.speedyteller.reporting.api.exception.BusinessValidationException
 import org.springframework.stereotype.Component
 import java.util.Collections
-import java.util.HashMap
+import java.util.EnumMap
 
 @Component
 class FilterFieldComponent {
 
     private val fieldProviderMap: MutableMap<FilterField, String> =
-        Collections.synchronizedMap(HashMap())
+        Collections.synchronizedMap(EnumMap(FilterField::class.java))
 
     init {
         fieldProviderMap[FilterField.TRANSACTION_UUID] = "tr.transaction_id"

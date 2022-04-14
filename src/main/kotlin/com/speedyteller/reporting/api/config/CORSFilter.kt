@@ -20,7 +20,6 @@ class CORSFilter : Filter {
 
     @Throws(ServletException::class)
     override fun init(filterConfig: FilterConfig) {
-
         //init
     }
 
@@ -42,7 +41,6 @@ class CORSFilter : Filter {
     }
 
     override fun destroy() {
-
         //destroy
     }
 }

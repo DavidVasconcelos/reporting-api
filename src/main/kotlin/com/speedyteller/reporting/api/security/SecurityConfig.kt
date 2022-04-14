@@ -27,18 +27,14 @@ import javax.servlet.http.HttpServletResponse
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
-class SecurityConfig : WebSecurityConfigurerAdapter {
+class SecurityConfig(
+    val userDetailsService: UserDetailsService,
+    val jwtTokenFilter: JwtTokenFilter
+) : WebSecurityConfigurerAdapter() {
 
     private var logger: Logger = LoggerFactory.getLogger(SecurityConfig::class.java)
 
-    @Autowired
-    private lateinit var userDetailsService: UserDetailsService
-
-    @Autowired
-    private lateinit var jwtTokenFilter: JwtTokenFilter
-
-    constructor() {
-
+    init {
         SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL)
     }
 
@@ -59,13 +55,11 @@ class SecurityConfig : WebSecurityConfigurerAdapter {
         // Enable CORS and disable CSRF
         var http = http
         http = http.cors().and().csrf().disable()
-
         // Set session management to stateless
         http = http
             .sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
-
         // Set unauthorized requests exception handler
         http = http
             .exceptionHandling()
@@ -76,7 +70,7 @@ class SecurityConfig : WebSecurityConfigurerAdapter {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ex.message)
             }
             .and()
-
+        // Set authorized requests
         http.authorizeRequests()
             .antMatchers("/").permitAll()
             // Public endpoints
@@ -89,21 +83,8 @@ class SecurityConfig : WebSecurityConfigurerAdapter {
             ).permitAll()
             // Private endpoints
             .anyRequest().authenticated()
-
         // Add JWT token filter
         http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter::class.java)
-    }
-
-    //For Swagger
-    override fun configure(web: WebSecurity) {
-        web.ignoring().antMatchers(
-            "/v2/api-docs",
-            "/configuration/ui",
-            "/swagger-resources/**",
-            "/configuration/security",
-            "/swagger-ui.html",
-            "/webjars/**"
-        )
     }
 
     @Bean

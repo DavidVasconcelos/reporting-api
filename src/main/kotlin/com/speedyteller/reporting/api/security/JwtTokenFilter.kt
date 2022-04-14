@@ -16,13 +16,10 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 @Component
-class JwtTokenFilter : OncePerRequestFilter() {
-
-    @Autowired
-    private lateinit var jwtTokenComponent: JwtTokenComponent
-
-    @Autowired
-    private lateinit var userDetailsService: UserDetailsService
+class JwtTokenFilter(
+    val jwtTokenComponent: JwtTokenComponent,
+    val userDetailsService: UserDetailsService
+) : OncePerRequestFilter() {
 
     override fun doFilterInternal(
         request: HttpServletRequest,
@@ -31,25 +28,18 @@ class JwtTokenFilter : OncePerRequestFilter() {
     ) {
 
         val header = request.getHeader(HttpHeaders.AUTHORIZATION)
-
-        if (StringUtils.isEmpty(header)) {
+        if (StringUtils.hasLength(header)) {
             filterChain.doFilter(request, response)
             return
         }
-
         if (!jwtTokenComponent.validate(header)) {
             filterChain.doFilter(request, response)
             return
         }
-
         val userDetails: UserDetails = userDetailsService.loadUserByUsername(jwtTokenComponent.getUsername(header))
-
         val authentication = UsernamePasswordAuthenticationToken(userDetails, null, userDetails.authorities)
-
         authentication.details = WebAuthenticationDetailsSource().buildDetails(request)
-
         SecurityContextHolder.getContext().authentication = authentication
-
         filterChain.doFilter(request, response)
     }
 }

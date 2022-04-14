@@ -10,22 +10,16 @@ import io.jsonwebtoken.UnsupportedJwtException
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.boot.autoconfigure.security.SecurityProperties
 import org.springframework.security.core.userdetails.User
 import org.springframework.stereotype.Component
-import java.lang.String.format
 import java.util.Date
 
 @Component
-class JwtTokenComponent {
-
+class JwtTokenComponent(
+    @Value("\${jwt.secret}") val secret: String,
+    @Value("\${jwt.issuer}") val issuer: String
+) {
     private var logger: Logger = LoggerFactory.getLogger(JwtTokenComponent::class.java)
-
-    @Value("\${jwt.secret}")
-    private val secret: String? = null
-
-    @Value("\${jwt.issuer}")
-    private val issuer: String? = null
 
     fun generateAccessToken(user: User): String {
         return Jwts.builder()
@@ -66,5 +60,4 @@ class JwtTokenComponent {
     companion object {
         const val JWT_EXPIRATION_TIME = 10 * 60 * 1000 // 10 minutes
     }
-
 }

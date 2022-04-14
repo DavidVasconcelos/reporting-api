@@ -16,29 +16,20 @@ import com.speedyteller.reporting.api.domain.model.response.GetTransactionMercha
 import com.speedyteller.reporting.api.domain.model.response.GetTransactionResponse
 import com.speedyteller.reporting.api.domain.service.TransactionService
 import com.speedyteller.reporting.api.port.PostgresPort
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 
 @Service
-class TransactionServiceImpl : TransactionService {
-
-    @Autowired
-    private lateinit var postgresPort: PostgresPort
+class TransactionServiceImpl(val postgresPort: PostgresPort) : TransactionService {
 
     override fun getTransaction(transactionId: String): GetTransactionResponse {
-
         val transaction = postgresPort.findTransactionByTransactionId(transactionId = transactionId)
-
         val fxTransaction =
             transaction.fxTransactionId?.let { getFxTransaction(fxTransactionId = it) } ?: FXTransaction()
         val customer = transaction.customerId?.let { getCustomer(customerId = it) } ?: Customer()
         val acquirer = transaction.acquirerTransactionId?.let { getAcquirer(acquirerTransactionId = it) } ?: Acquirer()
         val merchant = transaction.merchantId?.let { getMerchant(merchantId = it) } ?: Merchant()
-
         transaction.agent = transaction.agentInfoId?.let { getAgent(agentInfoId = it) }
-
         return GetTransactionResponse(
             fx = FXResponse(merchant = FXMerchant(fxTransaction = fxTransaction)),
             customerInfo = customer,
@@ -51,16 +42,11 @@ class TransactionServiceImpl : TransactionService {
     override fun getTransactionList(
         request: GetTransactionListRequest,
         page: Pageable
-    ): List<GetTransactionListResponse> {
+    ): List<GetTransactionListResponse> =
+        postgresPort.findTransactionList(request = request, page = page).map { GetTransactionListResponse(model = it) }
 
-        val transactionList = postgresPort.findTransactionList(request = request, page = page)
-
-        return transactionList.map { GetTransactionListResponse(model = it) }
-    }
-
-    override fun getReport(request: GetReportRequest): List<GetReportResponse> {
-        return postgresPort.getReport(request = request)
-    }
+    override fun getReport(request: GetReportRequest): List<GetReportResponse> =
+        postgresPort.getReport(request = request)
 
     private fun getFxTransaction(fxTransactionId: Long) =
         postgresPort.findFXTransactionById(id = fxTransactionId)
@@ -76,5 +62,4 @@ class TransactionServiceImpl : TransactionService {
 
     private fun getAgent(agentInfoId: Long) =
         postgresPort.findAgentInfoById(id = agentInfoId)
-
 }

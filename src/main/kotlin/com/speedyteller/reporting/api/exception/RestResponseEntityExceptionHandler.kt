@@ -19,7 +19,6 @@ class RestResponseEntityExceptionHandler : ResponseEntityExceptionHandler() {
             )
         )
         val errorResponse = ErrorResponse(INTERNAL_SERVER_ERROR_MESSAGE, errors)
-
         return ResponseEntity(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 
@@ -60,7 +59,6 @@ class RestResponseEntityExceptionHandler : ResponseEntityExceptionHandler() {
         val errorResponse = ErrorResponse(VALIDATION_FAILED_MESSAGE, errors)
         return ResponseEntity(errorResponse, HttpStatus.BAD_REQUEST)
     }
-
 
     companion object {
         const val NOT_FOUND_FAIL_MESSAGE = "NotFound"
