@@ -1,7 +1,6 @@
 package com.speedyteller.reporting.api.domain.enum
 
 enum class ErrorCode(val errorCode: String) {
-
     DO_NOT_HONOR("Do not honor"),
     INVALID_TRANSACTION("Invalid Transaction"),
     INVALID_CARD("Invalid Card"),

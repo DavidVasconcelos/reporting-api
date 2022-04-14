@@ -3,7 +3,6 @@ package com.speedyteller.reporting.api.domain.enum
 import java.util.Locale
 
 enum class Status {
-
     APPROVED,
     WAITING,
     DECLINED,
