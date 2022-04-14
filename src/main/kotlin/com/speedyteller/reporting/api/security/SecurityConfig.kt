@@ -80,7 +80,13 @@ class SecurityConfig : WebSecurityConfigurerAdapter {
         http.authorizeRequests()
             .antMatchers("/").permitAll()
             // Public endpoints
-            .antMatchers("/merchant/**").permitAll()
+            .antMatchers(
+                "/merchant/**",
+                "/openapi.yaml",
+                "/openapi/**",
+                "/swagger-ui.html",
+                "/swagger-ui/**"
+            ).permitAll()
             // Private endpoints
             .anyRequest().authenticated()
 

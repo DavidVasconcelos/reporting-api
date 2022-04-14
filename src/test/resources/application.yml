@@ -35,13 +35,3 @@ server:
       charset: UTF-8
     context-path: /api/v3
 
-info:
-  app:
-    name: '@name@'
-    description: '@project.description@'
-  build:
-    groupId: '@project.groupId@'
-    artifact: '@project.artifactId@'
-    name: '@project.name@'
-    version: '@project.version@'
-
