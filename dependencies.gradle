@@ -1,8 +1,7 @@
 def ninjaSquadVersion        = '3.1.1'
 def jacksonVersion           = '2.13.2'
 def valiktorVersion          = '0.12.0'
-def springFoxVersion         = '3.0.0'
-def swaggerModelsVersion     = '1.5.21'
+def openApiVersion           = "1.5.4"
 def postgresVersion          = '42.3.3'
 def testContainerVersion     = '1.17.1'
 
@@ -37,13 +36,9 @@ dependencies {
     //Valiktor
     implementation "org.valiktor:valiktor-core:${valiktorVersion}"
 
-    //Swagger2
-    implementation ("io.springfox:springfox-swagger2:${springFoxVersion}") {
-        exclude group: "io.swagger", module: "swagger-annotations"
-        exclude group: "io.swagger", module: "swagger-models"
-    }
-    implementation "io.springfox:springfox-swagger-ui:${springFoxVersion}"
-    implementation "io.swagger:swagger-models:${swaggerModelsVersion}"
+    //OpenApi
+    implementation "org.springdoc:springdoc-openapi-ui:$openApiVersion"
+    implementation "org.springdoc:springdoc-openapi-kotlin:$openApiVersion"
 
     //Mockk
     testImplementation "com.ninja-squad:springmockk:${ninjaSquadVersion}"

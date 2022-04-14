@@ -6,9 +6,9 @@ import com.speedyteller.reporting.api.extension.toStringPattern
 data class CustomerDTO(
 
     var id: Long? = null,
-    var created_at: String? = null,
-    var updated_at: String? = null,
-    var deleted_at: String? = null,
+    var createdAt: String? = null,
+    var updatedAt: String? = null,
+    var deletedAt: String? = null,
     var number: String? = null,
     var expiryMonth: String? = null,
     var expiryYear: String? = null,
@@ -45,9 +45,9 @@ data class CustomerDTO(
 ){
     constructor(model: Customer) : this() {
         this.id = model.id
-        this.created_at = model.created_at?.toStringPattern()
-        this.updated_at = model.updated_at?.toStringPattern()
-        this.deleted_at = model.deleted_at?.toStringPattern()
+        this.createdAt = model.createdAt?.toStringPattern()
+        this.updatedAt = model.updatedAt?.toStringPattern()
+        this.deletedAt = model.deletedAt?.toStringPattern()
         this.number = model.number
         this.expiryMonth = model.expiryMonth
         this.expiryYear = model.expiryYear

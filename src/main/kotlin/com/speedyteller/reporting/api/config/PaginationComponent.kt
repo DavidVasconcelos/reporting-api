@@ -14,10 +14,10 @@ class PaginationComponent {
         val to = (from.minus(ONE)).plus(data.count())
 
         return CustomPageDTO(
-            per_page = pageSize,
-            current_page = page,
-            next_page_url = nextPageUrl,
-            prev_page_url = prevPageUrl,
+            perPage = pageSize,
+            currentPage = page,
+            nextPageUrl = nextPageUrl,
+            prevPageUrl = prevPageUrl,
             from = from,
             to = to,
             data = data

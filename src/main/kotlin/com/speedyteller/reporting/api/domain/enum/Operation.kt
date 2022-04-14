@@ -1,5 +1,7 @@
 package com.speedyteller.reporting.api.domain.enum
 
+import java.util.Locale
+
 enum class Operation(val operation: String) {
 
     DIRECT("DIRECT"),
@@ -9,6 +11,7 @@ enum class Operation(val operation: String) {
     STORED("STORED");
 
     companion object {
-        fun getOperation(operation: String) = values().firstOrNull { it.operation == operation.trim().toUpperCase() }
+        fun getOperation(operation: String) = values().firstOrNull { it.operation == operation.trim()
+            .uppercase(Locale.getDefault()) }
     }
 }

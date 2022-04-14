@@ -42,10 +42,10 @@ data class TransactionEntity(
     val fxTransactionId: Long? = null,
 
     @Column(name = "updated_at")
-    val updated_at: LocalDateTime? = null,
+    val updatedAt: LocalDateTime? = null,
 
     @Column(name = "created_at")
-    val created_at: LocalDateTime? = null,
+    val createdAt: LocalDateTime? = null,
 
     @Column(name = "acquirer_transaction_id")
     val acquirerTransactionId: Long? = null,

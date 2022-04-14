@@ -260,7 +260,7 @@ class PostgresPortImpl @Autowired constructor(
             status = record[BusinessConstants.STATUS] as? String,
             operation = record[BusinessConstants.OPERATION] as? String,
             message = record[BusinessConstants.MESSAGE] as? String,
-            created_at = (record[BusinessConstants.CREATED_AT] as? Timestamp)?.toLocalDateTime(),
+            createdAt = (record[BusinessConstants.CREATED_AT] as? Timestamp)?.toLocalDateTime(),
             transactionId = record[BusinessConstants.TRANSACTION_ID] as? String,
             acquirerId = (record[BusinessConstants.ACQUIRER_ID] as? BigInteger)?.toLong(),
             acquirerName = record[BusinessConstants.ACQUIRER_NAME] as? String,

@@ -67,7 +67,7 @@ data class GetTransactionListTransactionResponseDTO(
     var status: String? = null,
     var operation: String? = null,
     var message: String? = null,
-    var created_at: String? = null,
+    var createdAt: String? = null,
     var transactionId: String? = null
 ) {
     constructor(model: GetTransactionListTransactionResponse) : this() {
@@ -75,7 +75,7 @@ data class GetTransactionListTransactionResponseDTO(
         this.status = model.status
         this.operation = model.operation
         this.message = model.message
-        this.created_at = model.created_at?.toStringPattern()
+        this.createdAt = model.createdAt?.toStringPattern()
         this.transactionId = model.transactionId
     }
 }

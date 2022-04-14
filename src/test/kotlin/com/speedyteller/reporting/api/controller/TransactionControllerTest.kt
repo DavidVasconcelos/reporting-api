@@ -75,7 +75,7 @@ class TransactionControllerTest {
             content = dtoJSON
             header("Authorization", values = *arrayOf(token!!))
         }.andExpect {
-            status { isOk }
+            status { isOk() }
             content { contentType(MediaType.APPLICATION_JSON) }
             content { json(dtoJSON) }
         }
@@ -96,7 +96,7 @@ class TransactionControllerTest {
             accept = MediaType.APPLICATION_JSON
             content = dtoJSON
         }.andExpect {
-            status { isUnauthorized }
+            status { isUnauthorized() }
         }
 
     }
@@ -111,7 +111,7 @@ class TransactionControllerTest {
         val listResponseDTO = response.map { GetTransactionListResponseDTO(model = it) }
 
         val pageDTO = paginationComponent.getPagination(
-            pageSize = TransactionController.DEAFULT_PAGE_SIZE,
+            pageSize = TransactionController.DEFAULT_PAGE_SIZE,
             page = page,
             uri = "http://localhost/transaction/list/?page=$page",
             data = listResponseDTO
@@ -127,7 +127,7 @@ class TransactionControllerTest {
             content = dtoJSON
             header("Authorization", values = *arrayOf(token!!))
         }.andExpect {
-            status { isOk }
+            status { isOk() }
             content { contentType(MediaType.APPLICATION_JSON) }
             content { json(dtoJSON) }
         }
@@ -144,7 +144,7 @@ class TransactionControllerTest {
         val listResponseDTO = response.map { GetTransactionListResponseDTO(model = it) }
 
         val pageDTO = paginationComponent.getPagination(
-            pageSize = TransactionController.DEAFULT_PAGE_SIZE,
+            pageSize = TransactionController.DEFAULT_PAGE_SIZE,
             page = page,
             uri = "http://localhost/transaction/list/?page=$page",
             data = listResponseDTO
@@ -159,7 +159,7 @@ class TransactionControllerTest {
             accept = MediaType.APPLICATION_JSON
             content = dtoJSON
         }.andExpect {
-            status { isUnauthorized }
+            status { isUnauthorized() }
         }
 
     }
@@ -181,7 +181,7 @@ class TransactionControllerTest {
             content = dtoJSON
             header("Authorization", values = *arrayOf(token!!))
         }.andExpect {
-            status { isOk }
+            status { isOk() }
             content { contentType(MediaType.APPLICATION_JSON) }
             content { json(dtoJSON) }
         }
@@ -203,7 +203,7 @@ class TransactionControllerTest {
             accept = MediaType.APPLICATION_JSON
             content = dtoJSON
         }.andExpect {
-            status { isUnauthorized }
+            status { isUnauthorized() }
         }
     }
 }

@@ -35,12 +35,6 @@ server:
       charset: UTF-8
     context-path: /api/v3
 
-info:
-  app:
-    name: reporting-api
-    description: Reporting REST API
-  build:
-    groupId: com.speedyteller.reporting.api
-    artifact: reporting-api-1.0.0.jar
-    name: reporting-api
-    version: 1.0.0
+springdoc:
+  api-docs:
+    path: /openapi

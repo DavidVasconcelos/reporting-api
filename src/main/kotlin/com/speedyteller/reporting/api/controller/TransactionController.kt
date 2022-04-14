@@ -11,11 +11,6 @@ import com.speedyteller.reporting.api.domain.dto.response.GetTransactionResponse
 import com.speedyteller.reporting.api.domain.model.request.GetReportRequest
 import com.speedyteller.reporting.api.domain.model.request.GetTransactionListRequest
 import com.speedyteller.reporting.api.domain.service.TransactionService
-import com.speedyteller.reporting.api.exception.ErrorResponse
-import io.swagger.annotations.Api
-import io.swagger.annotations.ApiOperation
-import io.swagger.annotations.ApiResponse
-import io.swagger.annotations.ApiResponses
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.PageRequest
 import org.springframework.http.ResponseEntity
@@ -31,7 +26,6 @@ import javax.validation.constraints.Min
 
 @RestController
 @RequestMapping("/transaction")
-@Api(value = "Transaction", description = "Transaction REST API")
 @Validated
 class TransactionController {
 
@@ -41,20 +35,7 @@ class TransactionController {
     @Autowired
     private lateinit var paginationComponent: PaginationComponent
 
-    @ApiOperation(httpMethod = "POST", value = "Get Transaction")
-    @ApiResponses(
-        value = [
-            ApiResponse(
-                code = 200,
-                message = "When call has be succeeded",
-                response = GetTransactionResponseDTO::class
-            ),
-            ApiResponse(
-                code = 404, message = "Transaction not found",
-                response = ErrorResponse::class
-            )
-        ]
-    )
+
     @PostMapping
     fun getTransaction(@Valid @RequestBody transactionId: String): ResponseEntity<GetTransactionResponseDTO> {
 
@@ -63,17 +44,6 @@ class TransactionController {
         return ResponseEntity.ok(GetTransactionResponseDTO(model = transactionResponse))
     }
 
-    @ApiOperation(httpMethod = "POST", value = "Transaction Query")
-    @ApiResponses(
-        value = [
-            ApiResponse(
-                code = 200,
-                message = "When call has be succeeded",
-                response = GetTransactionResponseDTO::class,
-                responseContainer = "List"
-            )
-        ]
-    )
     @PostMapping("/list")
     fun getTransactionList(
         @Valid
@@ -82,7 +52,7 @@ class TransactionController {
         @RequestBody dto: GetTransactionListRequestDTO
     ): ResponseEntity<CustomPageDTO> {
 
-        val pageRequest = PageRequest.of(page, DEAFULT_PAGE_SIZE)
+        val pageRequest = PageRequest.of(page, DEFAULT_PAGE_SIZE)
 
         val listOfResonse =
             transactionService.getTransactionList(request = GetTransactionListRequest(dto = dto), page = pageRequest)
@@ -90,7 +60,7 @@ class TransactionController {
         val listResponseDTO = listOfResonse.map { GetTransactionListResponseDTO(model = it) }
 
         val pageDTO = paginationComponent.getPagination(
-            pageSize = DEAFULT_PAGE_SIZE,
+            pageSize = DEFAULT_PAGE_SIZE,
             page = page,
             uri = getUri(),
             data = listResponseDTO
@@ -99,17 +69,6 @@ class TransactionController {
         return ResponseEntity.ok(pageDTO)
     }
 
-    @ApiOperation(httpMethod = "POST", value = "Get Report")
-    @ApiResponses(
-        value = [
-            ApiResponse(
-                code = 200,
-                message = "When call has be succeeded",
-                response = GetReportResponseDTO::class,
-                responseContainer = "List"
-            )
-        ]
-    )
     @PostMapping("/report")
     fun getReport(@RequestBody dto: GetReportRequestDTO): ResponseEntity<GetReportResponseDTO> {
 
@@ -127,6 +86,6 @@ class TransactionController {
     }
 
     companion object {
-        const val DEAFULT_PAGE_SIZE = 50
+        const val DEFAULT_PAGE_SIZE = 50
     }
 }

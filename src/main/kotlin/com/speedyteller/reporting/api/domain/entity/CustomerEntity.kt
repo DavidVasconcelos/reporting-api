@@ -15,13 +15,13 @@ data class CustomerEntity (
 	val id : Long? = null,
 
 	@Column(name = "created_at")
-	val created_at : LocalDateTime? = null,
+	val createdAt : LocalDateTime? = null,
 
 	@Column(name = "updated_at")
-	val updated_at : LocalDateTime? = null,
+	val updatedAt : LocalDateTime? = null,
 
 	@Column(name = "deleted_at")
-	val deleted_at : LocalDateTime? = null,
+	val deletedAt : LocalDateTime? = null,
 
 	@Column(name = "number")
 	val number : String? = null,

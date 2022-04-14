@@ -6,6 +6,6 @@ import org.springframework.boot.runApplication
 @SpringBootApplication
 class ReportingApiApplication
 
-fun main(args: Array<String>) {
-	runApplication<ReportingApiApplication>(*args)
+fun main() {
+	runApplication<ReportingApiApplication>()
 }

@@ -15,8 +15,8 @@ data class TransactionDTO(
     var agentInfoId: Long? = null,
     var operation: String? = null,
     var fxTransactionId: Long? = null,
-    var updated_at: String? = null,
-    var created_at: String? = null,
+    var updatedAt: String? = null,
+    var createdAt: String? = null,
     var acquirerTransactionId: Long? = null,
     var code: String? = null,
     var message: String? = null,
@@ -37,8 +37,8 @@ data class TransactionDTO(
         this.agentInfoId = model.agentInfoId
         this.operation = model.operation
         this.fxTransactionId = model.fxTransactionId
-        this.updated_at = model.updated_at?.toStringPattern()
-        this.created_at = model.created_at?.toStringPattern()
+        this.updatedAt = model.updatedAt?.toStringPattern()
+        this.createdAt = model.createdAt?.toStringPattern()
         this.acquirerTransactionId = model.acquirerTransactionId
         this.code = model.code
         this.message = model.message

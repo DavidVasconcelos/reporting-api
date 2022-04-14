@@ -60,7 +60,8 @@ class CustomerControllerTest {
 
         val customer = mockTest.getCustumer()
 
-        val dtoJSON = mapper.writeValueAsString(GetCustomerResponseDTO(customerInfo = CustomerDTO(model = customer))) as String
+        val dtoJSON =
+            mapper.writeValueAsString(GetCustomerResponseDTO(customerInfo = CustomerDTO(model = customer))) as String
 
         every { service.getCustomer(any()) } returns GetCustomerResponse(customerInfo = customer)
 
@@ -70,7 +71,7 @@ class CustomerControllerTest {
             content = dtoJSON
             header("Authorization", values = *arrayOf(token!!))
         }.andExpect {
-            status { isOk }
+            status { isOk() }
             content { contentType(MediaType.APPLICATION_JSON) }
             content { json(dtoJSON) }
         }
@@ -81,7 +82,8 @@ class CustomerControllerTest {
 
         val customer = mockTest.getCustumer()
 
-        val dtoJSON = mapper.writeValueAsString(GetCustomerResponseDTO(customerInfo = CustomerDTO(model = customer))) as String
+        val dtoJSON =
+            mapper.writeValueAsString(GetCustomerResponseDTO(customerInfo = CustomerDTO(model = customer))) as String
 
         every { service.getCustomer(any()) } returns GetCustomerResponse(customerInfo = customer)
 
@@ -90,7 +92,7 @@ class CustomerControllerTest {
             accept = MediaType.APPLICATION_JSON
             content = dtoJSON
         }.andExpect {
-            status { isUnauthorized }
+            status { isUnauthorized() }
         }
     }
 }

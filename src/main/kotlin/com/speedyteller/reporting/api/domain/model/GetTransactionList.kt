@@ -18,7 +18,7 @@ data class GetTransactionList (
 	val status : String? = null,
 	val operation : String? = null,
 	val message : String? = null,
-	val created_at : LocalDateTime? = null,
+	val createdAt : LocalDateTime? = null,
 	val transactionId : String? = null,
 	val acquirerId : Long? = null,
 	val acquirerName : String? = null,

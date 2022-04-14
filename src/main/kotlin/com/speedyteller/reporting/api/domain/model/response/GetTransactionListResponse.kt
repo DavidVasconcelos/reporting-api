@@ -49,7 +49,7 @@ data class GetTransactionListResponse(
                         status = model.status,
                         operation = model.operation,
                         message = model.message,
-                        created_at = model.created_at,
+                        createdAt = model.createdAt,
                         transactionId = model.transactionId
                     )
                 ),
@@ -75,6 +75,6 @@ data class GetTransactionListTransactionResponse(
     var status: String? = null,
     var operation: String? = null,
     var message: String? = null,
-    var created_at: LocalDateTime? = null,
+    var createdAt: LocalDateTime? = null,
     var transactionId: String? = null
 )

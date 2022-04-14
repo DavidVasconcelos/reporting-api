@@ -30,8 +30,8 @@ class MockTest {
 
         return Customer().apply {
             id = 1
-            created_at = LocalDateTime.of(LocalDate.of(2015, 10, 9), LocalTime.of(12, 9, 10))
-            updated_at = LocalDateTime.of(LocalDate.of(2015, 10, 9), LocalTime.of(12, 9, 10))
+            createdAt = LocalDateTime.of(LocalDate.of(2015, 10, 9), LocalTime.of(12, 9, 10))
+            updatedAt = LocalDateTime.of(LocalDate.of(2015, 10, 9), LocalTime.of(12, 9, 10))
             number = "401288XXXXXX1881"
             expiryMonth = "6"
             expiryYear = "2017"
@@ -97,8 +97,8 @@ class MockTest {
             agentInfoId = 1
             operation = "DIRECT"
             fxTransactionId = 1
-            updated_at = LocalDateTime.of(LocalDate.of(2015, 10, 9), LocalTime.of(12, 9, 12))
-            created_at = LocalDateTime.of(LocalDate.of(2015, 10, 9), LocalTime.of(12, 9, 10))
+            updatedAt = LocalDateTime.of(LocalDate.of(2015, 10, 9), LocalTime.of(12, 9, 12))
+            createdAt = LocalDateTime.of(LocalDate.of(2015, 10, 9), LocalTime.of(12, 9, 10))
             id = 1
             acquirerTransactionId = 1
             code = "00"
@@ -143,7 +143,7 @@ class MockTest {
             status = "APPROVED"
             operation = "3DAUTH"
             message = "Auth3D is APPROVED"
-            created_at = LocalDateTime.of(LocalDate.of(2015, 9, 29), LocalTime.of(8, 24, 42))
+            createdAt = LocalDateTime.of(LocalDate.of(2015, 9, 29), LocalTime.of(8, 24, 42))
             transactionId = "2827-1443515082-3"
         }
 

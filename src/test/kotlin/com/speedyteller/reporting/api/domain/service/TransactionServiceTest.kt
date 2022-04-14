@@ -5,7 +5,6 @@ import com.speedyteller.reporting.api.config.PostgresContainerSetup
 import com.speedyteller.reporting.api.controller.TransactionController
 import com.speedyteller.reporting.api.domain.model.request.GetReportRequest
 import com.speedyteller.reporting.api.domain.model.request.GetTransactionListRequest
-import com.speedyteller.reporting.api.domain.model.response.GetTransactionResponse
 import com.speedyteller.reporting.api.mock.MockTest
 import com.speedyteller.reporting.api.port.PostgresPort
 import org.junit.jupiter.api.Assertions
@@ -54,7 +53,7 @@ class TransactionServiceTest {
             request = GetTransactionListRequest(
                 merchantId = 3,
                 acquirerId = 12
-            ), page = PageRequest.of(1, TransactionController.DEAFULT_PAGE_SIZE)
+            ), page = PageRequest.of(1, TransactionController.DEFAULT_PAGE_SIZE)
         )
 
         Assertions.assertEquals(transaction, savedTransaction)

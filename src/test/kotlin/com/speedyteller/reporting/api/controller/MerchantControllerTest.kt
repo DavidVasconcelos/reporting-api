@@ -58,7 +58,7 @@ class MerchantControllerTest {
             accept = MediaType.APPLICATION_JSON
             content = requestDTOJSON
         }.andExpect {
-            status { isOk }
+            status { isOk() }
             content { contentType(MediaType.APPLICATION_JSON) }
             content { json(responseDTOJSON) }
         }
@@ -79,7 +79,7 @@ class MerchantControllerTest {
             accept = MediaType.APPLICATION_JSON
             content = requestDTOJSON
         }.andExpect {
-            status { isUnauthorized }
+            status { isUnauthorized() }
         }
     }
 }

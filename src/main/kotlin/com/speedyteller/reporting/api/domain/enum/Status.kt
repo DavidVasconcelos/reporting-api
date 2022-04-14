@@ -1,5 +1,7 @@
 package com.speedyteller.reporting.api.domain.enum
 
+import java.util.Locale
+
 enum class Status {
 
     APPROVED,
@@ -8,6 +10,6 @@ enum class Status {
     ERROR;
 
     companion object {
-        fun getStatus(status: String) =  values().firstOrNull { it.name == status.trim().toUpperCase() }
+        fun getStatus(status: String) = values().firstOrNull { it.name == status.trim().uppercase(Locale.getDefault()) }
     }
 }
