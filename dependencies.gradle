@@ -3,7 +3,7 @@ def jacksonVersion           = '2.11.3'
 def valiktorVersion          = '0.12.0'
 def springFoxVersion         = '2.9.2'
 def swaggerModelsVersion     = '1.5.21'
-def postgresVersion          = '42.2.10'
+def postgresVersion          = '42.3.3'
 def testContainerVersion     = '1.15.1'
 
 dependencies {
