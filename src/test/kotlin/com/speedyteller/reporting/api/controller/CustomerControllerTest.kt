@@ -69,7 +69,7 @@ class CustomerControllerTest {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
             content = dtoJSON
-            header("Authorization", values = *arrayOf(token!!))
+            header("Authorization", values = arrayOf(token!!))
         }.andExpect {
             status { isOk() }
             content { contentType(MediaType.APPLICATION_JSON) }
