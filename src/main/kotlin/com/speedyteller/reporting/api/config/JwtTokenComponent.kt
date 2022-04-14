@@ -27,7 +27,7 @@ class JwtTokenComponent {
     @Value("\${jwt.issuer}")
     private val issuer: String? = null
 
-    fun generateAccessToken(user: User): String? {
+    fun generateAccessToken(user: User): String {
         return Jwts.builder()
             .setSubject(user.username)
             .setIssuer(issuer)

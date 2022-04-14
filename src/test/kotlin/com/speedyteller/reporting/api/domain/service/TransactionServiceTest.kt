@@ -28,9 +28,6 @@ class TransactionServiceTest {
     private lateinit var service: TransactionService
 
     @Autowired
-    private lateinit var postgresPort: PostgresPort
-
-    @Autowired
     private lateinit var mockTest: MockTest
 
     @Test

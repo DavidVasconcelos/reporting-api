@@ -40,18 +40,10 @@ class MerchantControllerTest {
     @Autowired
     private lateinit var mockMvc: MockMvc
 
-    @Autowired
-    private lateinit var jwtTokenComponent: JwtTokenComponent
-
     @Test
     fun `Test Login`() {
 
         val requestDTOJSON = mapper.writeValueAsString(LoginRequestDTO(email = "test", password = "teste")) as String
-
-        val token = jwtTokenComponent
-            .generateAccessToken(User("test", "test", mutableListOf()))
-
-        val responseDTOJSON = mapper.writeValueAsString(LoginResponseDTO(token = token!!)) as String
 
         mockMvc.post("/merchant/user/login") {
             contentType = MediaType.APPLICATION_JSON
@@ -60,7 +52,6 @@ class MerchantControllerTest {
         }.andExpect {
             status { isOk() }
             content { contentType(MediaType.APPLICATION_JSON) }
-            content { json(responseDTOJSON) }
         }
     }
 
@@ -68,11 +59,6 @@ class MerchantControllerTest {
     fun `Test Login Unauthorized`() {
 
         val requestDTOJSON = mapper.writeValueAsString(LoginRequestDTO(email = "test", password = "teste123")) as String
-
-        val token = jwtTokenComponent
-            .generateAccessToken(User("test", "test", mutableListOf()))
-
-        val responseDTOJSON = mapper.writeValueAsString(LoginResponseDTO(token = token!!)) as String
 
         mockMvc.post("/merchant/user/login") {
             contentType = MediaType.APPLICATION_JSON

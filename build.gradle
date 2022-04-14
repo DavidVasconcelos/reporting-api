@@ -74,15 +74,9 @@ sourceSets {
 }
 
 detekt {
-
-	failFast = true
-	buildUponDefaultConfig = true
+	toolVersion = detektVersion
 	config = files("$projectDir/config/detekt.yml")
 	autoCorrect = true
-
-	reports {
-		html.enabled = true
-	}
 }
 
 tasks.withType(JavaCompile) {

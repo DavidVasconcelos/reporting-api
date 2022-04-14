@@ -24,9 +24,6 @@ class CustomerServiceTest {
     private lateinit var service: CustomerService
 
     @Autowired
-    private lateinit var postgresPort: PostgresPort
-
-    @Autowired
     private lateinit var mockTest: MockTest
 
     @Test

@@ -4,7 +4,6 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
-import org.springframework.web.context.request.WebRequest
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
 import javax.validation.ConstraintViolationException
 
@@ -12,7 +11,7 @@ import javax.validation.ConstraintViolationException
 class RestResponseEntityExceptionHandler : ResponseEntityExceptionHandler() {
 
     @ExceptionHandler(Exception::class)
-    fun handleAllExceptions(ex: Exception, request: WebRequest?): ResponseEntity<Any?> {
+    fun handleAllExceptions(ex: Exception): ResponseEntity<Any?> {
         val errors = arrayListOf(
             Error(
                 codigo = HttpStatus.INTERNAL_SERVER_ERROR.value(),
@@ -25,7 +24,7 @@ class RestResponseEntityExceptionHandler : ResponseEntityExceptionHandler() {
     }
 
     @ExceptionHandler(ConstraintViolationException::class)
-    fun handleConstraintViolationException(ex: ConstraintViolationException, request: WebRequest?):
+    fun handleConstraintViolationException(ex: ConstraintViolationException):
             ResponseEntity<Any?> {
         val errors = arrayListOf(
             Error(codigo = HttpStatus.BAD_REQUEST.value(),
@@ -37,7 +36,7 @@ class RestResponseEntityExceptionHandler : ResponseEntityExceptionHandler() {
 
 
     @ExceptionHandler(NotFoundException::class)
-    fun handleNotFoundException(ex: NotFoundException, request: WebRequest?):
+    fun handleNotFoundException(ex: NotFoundException):
             ResponseEntity<Any?> {
         val errors = arrayListOf(
             Error(
@@ -50,7 +49,7 @@ class RestResponseEntityExceptionHandler : ResponseEntityExceptionHandler() {
     }
 
     @ExceptionHandler(BusinessValidationException::class)
-    fun handleBusinessValidationException(ex: BusinessValidationException, request: WebRequest?):
+    fun handleBusinessValidationException(ex: BusinessValidationException):
             ResponseEntity<Any?> {
         val errors = arrayListOf(
             Error(

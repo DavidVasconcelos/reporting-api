@@ -3,6 +3,9 @@ package com.speedyteller.reporting.api.controller
 import com.speedyteller.reporting.api.config.JwtTokenComponent
 import com.speedyteller.reporting.api.domain.dto.request.LoginRequestDTO
 import com.speedyteller.reporting.api.domain.dto.response.LoginResponseDTO
+import com.speedyteller.reporting.api.security.SecurityConfig
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -30,8 +33,7 @@ class MerchantController {
     @Autowired
     private lateinit var jwtTokenComponent: JwtTokenComponent
 
-    @Autowired
-    private lateinit var userDetailsService: UserDetailsService
+    private var logger: Logger = LoggerFactory.getLogger(SecurityConfig::class.java)
 
     @PostMapping("login")
     fun login(@RequestBody loginRequestDTO: LoginRequestDTO): ResponseEntity<LoginResponseDTO> {
@@ -43,9 +45,10 @@ class MerchantController {
 
             val user = authenticate.principal as User
 
-            ResponseEntity.ok().body(LoginResponseDTO(token = jwtTokenComponent.generateAccessToken(user)!!))
+            ResponseEntity.ok().body(LoginResponseDTO(token = jwtTokenComponent.generateAccessToken(user)))
 
         } catch (ex: BadCredentialsException) {
+            logger.error(ex.message)
             ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()
         }
     }
