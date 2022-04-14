@@ -25,32 +25,20 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @CrossOrigin
 @RequestMapping("merchant/user")
-class MerchantController {
-
-    @Autowired
-    private lateinit var authenticationManager: AuthenticationManager
-
-    @Autowired
-    private lateinit var jwtTokenComponent: JwtTokenComponent
+class MerchantController(val authenticationManager: AuthenticationManager, val jwtTokenComponent: JwtTokenComponent) {
 
     private var logger: Logger = LoggerFactory.getLogger(SecurityConfig::class.java)
 
     @PostMapping("login")
     fun login(@RequestBody loginRequestDTO: LoginRequestDTO): ResponseEntity<LoginResponseDTO> {
-
         return try {
-
             val authenticate: Authentication = authenticationManager
                 .authenticate(UsernamePasswordAuthenticationToken(loginRequestDTO.email, loginRequestDTO.password))
-
             val user = authenticate.principal as User
-
             ResponseEntity.ok().body(LoginResponseDTO(token = jwtTokenComponent.generateAccessToken(user)))
-
         } catch (ex: BadCredentialsException) {
             logger.error(ex.message)
             ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()
         }
     }
-
 }

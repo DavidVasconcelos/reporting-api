@@ -12,16 +12,11 @@ import javax.validation.Valid
 
 @RestController
 @RequestMapping("/client")
-class CustomerController {
-
-    @Autowired
-    private lateinit var customerService: CustomerService
+class CustomerController(val customerService: CustomerService) {
 
     @PostMapping
     fun getClient(@Valid @RequestBody transactionId: String): ResponseEntity<GetCustomerResponseDTO> {
-
         val customerResponse = customerService.getCustomer(transactionId = transactionId)
-
         return ResponseEntity.ok(GetCustomerResponseDTO(model = customerResponse))
     }
 }

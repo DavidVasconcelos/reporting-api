@@ -11,7 +11,6 @@ import com.speedyteller.reporting.api.domain.dto.response.GetTransactionResponse
 import com.speedyteller.reporting.api.domain.model.request.GetReportRequest
 import com.speedyteller.reporting.api.domain.model.request.GetTransactionListRequest
 import com.speedyteller.reporting.api.domain.service.TransactionService
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.PageRequest
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
@@ -27,20 +26,10 @@ import javax.validation.constraints.Min
 @RestController
 @RequestMapping("/transaction")
 @Validated
-class TransactionController {
-
-    @Autowired
-    private lateinit var transactionService: TransactionService
-
-    @Autowired
-    private lateinit var paginationComponent: PaginationComponent
-
-
+class TransactionController(val transactionService: TransactionService, val paginationComponent: PaginationComponent) {
     @PostMapping
     fun getTransaction(@Valid @RequestBody transactionId: String): ResponseEntity<GetTransactionResponseDTO> {
-
         val transactionResponse = transactionService.getTransaction(transactionId = transactionId)
-
         return ResponseEntity.ok(GetTransactionResponseDTO(model = transactionResponse))
     }
 
@@ -51,40 +40,29 @@ class TransactionController {
         @RequestParam(defaultValue = "1") page: Int,
         @RequestBody dto: GetTransactionListRequestDTO
     ): ResponseEntity<CustomPageDTO> {
-
         val pageRequest = PageRequest.of(page, DEFAULT_PAGE_SIZE)
-
-        val listOfResonse =
+        val listOfResponse =
             transactionService.getTransactionList(request = GetTransactionListRequest(dto = dto), page = pageRequest)
-
-        val listResponseDTO = listOfResonse.map { GetTransactionListResponseDTO(model = it) }
-
+        val listOfResponseDTO = listOfResponse.map { GetTransactionListResponseDTO(model = it) }
         val pageDTO = paginationComponent.getPagination(
             pageSize = DEFAULT_PAGE_SIZE,
             page = page,
             uri = getUri(),
-            data = listResponseDTO
+            data = listOfResponseDTO
         )
-
         return ResponseEntity.ok(pageDTO)
     }
-
     @PostMapping("/report")
     fun getReport(@RequestBody dto: GetReportRequestDTO): ResponseEntity<GetReportResponseDTO> {
-
-        val listOfResonse = transactionService.getReport(request = GetReportRequest(dto = dto))
-
-        val responseDTO = GetReportResponseDTO(response = listOfResonse.map { GetReportDTO(model = it) })
-
+        val listOfResponse = transactionService.getReport(request = GetReportRequest(dto = dto))
+        val responseDTO = GetReportResponseDTO(response = listOfResponse.map { GetReportDTO(model = it) })
         return ResponseEntity.ok(responseDTO)
     }
-
     private fun getUri(): String {
         return ServletUriComponentsBuilder
             .fromCurrentRequest()
             .toUriString()
     }
-
     companion object {
         const val DEFAULT_PAGE_SIZE = 50
     }
