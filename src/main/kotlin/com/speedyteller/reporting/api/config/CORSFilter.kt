@@ -1,8 +1,8 @@
 package com.speedyteller.reporting.api.config
 
-import com.speedyteller.reporting.api.domain.constant.BusinessConstants
 import org.springframework.core.Ordered
 import org.springframework.core.annotation.Order
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import java.io.IOException
 import javax.servlet.Filter
@@ -35,7 +35,7 @@ class CORSFilter : Filter {
         response.setHeader("Access-Control-Max-Age", "3600")
 
         if ("OPTIONS".equals((request as HttpServletRequest).method, ignoreCase = true)) {
-            response.status = BusinessConstants.HTTP_OK
+            response.status = HttpStatus.OK.value()
         } else {
             chain.doFilter(request, response)
         }

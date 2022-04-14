@@ -1,13 +1,8 @@
 package com.speedyteller.reporting.api.domain.model.request
 
-import com.speedyteller.reporting.api.domain.constant.BusinessConstants
+import com.speedyteller.reporting.api.domain.constant.BusinessConstants.RegexFormats.REGEX_DATE_FORMAT_VALIDATOR
+import com.speedyteller.reporting.api.domain.constant.BusinessConstants.ValidatorMessages.DATE_FORMAT_VALIDATOR_MESSAGE
 import com.speedyteller.reporting.api.domain.dto.request.GetReportRequestDTO
-import com.speedyteller.reporting.api.domain.dto.request.GetTransactionListRequestDTO
-import com.speedyteller.reporting.api.domain.enum.ErrorCode
-import com.speedyteller.reporting.api.domain.enum.FilterField
-import com.speedyteller.reporting.api.domain.enum.Operation
-import com.speedyteller.reporting.api.domain.enum.PaymentMethod
-import com.speedyteller.reporting.api.domain.enum.Status
 import com.speedyteller.reporting.api.exception.BusinessValidationException
 import org.valiktor.ConstraintViolationException
 import org.valiktor.functions.matches
@@ -29,9 +24,9 @@ data class GetReportRequest(
             validate(dto) {
 
                 validate(GetReportRequestDTO::fromDate)
-                    .matches(Regex(BusinessConstants.REGEX_DATE_FORMAT_VALIDATOR))
+                    .matches(Regex(REGEX_DATE_FORMAT_VALIDATOR))
                 validate(GetReportRequestDTO::toDate)
-                    .matches(Regex(BusinessConstants.REGEX_DATE_FORMAT_VALIDATOR))
+                    .matches(Regex(REGEX_DATE_FORMAT_VALIDATOR))
 
             }
 
@@ -54,7 +49,7 @@ data class GetReportRequest(
 
             ((error.property == "fromDate" || error.property == "toDate") &&
                     (error.constraint.name == "Matches")) -> {
-                throw BusinessValidationException(BusinessConstants.DATE_FORMAT_VALIDATOR_MESSAGE)
+                throw BusinessValidationException(DATE_FORMAT_VALIDATOR_MESSAGE)
             }
 
             else -> throw BusinessValidationException("${error.property}: ${error.constraint.name}")

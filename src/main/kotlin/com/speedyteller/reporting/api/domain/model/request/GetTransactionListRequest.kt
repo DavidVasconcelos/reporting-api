@@ -1,6 +1,12 @@
 package com.speedyteller.reporting.api.domain.model.request
 
-import com.speedyteller.reporting.api.domain.constant.BusinessConstants
+import com.speedyteller.reporting.api.domain.constant.BusinessConstants.RegexFormats.REGEX_DATE_FORMAT_VALIDATOR
+import com.speedyteller.reporting.api.domain.constant.BusinessConstants.ValidatorMessages.DATE_FORMAT_VALIDATOR_MESSAGE
+import com.speedyteller.reporting.api.domain.constant.BusinessConstants.ValidatorMessages.ERROR_CODE_VALIDATOR_MESSAGE
+import com.speedyteller.reporting.api.domain.constant.BusinessConstants.ValidatorMessages.FILTER_FIELD_VALIDATOR_MESSAGE
+import com.speedyteller.reporting.api.domain.constant.BusinessConstants.ValidatorMessages.OPERATION_VALIDATOR_MESSAGE
+import com.speedyteller.reporting.api.domain.constant.BusinessConstants.ValidatorMessages.PAYMENT_METHOD_VALIDATOR_MESSAGE
+import com.speedyteller.reporting.api.domain.constant.BusinessConstants.ValidatorMessages.STATUS_VALIDATOR_MESSAGE
 import com.speedyteller.reporting.api.domain.dto.request.GetTransactionListRequestDTO
 import com.speedyteller.reporting.api.domain.enum.ErrorCode
 import com.speedyteller.reporting.api.domain.enum.FilterField
@@ -46,9 +52,9 @@ data class GetTransactionListRequest(
         try {
             validate(dto) {
                 validate(GetTransactionListRequestDTO::fromDate)
-                    .matches(Regex(BusinessConstants.REGEX_DATE_FORMAT_VALIDATOR))
+                    .matches(Regex(REGEX_DATE_FORMAT_VALIDATOR))
                 validate(GetTransactionListRequestDTO::toDate)
-                    .matches(Regex(BusinessConstants.REGEX_DATE_FORMAT_VALIDATOR))
+                    .matches(Regex(REGEX_DATE_FORMAT_VALIDATOR))
                 validate(GetTransactionListRequestDTO::status)
                     .isIn(enumValues<Status>().toList().map { it.name })
                 validate(GetTransactionListRequestDTO::operation)
@@ -69,17 +75,17 @@ data class GetTransactionListRequest(
     private fun interpretConstraintViolation(error: ConstraintViolation) {
         val errorMessage = when {
             ((error.property == "fromDate" || error.property == "toDate") && (error.constraint.name == "Matches")) ->
-                BusinessConstants.DATE_FORMAT_VALIDATOR_MESSAGE
+                DATE_FORMAT_VALIDATOR_MESSAGE
             (error.property == "status" && error.constraint.name == "In") ->
-                BusinessConstants.STATUS_VALIDATOR_MESSAGE
+                STATUS_VALIDATOR_MESSAGE
             (error.property == "operation" && error.constraint.name == "In") ->
-                BusinessConstants.OPERATION_VALIDATOR_MESSAGE
+                OPERATION_VALIDATOR_MESSAGE
             (error.property == "paymentMethod" && error.constraint.name == "In") ->
-                BusinessConstants.PAYMENT_METHOD_VALIDATOR_MESSAGE
+                PAYMENT_METHOD_VALIDATOR_MESSAGE
             (error.property == "errorCode" && error.constraint.name == "In") ->
-                BusinessConstants.ERROR_CODE_VALIDATOR_MESSAGE
+                ERROR_CODE_VALIDATOR_MESSAGE
             (error.property == "filterField" && error.constraint.name == "In") ->
-                BusinessConstants.FILTER_FIELD_VALIDATOR_MESSAGE
+                FILTER_FIELD_VALIDATOR_MESSAGE
             else -> "${error.property}: ${error.constraint.name}"
         }
         throw BusinessValidationException(errorMessage)

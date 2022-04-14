@@ -1,7 +1,31 @@
 package com.speedyteller.reporting.api.port.impl
 
 import com.speedyteller.reporting.api.config.FilterFieldComponent
-import com.speedyteller.reporting.api.domain.constant.BusinessConstants
+import com.speedyteller.reporting.api.domain.constant.BusinessConstants.DataBaseFields.ACQUIRER_CODE
+import com.speedyteller.reporting.api.domain.constant.BusinessConstants.DataBaseFields.ACQUIRER_ID
+import com.speedyteller.reporting.api.domain.constant.BusinessConstants.DataBaseFields.ACQUIRER_NAME
+import com.speedyteller.reporting.api.domain.constant.BusinessConstants.DataBaseFields.ACQUIRER_TYPE
+import com.speedyteller.reporting.api.domain.constant.BusinessConstants.DataBaseFields.BILLING_FIRST_NAME
+import com.speedyteller.reporting.api.domain.constant.BusinessConstants.DataBaseFields.BILLING_LAST_NAME
+import com.speedyteller.reporting.api.domain.constant.BusinessConstants.DataBaseFields.COUNT
+import com.speedyteller.reporting.api.domain.constant.BusinessConstants.DataBaseFields.CREATED_AT
+import com.speedyteller.reporting.api.domain.constant.BusinessConstants.DataBaseFields.CURRENCY
+import com.speedyteller.reporting.api.domain.constant.BusinessConstants.DataBaseFields.EMAIL
+import com.speedyteller.reporting.api.domain.constant.BusinessConstants.DataBaseFields.MERCHANT_ID
+import com.speedyteller.reporting.api.domain.constant.BusinessConstants.DataBaseFields.MERCHANT_NAME
+import com.speedyteller.reporting.api.domain.constant.BusinessConstants.DataBaseFields.MESSAGE
+import com.speedyteller.reporting.api.domain.constant.BusinessConstants.DataBaseFields.NUMBER
+import com.speedyteller.reporting.api.domain.constant.BusinessConstants.DataBaseFields.OPERATION
+import com.speedyteller.reporting.api.domain.constant.BusinessConstants.DataBaseFields.ORIGINAL_AMOUNT
+import com.speedyteller.reporting.api.domain.constant.BusinessConstants.DataBaseFields.ORIGINAL_CURRENCY
+import com.speedyteller.reporting.api.domain.constant.BusinessConstants.DataBaseFields.RECEIVED
+import com.speedyteller.reporting.api.domain.constant.BusinessConstants.DataBaseFields.REFERENCE_NO
+import com.speedyteller.reporting.api.domain.constant.BusinessConstants.DataBaseFields.REFUNDABLE
+import com.speedyteller.reporting.api.domain.constant.BusinessConstants.DataBaseFields.STATUS
+import com.speedyteller.reporting.api.domain.constant.BusinessConstants.DataBaseFields.TOTAL
+import com.speedyteller.reporting.api.domain.constant.BusinessConstants.DataBaseFields.TRANSACTION_ID
+import com.speedyteller.reporting.api.domain.constant.BusinessConstants.Queries.QUERY_GET_REPORT
+import com.speedyteller.reporting.api.domain.constant.BusinessConstants.Queries.QUERY_GET_TRANSACTION_LIST
 import com.speedyteller.reporting.api.domain.model.Acquirer
 import com.speedyteller.reporting.api.domain.model.AgentInfo
 import com.speedyteller.reporting.api.domain.model.Customer
@@ -108,7 +132,7 @@ class PostgresPortImpl @Autowired constructor(
 
         val parameters = mutableMapOf<String, Any>()
 
-        val query = StringBuilder().append(BusinessConstants.QUERY_GET_TRANSACTION_LIST)
+        val query = StringBuilder().append(QUERY_GET_TRANSACTION_LIST)
 
         this.setParametersGetTransactionList(request = request, query = query, parameters = parameters)
 
@@ -190,7 +214,7 @@ class PostgresPortImpl @Autowired constructor(
 
         val parameters = mutableMapOf<String, Any>()
 
-        val query = StringBuilder().append(BusinessConstants.QUERY_GET_REPORT)
+        val query = StringBuilder().append(QUERY_GET_REPORT)
 
         this.setParametersGetReport(request = request, query = query, parameters = parameters)
 
@@ -247,26 +271,26 @@ class PostgresPortImpl @Autowired constructor(
     private fun getTransactionRecord(record: Array<Any>): GetTransactionList {
 
         return GetTransactionList(
-            originalAmount = record[BusinessConstants.ORIGINAL_AMOUNT] as? BigDecimal,
-            originalCurrency = record[BusinessConstants.ORIGINAL_CURRENCY] as? String,
-            number = record[BusinessConstants.NUMBER] as? String,
-            email = record[BusinessConstants.EMAIL] as? String,
-            billingFirstName = record[BusinessConstants.BILLING_FIRST_NAME] as? String,
-            billingLastName = record[BusinessConstants.BILLING_LAST_NAME] as? String,
-            merchantId = (record[BusinessConstants.MERCHANT_ID] as? BigInteger)?.toLong(),
-            merchantName = record[BusinessConstants.MERCHANT_NAME] as? String,
-            received = record[BusinessConstants.RECEIVED] as? Boolean,
-            referenceNo = record[BusinessConstants.REFERENCE_NO] as? String,
-            status = record[BusinessConstants.STATUS] as? String,
-            operation = record[BusinessConstants.OPERATION] as? String,
-            message = record[BusinessConstants.MESSAGE] as? String,
-            createdAt = (record[BusinessConstants.CREATED_AT] as? Timestamp)?.toLocalDateTime(),
-            transactionId = record[BusinessConstants.TRANSACTION_ID] as? String,
-            acquirerId = (record[BusinessConstants.ACQUIRER_ID] as? BigInteger)?.toLong(),
-            acquirerName = record[BusinessConstants.ACQUIRER_NAME] as? String,
-            acquirerCode = record[BusinessConstants.ACQUIRER_CODE] as? String,
-            acquirerType = record[BusinessConstants.ACQUIRER_TYPE] as? String,
-            refundable = record[BusinessConstants.REFUNDABLE] as? Boolean ?: false
+            originalAmount = record[ORIGINAL_AMOUNT] as? BigDecimal,
+            originalCurrency = record[ORIGINAL_CURRENCY] as? String,
+            number = record[NUMBER] as? String,
+            email = record[EMAIL] as? String,
+            billingFirstName = record[BILLING_FIRST_NAME] as? String,
+            billingLastName = record[BILLING_LAST_NAME] as? String,
+            merchantId = (record[MERCHANT_ID] as? BigInteger)?.toLong(),
+            merchantName = record[MERCHANT_NAME] as? String,
+            received = record[RECEIVED] as? Boolean,
+            referenceNo = record[REFERENCE_NO] as? String,
+            status = record[STATUS] as? String,
+            operation = record[OPERATION] as? String,
+            message = record[MESSAGE] as? String,
+            createdAt = (record[CREATED_AT] as? Timestamp)?.toLocalDateTime(),
+            transactionId = record[TRANSACTION_ID] as? String,
+            acquirerId = (record[ACQUIRER_ID] as? BigInteger)?.toLong(),
+            acquirerName = record[ACQUIRER_NAME] as? String,
+            acquirerCode = record[ACQUIRER_CODE] as? String,
+            acquirerType = record[ACQUIRER_TYPE] as? String,
+            refundable = record[REFUNDABLE] as? Boolean ?: false
         )
 
     }
@@ -274,9 +298,9 @@ class PostgresPortImpl @Autowired constructor(
     private fun getReportRecord(record: Array<Any>): GetReportResponse {
 
         return GetReportResponse(
-            count = (record[BusinessConstants.COUNT] as? BigInteger)?.toLong(),
-            total = record[BusinessConstants.TOTAL] as? BigDecimal,
-            currency = record[BusinessConstants.CURRENCY] as? String
+            count = (record[COUNT] as? BigInteger)?.toLong(),
+            total = record[TOTAL] as? BigDecimal,
+            currency = record[CURRENCY] as? String
         )
 
     }
