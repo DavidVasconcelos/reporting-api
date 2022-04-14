@@ -7,11 +7,6 @@ object BusinessConstants {
     }
 
     object ValidatorMessages {
-        const val STATUS_VALIDATOR_MESSAGE = "Invalid Status"
-        const val OPERATION_VALIDATOR_MESSAGE = "Invalid Operation"
-        const val PAYMENT_METHOD_VALIDATOR_MESSAGE = "Invalid PaymentMethod"
-        const val ERROR_CODE_VALIDATOR_MESSAGE = "Invalid ErrorCode"
-        const val FILTER_FIELD_VALIDATOR_MESSAGE = "Invalid FilterField"
         const val DATE_FORMAT_VALIDATOR_MESSAGE = "Invalid date format, use only the format: yyyy-MM-dd"
     }
 

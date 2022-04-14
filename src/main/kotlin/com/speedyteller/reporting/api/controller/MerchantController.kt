@@ -3,7 +3,6 @@ package com.speedyteller.reporting.api.controller
 import com.speedyteller.reporting.api.config.JwtTokenComponent
 import com.speedyteller.reporting.api.domain.dto.request.LoginRequestDTO
 import com.speedyteller.reporting.api.domain.dto.response.LoginResponseDTO
-import com.speedyteller.reporting.api.security.SecurityConfig
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
@@ -24,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("merchant/user")
 class MerchantController(val authenticationManager: AuthenticationManager, val jwtTokenComponent: JwtTokenComponent) {
 
-    private var logger: Logger = LoggerFactory.getLogger(SecurityConfig::class.java)
+    private var logger: Logger = LoggerFactory.getLogger(this::class.java)
 
     @PostMapping("login")
     fun login(@RequestBody loginRequestDTO: LoginRequestDTO): ResponseEntity<LoginResponseDTO> {

@@ -2,11 +2,6 @@ package com.speedyteller.reporting.api.domain.model.request
 
 import com.speedyteller.reporting.api.domain.constant.BusinessConstants.RegexFormats.REGEX_DATE_FORMAT_VALIDATOR
 import com.speedyteller.reporting.api.domain.constant.BusinessConstants.ValidatorMessages.DATE_FORMAT_VALIDATOR_MESSAGE
-import com.speedyteller.reporting.api.domain.constant.BusinessConstants.ValidatorMessages.ERROR_CODE_VALIDATOR_MESSAGE
-import com.speedyteller.reporting.api.domain.constant.BusinessConstants.ValidatorMessages.FILTER_FIELD_VALIDATOR_MESSAGE
-import com.speedyteller.reporting.api.domain.constant.BusinessConstants.ValidatorMessages.OPERATION_VALIDATOR_MESSAGE
-import com.speedyteller.reporting.api.domain.constant.BusinessConstants.ValidatorMessages.PAYMENT_METHOD_VALIDATOR_MESSAGE
-import com.speedyteller.reporting.api.domain.constant.BusinessConstants.ValidatorMessages.STATUS_VALIDATOR_MESSAGE
 import com.speedyteller.reporting.api.domain.dto.request.GetTransactionListRequestDTO
 import com.speedyteller.reporting.api.domain.enum.ErrorCode
 import com.speedyteller.reporting.api.domain.enum.FilterField
@@ -14,6 +9,7 @@ import com.speedyteller.reporting.api.domain.enum.Operation
 import com.speedyteller.reporting.api.domain.enum.PaymentMethod
 import com.speedyteller.reporting.api.domain.enum.Status
 import com.speedyteller.reporting.api.exception.BusinessValidationException
+import com.speedyteller.reporting.api.extension.toCapital
 import org.valiktor.ConstraintViolation
 import org.valiktor.ConstraintViolationException
 import org.valiktor.functions.isIn
@@ -67,24 +63,17 @@ data class GetTransactionListRequest(
                     .isIn(enumValues<FilterField>().toList().map { it.filterField })
             }
         } catch (ex: ConstraintViolationException) {
-            this.interpretConstraintViolation(error = ex.constraintViolations.toList().first())
+            this.handleConstraintViolation(error = ex.constraintViolations.toList().first())
         }
     }
 
-    private fun interpretConstraintViolation(error: ConstraintViolation) {
+    private fun handleConstraintViolation(error: ConstraintViolation) {
+        val fieldsList = listOf("status", "operation", "paymentMethod", "errorCode", "filterField")
         val errorMessage = when {
             ((error.property == "fromDate" || error.property == "toDate") && (error.constraint.name == "Matches")) ->
                 DATE_FORMAT_VALIDATOR_MESSAGE
-            (error.property == "status" && error.constraint.name == "In") ->
-                STATUS_VALIDATOR_MESSAGE
-            (error.property == "operation" && error.constraint.name == "In") ->
-                OPERATION_VALIDATOR_MESSAGE
-            (error.property == "paymentMethod" && error.constraint.name == "In") ->
-                PAYMENT_METHOD_VALIDATOR_MESSAGE
-            (error.property == "errorCode" && error.constraint.name == "In") ->
-                ERROR_CODE_VALIDATOR_MESSAGE
-            (error.property == "filterField" && error.constraint.name == "In") ->
-                FILTER_FIELD_VALIDATOR_MESSAGE
+            (fieldsList.contains(error.property) && error.constraint.name == "In") ->
+                "Invalid ${error.property.toCapital()}"
             else -> "${error.property}: ${error.constraint.name}"
         }
         throw BusinessValidationException(errorMessage)

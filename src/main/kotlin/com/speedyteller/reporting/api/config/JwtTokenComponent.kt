@@ -19,7 +19,7 @@ class JwtTokenComponent(
     @Value("\${jwt.secret}") val secret: String,
     @Value("\${jwt.issuer}") val issuer: String
 ) {
-    private var logger: Logger = LoggerFactory.getLogger(JwtTokenComponent::class.java)
+    private var logger: Logger = LoggerFactory.getLogger(this::class.java)
 
     fun generateAccessToken(user: User): String {
         return Jwts.builder()

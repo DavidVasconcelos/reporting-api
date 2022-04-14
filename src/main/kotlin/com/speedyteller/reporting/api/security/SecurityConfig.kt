@@ -29,7 +29,7 @@ class SecurityConfig(
     val jwtTokenFilter: JwtTokenFilter
 ) : WebSecurityConfigurerAdapter() {
 
-    private var logger: Logger = LoggerFactory.getLogger(SecurityConfig::class.java)
+    private var logger: Logger = LoggerFactory.getLogger(this::class.java)
 
     init {
         SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL)
