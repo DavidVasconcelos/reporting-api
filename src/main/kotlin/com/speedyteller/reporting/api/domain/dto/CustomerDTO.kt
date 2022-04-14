@@ -4,7 +4,6 @@ import com.speedyteller.reporting.api.domain.model.Customer
 import com.speedyteller.reporting.api.extension.toStringPattern
 
 data class CustomerDTO(
-
     var id: Long? = null,
     var createdAt: String? = null,
     var updatedAt: String? = null,

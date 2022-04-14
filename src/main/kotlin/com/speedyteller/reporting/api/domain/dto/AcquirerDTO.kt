@@ -3,7 +3,6 @@ package com.speedyteller.reporting.api.domain.dto
 import com.speedyteller.reporting.api.domain.model.Acquirer
 
 data class AcquirerDTO(
-
     var id: Long? = null,
     var name: String? = null,
     var code: String? = null,

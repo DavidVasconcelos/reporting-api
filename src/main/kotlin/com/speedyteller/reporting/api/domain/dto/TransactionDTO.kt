@@ -4,7 +4,6 @@ import com.speedyteller.reporting.api.domain.model.Transaction
 import com.speedyteller.reporting.api.extension.toStringPattern
 
 data class TransactionDTO(
-
     var id: Long? = null,
     var referenceNo: String? = null,
     var merchantId: Long? = null,

@@ -5,13 +5,9 @@ import com.fasterxml.jackson.annotation.JsonInclude
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-class GetReportRequestDTO {
-
-    var fromDate: String? = null
-    var toDate: String? = null
-    var merchant : Int? = null
-    var acquirer: Int? = null
-
-
-    constructor()
-}
+data class GetReportRequestDTO(
+    var fromDate: String? = null,
+    var toDate: String? = null,
+    var merchant : Int? = null,
+    var acquirer: Int? = null,
+)
