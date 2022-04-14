@@ -8,11 +8,9 @@ import javax.persistence.Table
 @Entity
 @Table(name = "merchant")
 data class MerchantEntity(
-
     @Id
     @Column(name = "id")
     val id: Long? = null,
-
     @Column(name = "name")
     val name: String? = null
 )

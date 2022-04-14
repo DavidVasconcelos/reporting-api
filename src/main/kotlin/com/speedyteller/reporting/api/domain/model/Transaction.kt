@@ -23,7 +23,7 @@ data class Transaction(
     var transactionId: String? = null,
     var customerId: Long? = null,
     var refundable: Boolean? = null,
-    var errodCode: String? = null,
+    var errorCode: String? = null,
     var agent: AgentInfo? = null
 
 ) {
@@ -46,6 +46,6 @@ data class Transaction(
         this.transactionId = entity.transactionId
         this.customerId = entity.customerId
         this.refundable = entity.refundable
-        this.errodCode = entity.errodCode
+        this.errorCode = entity.errorCode
     }
 }

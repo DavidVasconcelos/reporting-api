@@ -22,7 +22,7 @@ data class TransactionDTO(
     var transactionId: String? = null,
     var customerId: Long? = null,
     var refundable: Boolean? = null,
-    var errodCode: String? = null,
+    var errorCode: String? = null,
     var agent: AgentInfoDTO? = null
 ) {
     constructor(model: Transaction) : this() {
@@ -44,7 +44,7 @@ data class TransactionDTO(
         this.transactionId = model.transactionId
         this.customerId = model.customerId
         this.refundable = model.refundable
-        this.errodCode = model.errodCode
+        this.errorCode = model.errorCode
         this.agent = model.agent?.let { AgentInfoDTO(model = it) }
     }
 }
