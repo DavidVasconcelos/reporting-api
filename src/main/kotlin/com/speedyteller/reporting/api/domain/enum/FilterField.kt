@@ -12,4 +12,3 @@ enum class FilterField(val filterField: String) {
             values().firstOrNull { it.filterField == filterField.trim() }
     }
 }
-

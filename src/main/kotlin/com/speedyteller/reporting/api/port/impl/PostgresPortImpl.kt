@@ -292,7 +292,6 @@ class PostgresPortImpl @Autowired constructor(
             acquirerType = record[ACQUIRER_TYPE] as? String,
             refundable = record[REFUNDABLE] as? Boolean ?: false
         )
-
     }
 
     private fun getReportRecord(record: Array<Any>): GetReportResponse {
@@ -302,7 +301,6 @@ class PostgresPortImpl @Autowired constructor(
             total = record[TOTAL] as? BigDecimal,
             currency = record[CURRENCY] as? String
         )
-
     }
 
     companion object {

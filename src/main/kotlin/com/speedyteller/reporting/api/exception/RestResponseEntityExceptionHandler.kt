@@ -33,7 +33,6 @@ class RestResponseEntityExceptionHandler : ResponseEntityExceptionHandler() {
         return ResponseEntity(errorResponse, HttpStatus.BAD_REQUEST)
     }
 
-
     @ExceptionHandler(NotFoundException::class)
     fun handleNotFoundException(ex: NotFoundException):
             ResponseEntity<Any?> {

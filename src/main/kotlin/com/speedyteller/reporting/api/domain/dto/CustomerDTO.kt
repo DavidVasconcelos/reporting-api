@@ -41,7 +41,7 @@ data class CustomerDTO(
     var shippingCountry: String? = null,
     var shippingPhone: String? = null,
     var shippingFax: String? = null
-){
+) {
     constructor(model: Customer) : this() {
         this.id = model.id
         this.createdAt = model.createdAt?.toStringPattern()

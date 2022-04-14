@@ -6,7 +6,6 @@ import com.speedyteller.reporting.api.controller.TransactionController
 import com.speedyteller.reporting.api.domain.model.request.GetReportRequest
 import com.speedyteller.reporting.api.domain.model.request.GetTransactionListRequest
 import com.speedyteller.reporting.api.mock.MockTest
-import com.speedyteller.reporting.api.port.PostgresPort
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -38,7 +37,6 @@ class TransactionServiceTest {
         val savedTransaction = service.getTransaction(transactionId = "1-1444392550-1")
 
         Assertions.assertEquals(transaction, savedTransaction)
-
     }
 
     @Test
@@ -71,6 +69,5 @@ class TransactionServiceTest {
         )
 
         Assertions.assertEquals(reportResponse, savedReport)
-
     }
 }

@@ -4,7 +4,6 @@ import com.speedyteller.reporting.api.domain.model.response.GetCustomerResponse
 import com.speedyteller.reporting.api.domain.service.CustomerService
 import com.speedyteller.reporting.api.exception.NotFoundException
 import com.speedyteller.reporting.api.port.PostgresPort
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service

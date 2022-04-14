@@ -12,7 +12,7 @@ class PostgresContainerSetup : ApplicationContextInitializer<ConfigurableApplica
         postgres.setPortBindings(listOf("$postgresPort:$postgresPort"))
         postgres.withDatabaseName(DATABASE_NAME)
         postgres.withUsername(POSTGRES)
-        postgres.withPassword(POSTGRES);
+        postgres.withPassword(POSTGRES)
         postgres.withInitScript(SCRIPT_FILE)
         postgres.waitingFor(Wait.forListeningPort().withStartupTimeout(Duration.ofSeconds(60)))
         postgres.start()

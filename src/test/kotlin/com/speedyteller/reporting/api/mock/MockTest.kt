@@ -49,7 +49,6 @@ class MockTest {
             shippingCity = "Antalya"
             shippingPostcode = "07070"
             shippingCountry = "TR"
-
         }
     }
 
@@ -79,14 +78,12 @@ class MockTest {
             originalAmount = BigDecimal("100.00")
             originalCurrency = "EUR"
         }
-
     }
 
     fun getTransaction(): Transaction {
 
         val agentInfo =
             AgentInfo(id = 1, customerIp = "192.168.1.2", customerUserAgent = "Agent", merchantIp = "127.0.0.1")
-
 
         return Transaction().apply {
             referenceNo = "reference_5617ae66281ee"
@@ -111,7 +108,6 @@ class MockTest {
     }
 
     fun getTransactionListResponse(): List<GetTransactionListResponse> {
-
 
         val fxResponse = FXMerchant().apply {
 

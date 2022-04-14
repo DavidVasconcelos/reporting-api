@@ -4,7 +4,6 @@ import com.speedyteller.reporting.api.ReportingApiApplicationTests
 import com.speedyteller.reporting.api.config.PostgresContainerSetup
 import com.speedyteller.reporting.api.domain.model.response.GetCustomerResponse
 import com.speedyteller.reporting.api.mock.MockTest
-import com.speedyteller.reporting.api.port.PostgresPort
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -37,5 +36,4 @@ class CustomerServiceTest {
 
         assertEquals(getCustomerResponse, savedCustomer)
     }
-
 }

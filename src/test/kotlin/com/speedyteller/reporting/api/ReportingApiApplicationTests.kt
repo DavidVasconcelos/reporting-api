@@ -9,4 +9,3 @@ class ReportingApiApplicationTests
 fun main() {
     runApplication<ReportingApiApplicationTests>()
 }
-

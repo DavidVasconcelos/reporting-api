@@ -12,6 +12,6 @@ enum class ErrorCode(val errorCode: String) {
     TRANSACTION_NOT_PERMITTED_TO_CARDHOLDER("Transaction not permitted to cardholder");
 
     companion object {
-        fun getErrorCode(errorCode: String) =  values().firstOrNull { it.errorCode == errorCode.trim() }
+        fun getErrorCode(errorCode: String) = values().firstOrNull { it.errorCode == errorCode.trim() }
     }
 }

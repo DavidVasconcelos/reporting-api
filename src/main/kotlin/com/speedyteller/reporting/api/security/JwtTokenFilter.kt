@@ -4,7 +4,6 @@ import com.speedyteller.reporting.api.config.JwtTokenComponent
 import org.springframework.http.HttpHeaders
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource
 import org.springframework.stereotype.Component
@@ -25,18 +24,15 @@ class JwtTokenFilter(
         filterChain: FilterChain
     ) {
         val header = request.getHeader(HttpHeaders.AUTHORIZATION)
-        if (header.isNullOrEmpty()) {
+        if (header.isNullOrEmpty() || !jwtTokenComponent.validate(header)) {
             filterChain.doFilter(request, response)
-            return
-        }
-        if (!jwtTokenComponent.validate(header)) {
+        } else {
+            val userDetails = userDetailsService.loadUserByUsername(jwtTokenComponent.getUsername(header))
+            val authentication =
+                UsernamePasswordAuthenticationToken(userDetails, null, userDetails.authorities)
+            authentication.details = WebAuthenticationDetailsSource().buildDetails(request)
+            SecurityContextHolder.getContext().authentication = authentication
             filterChain.doFilter(request, response)
-            return
         }
-        val userDetails: UserDetails = userDetailsService.loadUserByUsername(jwtTokenComponent.getUsername(header))
-        val authentication = UsernamePasswordAuthenticationToken(userDetails, null, userDetails.authorities)
-        authentication.details = WebAuthenticationDetailsSource().buildDetails(request)
-        SecurityContextHolder.getContext().authentication = authentication
-        filterChain.doFilter(request, response)
     }
 }

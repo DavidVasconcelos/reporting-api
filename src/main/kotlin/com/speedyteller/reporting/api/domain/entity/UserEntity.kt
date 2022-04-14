@@ -7,7 +7,7 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "merchant_user")
-data class UserEntity (
+data class UserEntity(
 
     @Id
     @Column(name = "id")

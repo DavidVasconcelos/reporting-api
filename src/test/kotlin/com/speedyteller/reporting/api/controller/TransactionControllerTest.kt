@@ -79,7 +79,6 @@ class TransactionControllerTest {
             content { contentType(MediaType.APPLICATION_JSON) }
             content { json(dtoJSON) }
         }
-
     }
 
     @Test
@@ -98,7 +97,6 @@ class TransactionControllerTest {
         }.andExpect {
             status { isUnauthorized() }
         }
-
     }
 
     @Test
@@ -131,7 +129,6 @@ class TransactionControllerTest {
             content { contentType(MediaType.APPLICATION_JSON) }
             content { json(dtoJSON) }
         }
-
     }
 
     @Test
@@ -161,7 +158,6 @@ class TransactionControllerTest {
         }.andExpect {
             status { isUnauthorized() }
         }
-
     }
 
     @Test

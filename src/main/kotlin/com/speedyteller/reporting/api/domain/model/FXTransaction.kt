@@ -14,4 +14,3 @@ data class FXTransaction(
         this.originalCurrency = entity.originalCurrency
     }
 }
-

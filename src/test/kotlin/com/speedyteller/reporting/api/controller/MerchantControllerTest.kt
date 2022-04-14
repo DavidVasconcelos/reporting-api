@@ -1,19 +1,9 @@
 package com.speedyteller.reporting.api.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.ninjasquad.springmockk.MockkBean
 import com.speedyteller.reporting.api.ReportingApiApplicationTests
-import com.speedyteller.reporting.api.config.JwtTokenComponent
 import com.speedyteller.reporting.api.config.PostgresContainerSetup
-import com.speedyteller.reporting.api.domain.dto.CustomerDTO
 import com.speedyteller.reporting.api.domain.dto.request.LoginRequestDTO
-import com.speedyteller.reporting.api.domain.dto.response.GetCustomerResponseDTO
-import com.speedyteller.reporting.api.domain.dto.response.LoginResponseDTO
-import com.speedyteller.reporting.api.domain.model.response.GetCustomerResponse
-import com.speedyteller.reporting.api.domain.service.CustomerService
-import com.speedyteller.reporting.api.mock.MockTest
-import io.mockk.every
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.extension.ExtendWith
@@ -21,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
-import org.springframework.security.core.userdetails.User
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.MockMvc
