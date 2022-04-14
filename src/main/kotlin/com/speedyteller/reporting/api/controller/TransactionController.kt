@@ -27,9 +27,11 @@ import javax.validation.constraints.Min
 @RestController
 @RequestMapping("/transaction")
 @Validated
-class TransactionController(val transactionService: TransactionService,
+class TransactionController(
+    val transactionService: TransactionService,
                             val reportService: ReportService,
-                            val paginationComponent: PaginationComponent) {
+                            val paginationComponent: PaginationComponent
+) {
     @PostMapping
     fun getTransaction(@Valid @RequestBody transactionId: String): ResponseEntity<GetTransactionResponseDTO> {
         val transactionResponse = transactionService.getTransaction(transactionId = transactionId)

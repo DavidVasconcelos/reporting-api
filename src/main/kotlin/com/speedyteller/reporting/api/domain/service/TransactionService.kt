@@ -4,22 +4,24 @@ import com.speedyteller.reporting.api.domain.model.Acquirer
 import com.speedyteller.reporting.api.domain.model.Customer
 import com.speedyteller.reporting.api.domain.model.FXTransaction
 import com.speedyteller.reporting.api.domain.model.Merchant
-import com.speedyteller.reporting.api.domain.model.request.GetReportRequest
 import com.speedyteller.reporting.api.domain.model.request.GetTransactionListRequest
 import com.speedyteller.reporting.api.domain.model.response.FXMerchant
 import com.speedyteller.reporting.api.domain.model.response.FXResponse
-import com.speedyteller.reporting.api.domain.model.response.GetReportResponse
 import com.speedyteller.reporting.api.domain.model.response.GetTransactionAcquirerResponse
 import com.speedyteller.reporting.api.domain.model.response.GetTransactionListResponse
 import com.speedyteller.reporting.api.domain.model.response.GetTransactionMerchantResponse
 import com.speedyteller.reporting.api.domain.model.response.GetTransactionMerchantTransactionResponse
 import com.speedyteller.reporting.api.domain.model.response.GetTransactionResponse
+import com.speedyteller.reporting.api.domain.usecase.GetTransactions
 import com.speedyteller.reporting.api.port.PostgresPort
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 
 @Service
-class TransactionService(val postgresPort: PostgresPort) {
+class TransactionService(
+    val postgresPort: PostgresPort,
+    val getTransactions: GetTransactions
+) {
 
     fun getTransaction(transactionId: String): GetTransactionResponse {
         val transaction = postgresPort.findTransactionByTransactionId(transactionId = transactionId)
@@ -42,7 +44,7 @@ class TransactionService(val postgresPort: PostgresPort) {
         request: GetTransactionListRequest,
         page: Pageable
     ): List<GetTransactionListResponse> =
-        postgresPort.findTransactionList(request = request, page = page).map { GetTransactionListResponse(model = it) }
+        getTransactions.handle(request = request, page = page).map { GetTransactionListResponse(model = it) }
 
     private fun getFxTransaction(fxTransactionId: Long) =
         postgresPort.findFXTransactionById(id = fxTransactionId)

@@ -79,5 +79,5 @@ class GetReport(private val transaction: Transaction) {
                 currency = record[CURRENCY] as? String
             )
         }
-    }    
+    }
 }
