@@ -6,6 +6,7 @@ import com.speedyteller.reporting.api.ReportingApiApplicationTests
 import com.speedyteller.reporting.api.config.JwtTokenComponent
 import com.speedyteller.reporting.api.config.PaginationComponent
 import com.speedyteller.reporting.api.config.PostgresContainerSetup
+import com.speedyteller.reporting.api.domain.dto.request.GetTransactionRequestDTO
 import com.speedyteller.reporting.api.domain.dto.response.GetReportDTO
 import com.speedyteller.reporting.api.domain.dto.response.GetReportResponseDTO
 import com.speedyteller.reporting.api.domain.dto.response.GetTransactionListResponseDTO
@@ -69,6 +70,9 @@ class TransactionControllerTest {
 
         val response = mockTest.getTransactionResponse()
 
+        val requestDTOJSON =
+            mapper.writeValueAsString(GetTransactionRequestDTO(transactionId = "1-1444392550-1")) as String
+
         val dtoJSON = mapper.writeValueAsString(GetTransactionResponseDTO(model = response)) as String
 
         every { service.getTransaction(any()) } returns response
@@ -76,7 +80,7 @@ class TransactionControllerTest {
         mockMvc.post("/transaction") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
-            content = dtoJSON
+            content = requestDTOJSON
             header("Authorization", values = arrayOf(token!!))
         }.andExpect {
             status { isOk() }

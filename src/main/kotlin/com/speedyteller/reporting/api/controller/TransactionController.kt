@@ -30,11 +30,12 @@ import javax.validation.constraints.Min
 @Validated
 class TransactionController(
     val transactionService: TransactionService,
-                            val reportService: ReportService,
-                            val paginationComponent: PaginationComponent
+    val reportService: ReportService,
+    val paginationComponent: PaginationComponent
 ) {
     @PostMapping
-    fun getTransaction(@Valid @RequestBody request: GetTransactionRequestDTO): ResponseEntity<GetTransactionResponseDTO> {
+    fun getTransaction(@Valid @RequestBody request: GetTransactionRequestDTO):
+            ResponseEntity<GetTransactionResponseDTO> {
         val transactionResponse = transactionService.getTransaction(transactionId = request.transactionId)
         return ResponseEntity.ok(GetTransactionResponseDTO(model = transactionResponse))
     }
@@ -58,17 +59,20 @@ class TransactionController(
         )
         return ResponseEntity.ok(pageDTO)
     }
+
     @PostMapping("/report")
     fun getReport(@RequestBody dto: GetReportRequestDTO): ResponseEntity<GetReportResponseDTO> {
         val listOfResponse = reportService.getReport(request = GetReportRequest(dto = dto))
         val responseDTO = GetReportResponseDTO(response = listOfResponse.map { GetReportDTO(model = it) })
         return ResponseEntity.ok(responseDTO)
     }
+
     private fun getUri(): String {
         return ServletUriComponentsBuilder
             .fromCurrentRequest()
             .toUriString()
     }
+
     companion object {
         const val DEFAULT_PAGE_SIZE = 50
     }
