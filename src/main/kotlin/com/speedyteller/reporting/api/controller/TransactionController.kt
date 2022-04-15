@@ -4,6 +4,7 @@ import com.speedyteller.reporting.api.config.PaginationComponent
 import com.speedyteller.reporting.api.domain.dto.page.CustomPageDTO
 import com.speedyteller.reporting.api.domain.dto.request.GetReportRequestDTO
 import com.speedyteller.reporting.api.domain.dto.request.GetTransactionListRequestDTO
+import com.speedyteller.reporting.api.domain.dto.request.GetTransactionRequestDTO
 import com.speedyteller.reporting.api.domain.dto.response.GetReportDTO
 import com.speedyteller.reporting.api.domain.dto.response.GetReportResponseDTO
 import com.speedyteller.reporting.api.domain.dto.response.GetTransactionListResponseDTO
@@ -33,8 +34,8 @@ class TransactionController(
                             val paginationComponent: PaginationComponent
 ) {
     @PostMapping
-    fun getTransaction(@Valid @RequestBody transactionId: String): ResponseEntity<GetTransactionResponseDTO> {
-        val transactionResponse = transactionService.getTransaction(transactionId = transactionId)
+    fun getTransaction(@Valid @RequestBody request: GetTransactionRequestDTO): ResponseEntity<GetTransactionResponseDTO> {
+        val transactionResponse = transactionService.getTransaction(transactionId = request.transactionId)
         return ResponseEntity.ok(GetTransactionResponseDTO(model = transactionResponse))
     }
 

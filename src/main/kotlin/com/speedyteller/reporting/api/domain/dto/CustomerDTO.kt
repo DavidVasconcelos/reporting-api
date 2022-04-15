@@ -1,12 +1,16 @@
 package com.speedyteller.reporting.api.domain.dto
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.speedyteller.reporting.api.domain.model.Customer
 import com.speedyteller.reporting.api.extension.toStringPattern
 
 data class CustomerDTO(
     var id: Long? = null,
+    @JsonProperty("created_at")
     var createdAt: String? = null,
+    @JsonProperty("updated_at")
     var updatedAt: String? = null,
+    @JsonProperty("deleted_at")
     var deletedAt: String? = null,
     var number: String? = null,
     var expiryMonth: String? = null,

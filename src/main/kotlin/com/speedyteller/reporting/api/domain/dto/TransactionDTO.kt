@@ -1,5 +1,6 @@
 package com.speedyteller.reporting.api.domain.dto
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.speedyteller.reporting.api.domain.model.Transaction
 import com.speedyteller.reporting.api.extension.toStringPattern
 
@@ -14,7 +15,9 @@ data class TransactionDTO(
     var agentInfoId: Long? = null,
     var operation: String? = null,
     var fxTransactionId: Long? = null,
+    @JsonProperty("updated_at")
     var updatedAt: String? = null,
+    @JsonProperty("created_at")
     var createdAt: String? = null,
     var acquirerTransactionId: Long? = null,
     var code: String? = null,

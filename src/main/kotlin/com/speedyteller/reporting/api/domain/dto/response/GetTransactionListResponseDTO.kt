@@ -1,5 +1,6 @@
 package com.speedyteller.reporting.api.domain.dto.response
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.speedyteller.reporting.api.domain.dto.AcquirerDTO
 import com.speedyteller.reporting.api.domain.model.response.GetTransactionListCustmerResponse
 import com.speedyteller.reporting.api.domain.model.response.GetTransactionListIPNResponse
@@ -67,6 +68,7 @@ data class GetTransactionListTransactionResponseDTO(
     var status: String? = null,
     var operation: String? = null,
     var message: String? = null,
+    @JsonProperty("created_at")
     var createdAt: String? = null,
     var transactionId: String? = null
 ) {
