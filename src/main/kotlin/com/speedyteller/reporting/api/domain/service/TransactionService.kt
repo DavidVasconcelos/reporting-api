@@ -12,25 +12,33 @@ import com.speedyteller.reporting.api.domain.model.response.GetTransactionListRe
 import com.speedyteller.reporting.api.domain.model.response.GetTransactionMerchantResponse
 import com.speedyteller.reporting.api.domain.model.response.GetTransactionMerchantTransactionResponse
 import com.speedyteller.reporting.api.domain.model.response.GetTransactionResponse
+import com.speedyteller.reporting.api.domain.usecase.FindAcquirerById
+import com.speedyteller.reporting.api.domain.usecase.FindCustomerById
+import com.speedyteller.reporting.api.domain.usecase.FindFXTransactionById
+import com.speedyteller.reporting.api.domain.usecase.FindMerchantById
+import com.speedyteller.reporting.api.domain.usecase.FindTransactionById
 import com.speedyteller.reporting.api.domain.usecase.GetTransactions
-import com.speedyteller.reporting.api.port.PostgresPort
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 
 @Service
 class TransactionService(
-    val postgresPort: PostgresPort,
+    val findTransactionById: FindTransactionById,
+    val findFXTransactionById: FindFXTransactionById,
+    val findCustomerById: FindCustomerById,
+    val findAcquirerById: FindAcquirerById,
+    val findMerchantById: FindMerchantById,
     val getTransactions: GetTransactions
 ) {
 
+    // refazer
     fun getTransaction(transactionId: String): GetTransactionResponse {
-        val transaction = postgresPort.findTransactionByTransactionId(transactionId = transactionId)
+        val transaction = findTransactionById.handle(transactionId = transactionId)
         val fxTransaction =
             transaction.fxTransactionId?.let { getFxTransaction(fxTransactionId = it) } ?: FXTransaction()
         val customer = transaction.customerId?.let { getCustomer(customerId = it) } ?: Customer()
-        val acquirer = transaction.acquirerTransactionId?.let { getAcquirer(acquirerTransactionId = it) } ?: Acquirer()
+        val acquirer = transaction.acquirerTransactionId?.let { getAcquirer(acquirerId = it) } ?: Acquirer()
         val merchant = transaction.merchantId?.let { getMerchant(merchantId = it) } ?: Merchant()
-        transaction.agent = transaction.agentInfoId?.let { getAgent(agentInfoId = it) }
         return GetTransactionResponse(
             fx = FXResponse(merchant = FXMerchant(fxTransaction = fxTransaction)),
             customerInfo = customer,
@@ -47,17 +55,14 @@ class TransactionService(
         getTransactions.handle(request = request, page = page).map { GetTransactionListResponse(model = it) }
 
     private fun getFxTransaction(fxTransactionId: Long) =
-        postgresPort.findFXTransactionById(id = fxTransactionId)
+        findFXTransactionById.handle(fxTransactionId = fxTransactionId)
 
     private fun getCustomer(customerId: Long) =
-        postgresPort.findCustomerById(id = customerId)
+        findCustomerById.handle(customerId = customerId)
 
-    private fun getAcquirer(acquirerTransactionId: Long) =
-        postgresPort.findAcquirerById(id = acquirerTransactionId)
+    private fun getAcquirer(acquirerId: Long) =
+        findAcquirerById.handle(acquirerId = acquirerId)
 
     private fun getMerchant(merchantId: Long) =
-        postgresPort.findMerchantById(id = merchantId)
-
-    private fun getAgent(agentInfoId: Long) =
-        postgresPort.findAgentInfoById(id = agentInfoId)
+        findMerchantById.handle(merchantId = merchantId)
 }

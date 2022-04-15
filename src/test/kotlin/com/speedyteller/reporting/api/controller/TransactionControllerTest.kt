@@ -10,6 +10,7 @@ import com.speedyteller.reporting.api.domain.dto.response.GetReportDTO
 import com.speedyteller.reporting.api.domain.dto.response.GetReportResponseDTO
 import com.speedyteller.reporting.api.domain.dto.response.GetTransactionListResponseDTO
 import com.speedyteller.reporting.api.domain.dto.response.GetTransactionResponseDTO
+import com.speedyteller.reporting.api.domain.service.ReportService
 import com.speedyteller.reporting.api.domain.service.TransactionService
 import com.speedyteller.reporting.api.mock.MockTest
 import io.mockk.every
@@ -42,6 +43,9 @@ class TransactionControllerTest {
 
     @MockkBean
     private lateinit var service: TransactionService
+
+    @MockkBean
+    private lateinit var reportService: ReportService
 
     @Autowired
     private lateinit var mockTest: MockTest
@@ -169,7 +173,7 @@ class TransactionControllerTest {
 
         val dtoJSON = mapper.writeValueAsString(responseDTO) as String
 
-        every { service.getReport(any()) } returns response
+        every { reportService.getReport(any()) } returns response
 
         mockMvc.post("/transaction/report") {
             contentType = MediaType.APPLICATION_JSON
@@ -192,7 +196,7 @@ class TransactionControllerTest {
 
         val dtoJSON = mapper.writeValueAsString(responseDTO) as String
 
-        every { service.getReport(any()) } returns response
+        every { reportService.getReport(any()) } returns response
 
         mockMvc.post("/transaction/report") {
             contentType = MediaType.APPLICATION_JSON

@@ -27,6 +27,9 @@ class TransactionServiceTest {
     private lateinit var service: TransactionService
 
     @Autowired
+    private lateinit var reportService: ReportService
+
+    @Autowired
     private lateinit var mockTest: MockTest
 
     @Test
@@ -59,7 +62,7 @@ class TransactionServiceTest {
 
         val reportResponse = mockTest.getReportResponse()
 
-        val savedReport = service.getReport(
+        val savedReport = reportService.getReport(
             GetReportRequest(
                 fromDate = LocalDate.of(2015, 9, 29),
                 toDate = LocalDate.of(2015, 10, 9),
