@@ -41,7 +41,7 @@ class GetTransactions(private val transaction: Transaction) {
         fun get(request: GetTransactionListRequest, page: Pageable): List<GetTransactionList> {
             val parameters = mutableMapOf<String, Any>()
             val query = StringBuilder().append(BusinessConstants.Queries.QUERY_GET_TRANSACTION_LIST)
-            this.setParametersGetTransactionList(request = request, query = query, parameters = parameters)
+            this.setParameters(request = request, query = query, parameters = parameters)
             val resultList =
                 transactionRepository.executeNativeQuery(query = query.toString(), page = page, parameters = parameters)
             val transactionList = mutableListOf<GetTransactionList>()
@@ -49,7 +49,7 @@ class GetTransactions(private val transaction: Transaction) {
             return transactionList
         }
 
-        private fun setParametersGetTransactionList(
+        private fun setParameters(
             request: GetTransactionListRequest,
             query: StringBuilder,
             parameters: MutableMap<String, Any>

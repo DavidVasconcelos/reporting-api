@@ -39,7 +39,7 @@ class GetReport(private val transaction: Transaction) {
         fun get(request: GetReportRequest): List<GetReportResponse> {
             val parameters = mutableMapOf<String, Any>()
             val query = StringBuilder().append(BusinessConstants.Queries.QUERY_GET_REPORT)
-            this.setParametersGetReport(request = request, query = query, parameters = parameters)
+            this.setParameters(request = request, query = query, parameters = parameters)
             query.append(" GROUP BY ft.original_currency")
             val resultList =
                 transactionRepository.executeNativeQuery(query = query.toString(), parameters = parameters)
@@ -48,7 +48,7 @@ class GetReport(private val transaction: Transaction) {
             return report
         }
 
-        private fun setParametersGetReport(
+        private fun setParameters(
             request: GetReportRequest,
             query: StringBuilder,
             parameters: MutableMap<String, Any>
