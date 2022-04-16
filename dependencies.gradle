@@ -2,7 +2,6 @@ def ninjaSquadVersion        = '3.1.1'
 def jacksonVersion           = '2.13.2'
 def valiktorVersion          = '0.12.0'
 def openApiVersion           = "1.6.7"
-def postgresVersion          = '42.3.3'
 def testContainerVersion     = '1.17.1'
 
 dependencies {
@@ -24,7 +23,8 @@ dependencies {
     }
 
     //Postgres
-    implementation "org.postgresql:postgresql:${postgresVersion}"
+    runtimeOnly "org.postgresql:postgresql"
+    implementation("org.flywaydb:flyway-core")
 
     //Kotlin
     implementation "org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}"

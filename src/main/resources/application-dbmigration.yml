@@ -1,0 +1,10 @@
+spring:
+  main:
+    banner-mode: 'OFF'
+    # Turn off web application, we  only want to migrate
+    web-application-type: NONE
+  flyway:
+    enabled: true
+jwt:
+  secret: ~
+  issuer: ~

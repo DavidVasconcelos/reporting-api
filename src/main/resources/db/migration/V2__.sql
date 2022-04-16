@@ -1,5 +1,5 @@
-CREATE SCHEMA speedyteller;
-create table if not exists speedyteller.acquirer
+CREATE SCHEMA IF NOT EXISTS speedyteller;
+CREATE TABLE IF NOT EXISTS speedyteller.acquirer
 (
     id bigint not null
     constraint acquirer_pkey
@@ -9,7 +9,7 @@ create table if not exists speedyteller.acquirer
     type varchar(255)
     );
 
-create table if not exists speedyteller.agent_info
+CREATE TABLE IF NOT EXISTS speedyteller.agent_info
 (
     id bigint not null
     constraint agent_info_pkey
@@ -19,7 +19,7 @@ create table if not exists speedyteller.agent_info
     merchant_ip varchar(255)
     );
 
-create table if not exists speedyteller.customer
+CREATE TABLE IF NOT EXISTS speedyteller.customer
 (
     id bigint not null
     constraint customer_pkey
@@ -62,8 +62,7 @@ create table if not exists speedyteller.customer
     updated_at timestamp
     );
 
-
-create table if not exists speedyteller.fx_transaction
+CREATE TABLE IF NOT EXISTS speedyteller.fx_transaction
 (
     id bigint not null
     constraint fx_transaction_pkey
@@ -72,7 +71,7 @@ create table if not exists speedyteller.fx_transaction
     original_currency varchar(255)
     );
 
-create table if not exists speedyteller.instant_payment_notification
+CREATE TABLE IF NOT EXISTS speedyteller.instant_payment_notification
 (
     id bigint not null
     constraint instant_payment_notification_pkey
@@ -89,7 +88,7 @@ create table if not exists speedyteller.merchant
     name varchar(255)
     );
 
-create table if not exists speedyteller.transaction
+CREATE TABLE IF NOT EXISTS speedyteller.transaction
 (
     id bigint not null
     constraint transaction_pkey
@@ -114,7 +113,7 @@ create table if not exists speedyteller.transaction
     error_code varchar(255)
     );
 
-create table if not exists speedyteller.merchant_user
+CREATE TABLE IF NOT EXISTS speedyteller.merchant_user
 (
     id bigint not null
     constraint merchant_user_pkey
@@ -124,6 +123,7 @@ create table if not exists speedyteller.merchant_user
     );
 
 INSERT INTO speedyteller.merchant_user (id, email, password) VALUES (1, 'test', '$2a$10$uxvB/iLjxGdimjl.bPQFve2trOioBCXYTV2XDmNcaQ09dYxUvBdym');
+INSERT INTO speedyteller.merchant_user (id, email, password) VALUES (2,'merchant@test.com','$2a$10$LIKPWzmhA3UFMa6nsNhZ9.HBoH/VVaYvEBU/k7VvZNM.fn5NCWuHy');
 
 INSERT INTO speedyteller.transaction (id, acquirer_transaction_id, agent_info_id, chain_id, channel, code, created_at, custom_data, customer_id, fx_transaction_td, merchant_id, message, operation, reference_no, status, transaction_id, updated_at, refundable, error_code) VALUES (1, 1, 1, '5617ae666b4cb', 'API', '00', '2015-10-09 12:09:10.000000', null, 1, 1, 1, 'Waiting', 'DIRECT', 'reference_5617ae66281ee', 'WAITING', '1-1444392550-1', '2015-10-09 12:09:12.000000', true, null);
 INSERT INTO speedyteller.transaction (id, acquirer_transaction_id, agent_info_id, chain_id, channel, code, created_at, custom_data, customer_id, fx_transaction_td, merchant_id, message, operation, reference_no, status, transaction_id, updated_at, refundable, error_code) VALUES (2, 12, 1, '5617ae666b4ca', 'API', '00', '2015-09-29 08:24:42.000000', null, 2, 2, 3, 'Auth3D is APPROVED', '3DAUTH', 'api_560a4a9314208', 'APPROVED', '2827-1443515082-3', null, true, null);

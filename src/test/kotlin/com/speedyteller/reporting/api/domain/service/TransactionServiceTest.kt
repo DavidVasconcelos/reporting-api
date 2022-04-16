@@ -1,26 +1,17 @@
 package com.speedyteller.reporting.api.domain.service
 
-import com.speedyteller.reporting.api.ReportingApiApplicationTests
-import com.speedyteller.reporting.api.config.PostgresContainerSetup
 import com.speedyteller.reporting.api.controller.TransactionController
 import com.speedyteller.reporting.api.domain.model.request.GetReportRequest
 import com.speedyteller.reporting.api.domain.model.request.GetTransactionListRequest
 import com.speedyteller.reporting.api.mock.MockTest
+import com.speedyteller.reporting.api.support.annotations.IntegrationTest
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
-import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.domain.PageRequest
-import org.springframework.test.context.ContextConfiguration
-import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.time.LocalDate
 
-@SpringBootTest(classes = [ReportingApiApplicationTests::class])
-@ContextConfiguration(initializers = [PostgresContainerSetup::class])
-@ExtendWith(SpringExtension::class)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@IntegrationTest
 class TransactionServiceTest {
 
     @Autowired

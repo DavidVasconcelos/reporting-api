@@ -2,10 +2,8 @@ package com.speedyteller.reporting.api.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
-import com.speedyteller.reporting.api.ReportingApiApplicationTests
 import com.speedyteller.reporting.api.config.JwtTokenComponent
 import com.speedyteller.reporting.api.config.PaginationComponent
-import com.speedyteller.reporting.api.config.PostgresContainerSetup
 import com.speedyteller.reporting.api.domain.dto.request.GetTransactionRequestDTO
 import com.speedyteller.reporting.api.domain.dto.response.GetReportDTO
 import com.speedyteller.reporting.api.domain.dto.response.GetReportResponseDTO
@@ -14,25 +12,18 @@ import com.speedyteller.reporting.api.domain.dto.response.GetTransactionResponse
 import com.speedyteller.reporting.api.domain.service.ReportService
 import com.speedyteller.reporting.api.domain.service.TransactionService
 import com.speedyteller.reporting.api.mock.MockTest
+import com.speedyteller.reporting.api.support.annotations.IntegrationTest
 import io.mockk.every
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
-import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
-import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.security.core.userdetails.User
-import org.springframework.test.context.ContextConfiguration
-import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.post
 
-@SpringBootTest(classes = [ReportingApiApplicationTests::class])
-@ContextConfiguration(initializers = [PostgresContainerSetup::class])
-@ExtendWith(SpringExtension::class)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@IntegrationTest
 @AutoConfigureMockMvc
 class TransactionControllerTest {
 

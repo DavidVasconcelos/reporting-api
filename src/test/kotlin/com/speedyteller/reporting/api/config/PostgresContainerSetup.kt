@@ -9,11 +9,10 @@ import java.time.Duration
 class PostgresContainerSetup : ApplicationContextInitializer<ConfigurableApplicationContext> {
 
     override fun initialize(context: ConfigurableApplicationContext) {
-        postgres.setPortBindings(listOf("$postgresPort:$postgresPort"))
+        postgres.portBindings = listOf(POSTGRES_PORT)
         postgres.withDatabaseName(DATABASE_NAME)
         postgres.withUsername(POSTGRES)
         postgres.withPassword(POSTGRES)
-        postgres.withInitScript(SCRIPT_FILE)
         postgres.waitingFor(Wait.forListeningPort().withStartupTimeout(Duration.ofSeconds(60)))
         postgres.start()
 
@@ -23,13 +22,12 @@ class PostgresContainerSetup : ApplicationContextInitializer<ConfigurableApplica
     }
 
     companion object {
-        private const val postgresPort = 5432
-        private const val SCRIPT_FILE = "001_create_database.sql"
+        private const val POSTGRES_PORT = "5433:5432"
         private const val IMAGE_VERSION = "postgres:11"
         private const val POSTGRES = "postgres"
         private const val DATABASE_NAME = "report"
         private const val DB_URL =
-            "jdbc:postgresql://localhost:5432/report?currentSchema=speedyteller&loggerLevel=OFF"
+            "jdbc:postgresql://localhost:5433/report?currentSchema=speedyteller&loggerLevel=OFF"
 
         val postgres: PostgreSQLContainer<*> = PostgreSQLContainer<Nothing>(IMAGE_VERSION)
     }

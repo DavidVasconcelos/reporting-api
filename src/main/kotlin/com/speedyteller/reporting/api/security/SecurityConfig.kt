@@ -3,6 +3,7 @@ package com.speedyteller.reporting.api.security
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Profile
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
@@ -24,6 +25,7 @@ import javax.servlet.http.HttpServletResponse
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
+@Profile("!dbmigration")
 class SecurityConfig(
     val userDetailsService: UserDetailsService,
     val jwtTokenFilter: JwtTokenFilter
