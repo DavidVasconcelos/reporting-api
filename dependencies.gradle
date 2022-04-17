@@ -7,8 +7,8 @@ def testContainerVersion     = '1.17.1'
 dependencies {
 
     //Spring boot
-    implementation("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
-    implementation("org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}")
+    implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}"
     implementation "org.springframework.boot:spring-boot-starter-validation:${springBootVersion}"
     implementation "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
     implementation "org.springframework.boot:spring-boot-starter-security:${springBootVersion}"
@@ -24,7 +24,7 @@ dependencies {
 
     //Postgres
     runtimeOnly "org.postgresql:postgresql"
-    implementation("org.flywaydb:flyway-core")
+    implementation "org.flywaydb:flyway-core"
 
     //Kotlin
     implementation "org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}"
@@ -45,7 +45,7 @@ dependencies {
     //Mockk
     testImplementation "com.ninja-squad:springmockk:${ninjaSquadVersion}"
 
-    //commons
+    //Commons
     implementation "com.google.code.gson:gson:${gsonVersion}"
 
     //Testcontainer

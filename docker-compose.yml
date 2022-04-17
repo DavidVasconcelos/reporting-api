@@ -1,0 +1,32 @@
+version: '3.7'
+
+services:
+  reporting_db:
+    container_name: reporting_db
+    image: postgres:11
+    volumes:
+      - ./docker/postgres-multiple-databases.sh:/docker-entrypoint-initdb.d/postgres-multiple-databases.sh
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_MULTIPLE_DATABASES=speedyteller,report
+
+  reporting_api:
+    build:
+      context: .
+    image: davidvasconcelos/reporting_api
+    ports:
+      - "8080:8080"
+    init: true
+    depends_on:
+      - reporting_db
+    environment:
+      - "JDBC_DATABASE_URL=jdbc:postgresql://reporting_db:5432/speedyteller?user=postgres&password=postgres&currentSchema=speedyteller"
+      - "JWT_SECRET=teste"
+      - "JWT_ISSUER=speedyteller"
+
+networks:
+  speedyteller:
+    external: true
