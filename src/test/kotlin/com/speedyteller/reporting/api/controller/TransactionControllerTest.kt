@@ -57,14 +57,11 @@ class TransactionControllerTest {
     }
 
     @Test
-    fun `Get Transaction`() {
-
+    fun `Successful test get transaction`() {
         val response = mockTest.getTransactionResponse()
-
         val requestDTOJSON =
             mapper.writeValueAsString(GetTransactionRequestDTO(transactionId = "1-1444392550-1")) as String
-
-        val dtoJSON = mapper.writeValueAsString(GetTransactionResponseDTO(model = response)) as String
+        val responseDTOJSON = mapper.writeValueAsString(GetTransactionResponseDTO(model = response)) as String
 
         every { service.getTransaction(any()) } returns response
 
@@ -76,15 +73,13 @@ class TransactionControllerTest {
         }.andExpect {
             status { isOk() }
             content { contentType(MediaType.APPLICATION_JSON) }
-            content { json(dtoJSON) }
+            content { json(responseDTOJSON) }
         }
     }
 
     @Test
-    fun `Get Transaction Unauthorized`() {
-
+    fun `Returns unauthorized when token is not present in the request`() {
         val response = mockTest.getTransactionResponse()
-
         val dtoJSON = mapper.writeValueAsString(GetTransactionResponseDTO(model = response)) as String
 
         every { service.getTransaction(any()) } returns response
@@ -99,21 +94,16 @@ class TransactionControllerTest {
     }
 
     @Test
-    fun `Get Transaction List`() {
-
+    fun `Successful test get transaction list`() {
         val page = 1
-
         val response = mockTest.getTransactionListResponse()
-
         val listResponseDTO = response.map { GetTransactionListResponseDTO(model = it) }
-
         val pageDTO = paginationComponent.getPagination(
             pageSize = TransactionController.DEFAULT_PAGE_SIZE,
             page = page,
             uri = "http://localhost/transaction/list/?page=$page",
             data = listResponseDTO
         )
-
         val dtoJSON = mapper.writeValueAsString(pageDTO) as String
 
         every { service.getTransactionList(any(), any()) } returns response
@@ -131,21 +121,16 @@ class TransactionControllerTest {
     }
 
     @Test
-    fun `Get Transaction List Unauthorized`() {
-
+    fun `Returns unauthorized when token is not present in the request to get the list`() {
         val page = 1
-
         val response = mockTest.getTransactionListResponse()
-
         val listResponseDTO = response.map { GetTransactionListResponseDTO(model = it) }
-
         val pageDTO = paginationComponent.getPagination(
             pageSize = TransactionController.DEFAULT_PAGE_SIZE,
             page = page,
             uri = "http://localhost/transaction/list/?page=$page",
             data = listResponseDTO
         )
-
         val dtoJSON = mapper.writeValueAsString(pageDTO) as String
 
         every { service.getTransactionList(any(), any()) } returns response
@@ -160,12 +145,9 @@ class TransactionControllerTest {
     }
 
     @Test
-    fun `Get Report`() {
-
+    fun `Successful test get report`() {
         val response = mockTest.getReportResponse()
-
         val responseDTO = GetReportResponseDTO(response = response.map { GetReportDTO(model = it) })
-
         val dtoJSON = mapper.writeValueAsString(responseDTO) as String
 
         every { reportService.getReport(any()) } returns response
@@ -183,12 +165,9 @@ class TransactionControllerTest {
     }
 
     @Test
-    fun `Get Report Unauthorized`() {
-
+    fun `Returns unauthorized when token is not present in the request to get the report`() {
         val response = mockTest.getReportResponse()
-
         val responseDTO = GetReportResponseDTO(response = response.map { GetReportDTO(model = it) })
-
         val dtoJSON = mapper.writeValueAsString(responseDTO) as String
 
         every { reportService.getReport(any()) } returns response

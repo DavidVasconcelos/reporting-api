@@ -3,6 +3,7 @@ def jacksonVersion           = '2.13.2'
 def valiktorVersion          = '0.12.0'
 def openApiVersion           = "1.6.7"
 def testContainerVersion     = '1.17.1'
+def jsonAssertVersion        = '1.5.0'
 
 dependencies {
 
@@ -52,4 +53,7 @@ dependencies {
     testImplementation "org.testcontainers:testcontainers:${testContainerVersion}"
     testImplementation "org.testcontainers:junit-jupiter:${testContainerVersion}"
     testImplementation "org.testcontainers:postgresql:${testContainerVersion}"
+
+    //JsonAssert
+    testImplementation "org.skyscreamer:jsonassert:${jsonAssertVersion}"
 }
