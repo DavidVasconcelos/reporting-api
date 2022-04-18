@@ -4,6 +4,7 @@ def valiktorVersion          = '0.12.0'
 def openApiVersion           = "1.6.7"
 def testContainerVersion     = '1.17.1'
 def jsonAssertVersion        = '1.5.0'
+def kluentVersion            = '1.65'
 
 dependencies {
 
@@ -56,4 +57,7 @@ dependencies {
 
     //JsonAssert
     testImplementation "org.skyscreamer:jsonassert:${jsonAssertVersion}"
+
+    //Kluent
+    testImplementation "org.amshove.kluent:kluent:${kluentVersion}"
 }
