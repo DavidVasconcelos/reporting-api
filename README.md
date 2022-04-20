@@ -55,6 +55,12 @@ On your IntelliJ top bar, go to `Edit Configurations...`
 
 ![image](images/intellij-configure-top-bar.png)
 
+Change `VM Options` to:
+
+```
+-Dspring.profiles.active=local
+```
+
 ### Running tests and lint
 
 It's possible to run commands configured in Gradle (by plugins included in `build.gradle`) to run tasks like test or lint. The command below execute application build, test, and lint:
