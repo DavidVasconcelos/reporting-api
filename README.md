@@ -49,6 +49,12 @@ To check if your applications are up, use the health check route:
 
 [http://localhost:8080/health](http://localhost:8080/health)
 
+### (OPTIONAL) Running with IntelliJ Ultimate
+
+On your IntelliJ top bar, go to `Edit Configurations...`
+
+![image](images/intellij-configure-top-bar.png)
+
 ### Running tests and lint
 
 It's possible to run commands configured in Gradle (by plugins included in `build.gradle`) to run tasks like test or lint. The command below execute application build, test, and lint:
