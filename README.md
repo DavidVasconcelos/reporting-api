@@ -1,6 +1,6 @@
 # Reporting API
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000)
+![Version](https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000) ![git_hub_actions](https://github.com/github/docs/actions/workflows/main.yml/badge.svg)
 
 ## TL;DR - What it is?
 
