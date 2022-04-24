@@ -88,4 +88,3 @@ To lint (Detekt) inside IntelliJ IDEA, use this plugin: [detekt to IDEA](https:/
 * **Jackson**: JSON serializer/deserializer
 * **OpenAPI**: Automatic API documentation generation tool with UI accessible from `http://localhost:8080/api/v3/swagger-ui/index.html`
 * **Actuator**: A tool with monitoring features (used to delivery `/health` route)
-
