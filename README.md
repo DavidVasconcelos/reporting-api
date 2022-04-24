@@ -14,7 +14,7 @@ An API developed by me for portfolio purposes
 
 * Local URL: http://localhost:8080/api/v3
 * Remote URL: https://speedyteller-reporting-api.herokuapp.com/api/v3
-* [API documentation (local with Swagger)](http://localhost:8080/api/v3/swagger-ui/index.html)
+* [API documentation (remote with Swagger)](https://speedyteller-reporting-api.herokuapp.com/api/v3/swagger-ui/index.html)
 
 Some interesting Gradle *targets* (build system):
 
