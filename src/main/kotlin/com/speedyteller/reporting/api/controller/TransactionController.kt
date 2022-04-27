@@ -1,6 +1,6 @@
 package com.speedyteller.reporting.api.controller
 
-import com.speedyteller.reporting.api.config.PaginationComponent
+import com.speedyteller.reporting.api.common.PaginationComponent
 import com.speedyteller.reporting.api.domain.dto.page.CustomPageDTO
 import com.speedyteller.reporting.api.domain.dto.request.GetReportRequestDTO
 import com.speedyteller.reporting.api.domain.dto.request.GetTransactionListRequestDTO

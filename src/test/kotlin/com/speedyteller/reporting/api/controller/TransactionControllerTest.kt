@@ -2,8 +2,8 @@ package com.speedyteller.reporting.api.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
-import com.speedyteller.reporting.api.config.JwtTokenComponent
-import com.speedyteller.reporting.api.config.PaginationComponent
+import com.speedyteller.reporting.api.common.JwtTokenComponent
+import com.speedyteller.reporting.api.common.PaginationComponent
 import com.speedyteller.reporting.api.domain.dto.request.GetTransactionRequestDTO
 import com.speedyteller.reporting.api.domain.dto.response.GetReportDTO
 import com.speedyteller.reporting.api.domain.dto.response.GetReportResponseDTO

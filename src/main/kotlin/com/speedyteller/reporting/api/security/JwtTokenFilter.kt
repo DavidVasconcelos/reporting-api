@@ -1,6 +1,6 @@
 package com.speedyteller.reporting.api.security
 
-import com.speedyteller.reporting.api.config.JwtTokenComponent
+import com.speedyteller.reporting.api.common.JwtTokenComponent
 import org.springframework.http.HttpHeaders
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder

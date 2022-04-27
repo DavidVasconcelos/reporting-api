@@ -1,6 +1,6 @@
 package com.speedyteller.reporting.api.domain.usecase
 
-import com.speedyteller.reporting.api.config.FilterFieldComponent
+import com.speedyteller.reporting.api.common.FilterFieldComponent
 import com.speedyteller.reporting.api.domain.constant.BusinessConstants
 import com.speedyteller.reporting.api.domain.model.GetTransactionList
 import com.speedyteller.reporting.api.domain.model.request.GetTransactionListRequest

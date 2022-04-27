@@ -1,4 +1,4 @@
-package com.speedyteller.reporting.api.config
+package com.speedyteller.reporting.api.common
 
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.ExpiredJwtException

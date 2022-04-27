@@ -1,6 +1,6 @@
 package com.speedyteller.reporting.api.domain.service
 
-import com.speedyteller.reporting.api.config.JwtTokenComponent
+import com.speedyteller.reporting.api.common.JwtTokenComponent
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.userdetails.User

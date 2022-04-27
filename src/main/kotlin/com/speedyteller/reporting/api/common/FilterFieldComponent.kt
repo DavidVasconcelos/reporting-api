@@ -1,4 +1,4 @@
-package com.speedyteller.reporting.api.config
+package com.speedyteller.reporting.api.common
 
 import com.speedyteller.reporting.api.domain.enum.FilterField
 import com.speedyteller.reporting.api.exception.BusinessValidationException
