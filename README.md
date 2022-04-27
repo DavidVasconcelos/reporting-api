@@ -80,6 +80,7 @@ To lint (Detekt) inside IntelliJ IDEA, use this plugin: [detekt to IDEA](https:/
 * **Gradle**: Build tool and dependency manager. ("Rake" + "Bundler")
 * **Spring**: Web framework ("Rails")
 * **Spring Data/JPA**: Postgres persistency framework ("Sequel")
+* **Spring Security**: To implement the JWT standard
 * **Flyway**: Postgres migration manager (made with pure SQL)
 * **Kluent**: Fluent assertions
 * **[Validktor](https://github.com/valiktor/valiktor)**: Is a type-safe, powerful and extensible fluent DSL to validate objects in Kotlin.
