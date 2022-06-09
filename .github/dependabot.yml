@@ -6,3 +6,6 @@ updates:
       interval: "daily"
     pull-request-branch-name:
       separator: '-'
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-minor"]
