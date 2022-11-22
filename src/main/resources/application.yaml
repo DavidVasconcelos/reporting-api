@@ -4,7 +4,7 @@ spring:
   main:
     banner-mode: 'OFF'
   datasource:
-    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/postgres?currentSchema=speedyteller}
+    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/postgres}
     username: ${POSTGRES_USERNAME:postgres}
     password: ${POSTGRES_PASSWORD:postgres"}
   flyway:
