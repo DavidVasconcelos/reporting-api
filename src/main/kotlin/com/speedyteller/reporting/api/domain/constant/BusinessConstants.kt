@@ -62,16 +62,17 @@ object BusinessConstants {
                        a.code as acquirerCode,
                        a.type as acquirerType,
                        tr.refundable
-                FROM transaction tr left join fx_transaction ft on tr.fx_transaction_td = ft.id
-                left join customer c on tr.customer_id = c.id
-                left join merchant m on tr.merchant_id = m.id
-                left join instant_payment_notification ipn on tr.transaction_id = ipn.transaction_id
-                left join acquirer a on tr.acquirer_transaction_id = a.id
+                FROM speedyteller.transaction tr left join fx_transaction ft on tr.fx_transaction_td = ft.id
+                left join speedyteller.customer c on tr.customer_id = c.id
+                left join speedyteller.merchant m on tr.merchant_id = m.id
+                left join speedyteller.instant_payment_notification ipn on tr.transaction_id = ipn.transaction_id
+                left join speedyteller.acquirer a on tr.acquirer_transaction_id = a.id
                 WHERE 1=1 """
         const val QUERY_GET_REPORT = """SELECT COUNT(tr.id) as count,
                                                SUM(ft.original_amount) as total,
                                                ft.original_currency currency
-                                        FROM transaction tr join fx_transaction ft on tr.fx_transaction_td = ft.id
+                                        FROM speedyteller.transaction tr join speedyteller.fx_transaction ft on 
+                                        tr.fx_transaction_td = ft.id
                                         WHERE 1=1 """
     }
 }
