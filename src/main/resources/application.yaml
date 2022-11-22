@@ -16,6 +16,7 @@ spring:
         jdbc:
           lob:
             non_contextual_creation: true
+      hibernate.default_schema: speedyteller
     database-platform: org.hibernate.dialect.PostgreSQL9Dialect
     show-sql: true
 jwt:

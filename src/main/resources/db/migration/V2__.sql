@@ -1,4 +1,3 @@
-CREATE SCHEMA IF NOT EXISTS speedyteller;
 CREATE TABLE IF NOT EXISTS speedyteller.acquirer
 (
     id bigint not null

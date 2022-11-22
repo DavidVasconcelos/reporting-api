@@ -1,3 +1,4 @@
+CREATE SCHEMA IF NOT EXISTS speedyteller;
 CREATE TABLE speedyteller.sample_entity (
     id uuid NOT NULL,
     title varchar(30),
