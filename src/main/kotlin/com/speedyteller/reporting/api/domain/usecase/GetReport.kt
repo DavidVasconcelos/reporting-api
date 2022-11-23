@@ -37,16 +37,14 @@ class GetReport(private val transaction: Transaction) {
     @Component
     class Transaction(val transactionRepository: TransactionRepository) {
 
-        private val query: StringBuilder = StringBuilder().append(BusinessConstants.Queries.QUERY_GET_REPORT)
-
         fun get(request: GetReportRequest): List<GetReportResponse> {
-            val params = fillParameters(request)
-            query.append(" GROUP BY ft.original_currency")
-            val resultList = transactionRepository.executeNativeQuery(query = query.toString(), parameters = params)
+            val (query, params) = buildQueryWithParams(request)
+            val resultList = transactionRepository.executeNativeQuery(query = query, parameters = params)
             return resultList.stream().map { record -> getReportRecord(record = record) }.toList<GetReportResponse>()
         }
 
-        private fun fillParameters(request: GetReportRequest): Map<String, Any> {
+        private fun buildQueryWithParams(request: GetReportRequest): Pair<String, Map<String, Any>> {
+            val query: StringBuilder = StringBuilder().append(BusinessConstants.Queries.QUERY_GET_REPORT)
             val parameters = mutableMapOf<String, Any>()
             request.fromDate?.let {
                 query.append("AND tr.created_at >= :created_at_start ")
@@ -64,7 +62,8 @@ class GetReport(private val transaction: Transaction) {
                 query.append("AND tr.acquirer_transaction_id = :acquirer ")
                 parameters.plusAssign(Pair("acquirer", it))
             }
-            return parameters
+            query.append(" GROUP BY ft.original_currency")
+            return Pair(query.toString(), parameters)
         }
 
         private fun getReportRecord(record: Array<Any>): GetReportResponse {

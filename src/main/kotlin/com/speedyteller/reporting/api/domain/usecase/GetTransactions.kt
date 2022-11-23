@@ -39,15 +39,15 @@ class GetTransactions(private val transaction: Transaction) {
         val transactionRepository: TransactionRepository,
         val filterFieldComponent: FilterFieldComponent,
     ) {
-        private val query: StringBuilder = StringBuilder().append(BusinessConstants.Queries.QUERY_GET_TRANSACTION_LIST)
+
         fun get(request: GetTransactionListRequest, page: Pageable): List<GetTransactionList> {
-            val params = fillParameters(request)
-            val resultList =
-                transactionRepository.executeNativeQuery(query = query.toString(), page = page, parameters = params)
+            val (query, params) = buildQueryWithParams(request)
+            val resultList = transactionRepository.executeNativeQuery(query = query, page = page, parameters = params)
             return resultList.stream().map { record -> GetTransactionList(record) }.toList<GetTransactionList>()
         }
 
-        private fun fillParameters(request: GetTransactionListRequest): Map<String, Any> {
+        private fun buildQueryWithParams(request: GetTransactionListRequest): Pair<String, Map<String, Any>> {
+            val query: StringBuilder = StringBuilder().append(BusinessConstants.Queries.QUERY_GET_TRANSACTION_LIST)
             val parameters = mutableMapOf<String, Any>()
             request.fromDate?.let {
                 query.append("AND tr.created_at >= :created_at_start ")
@@ -88,7 +88,7 @@ class GetTransactions(private val transaction: Transaction) {
                 query.append("AND tr.acquirer_transaction_id = :acquirerId ")
                 parameters.plusAssign(Pair("acquirerId", it))
             }
-            return parameters
+            return Pair(query.toString(), parameters)
         }
     }
 }
