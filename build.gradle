@@ -29,7 +29,7 @@ def jarSuffix = System.getenv('JAR_SUFFIX') ?: ""
 description = description
 group       = group
 version     = version + jarSuffix
-java.sourceCompatibility = JavaVersion.VERSION_17
+java.sourceCompatibility = JavaVersion.VERSION_11
 
 // Separando dependencias para outro arquivo.
 apply from: 'dependencies.gradle'
@@ -51,14 +51,14 @@ bootJar {
 compileKotlin {
 	kotlinOptions {
 		freeCompilerArgs += "-Xjsr305=strict"
-		jvmTarget = "17"
+		jvmTarget = "11"
 	}
 }
 
 compileTestKotlin {
 	kotlinOptions {
 		freeCompilerArgs += "-Xjsr305=strict"
-		jvmTarget = "17"
+		jvmTarget = "11"
 	}
 }
 
@@ -66,8 +66,7 @@ test {
 	useJUnitPlatform()
 	ignoreFailures = false
 	jvmArgs = ["-Duser.timezone=America/Sao_Paulo",
-			   "-XX:+UnlockExperimentalVMOptions",
-			   "-XX:+UseCGroupMemoryLimitForHeap"]
+			   "-XX:+UnlockExperimentalVMOptions"]
 	finalizedBy(jacocoTestReport)
 }
 

@@ -20,7 +20,7 @@ USER guest
 
 # -----------------------------------------------------------------------------
 
-FROM openjdk:13-slim-buster
+FROM openjdk:11-slim-buster
 
 WORKDIR /app
 

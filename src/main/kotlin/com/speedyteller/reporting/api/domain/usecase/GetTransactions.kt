@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
 import java.time.LocalTime
+import kotlin.streams.toList
 
 @Component
 class GetTransactions(private val transaction: Transaction) {
@@ -36,24 +37,17 @@ class GetTransactions(private val transaction: Transaction) {
     @Component
     class Transaction(
         val transactionRepository: TransactionRepository,
-        val filterFieldComponent: FilterFieldComponent
+        val filterFieldComponent: FilterFieldComponent,
     ) {
         fun get(request: GetTransactionListRequest, page: Pageable): List<GetTransactionList> {
-            val parameters = mutableMapOf<String, Any>()
-            val query = StringBuilder().append(BusinessConstants.Queries.QUERY_GET_TRANSACTION_LIST)
-            this.setParameters(request = request, query = query, parameters = parameters)
+            val params = fillParameters(request)
             val resultList =
-                transactionRepository.executeNativeQuery(query = query.toString(), page = page, parameters = parameters)
-            val transactionList = mutableListOf<GetTransactionList>()
-            resultList.stream().forEach { record -> transactionList.add(GetTransactionList(record)) }
-            return transactionList
+                transactionRepository.executeNativeQuery(query = query.toString(), page = page, parameters = params)
+            return resultList.stream().map { record -> GetTransactionList(record) }.toList<GetTransactionList>()
         }
 
-        private fun setParameters(
-            request: GetTransactionListRequest,
-            query: StringBuilder,
-            parameters: MutableMap<String, Any>
-        ) {
+        private fun fillParameters(request: GetTransactionListRequest): Map<String, Any> {
+            val parameters = mutableMapOf<String, Any>()
             request.fromDate?.let {
                 query.append("AND tr.created_at >= :created_at_start ")
                 parameters.plusAssign(Pair("created_at_start", LocalDateTime.of(it, LocalTime.MIDNIGHT)))
@@ -93,6 +87,10 @@ class GetTransactions(private val transaction: Transaction) {
                 query.append("AND tr.acquirer_transaction_id = :acquirerId ")
                 parameters.plusAssign(Pair("acquirerId", it))
             }
+            return parameters
+        }
+        companion object {
+            val query: StringBuilder = StringBuilder().append(BusinessConstants.Queries.QUERY_GET_TRANSACTION_LIST)
         }
     }
 }

@@ -16,6 +16,7 @@ import java.math.BigDecimal
 import java.math.BigInteger
 import java.time.LocalDateTime
 import java.time.LocalTime
+import kotlin.streams.toList
 
 @Component
 class GetReport(private val transaction: Transaction) {
@@ -37,22 +38,14 @@ class GetReport(private val transaction: Transaction) {
     class Transaction(val transactionRepository: TransactionRepository) {
 
         fun get(request: GetReportRequest): List<GetReportResponse> {
-            val parameters = mutableMapOf<String, Any>()
-            val query = StringBuilder().append(BusinessConstants.Queries.QUERY_GET_REPORT)
-            this.setParameters(request = request, query = query, parameters = parameters)
+            val params = fillParameters(request)
             query.append(" GROUP BY ft.original_currency")
-            val resultList =
-                transactionRepository.executeNativeQuery(query = query.toString(), parameters = parameters)
-            val report = mutableListOf<GetReportResponse>()
-            resultList.stream().forEach { record -> report.add(getReportRecord(record = record)) }
-            return report
+            val resultList = transactionRepository.executeNativeQuery(query = query.toString(), parameters = params)
+            return resultList.stream().map { record -> getReportRecord(record = record) }.toList<GetReportResponse>()
         }
 
-        private fun setParameters(
-            request: GetReportRequest,
-            query: StringBuilder,
-            parameters: MutableMap<String, Any>
-        ) {
+        private fun fillParameters(request: GetReportRequest): Map<String, Any> {
+            val parameters = mutableMapOf<String, Any>()
             request.fromDate?.let {
                 query.append("AND tr.created_at >= :created_at_start ")
                 parameters.plusAssign(Pair("created_at_start", LocalDateTime.of(it, LocalTime.MIDNIGHT)))
@@ -69,15 +62,19 @@ class GetReport(private val transaction: Transaction) {
                 query.append("AND tr.acquirer_transaction_id = :acquirer ")
                 parameters.plusAssign(Pair("acquirer", it))
             }
+            return parameters
         }
 
         private fun getReportRecord(record: Array<Any>): GetReportResponse {
-
             return GetReportResponse(
                 count = (record[COUNT] as? BigInteger)?.toLong(),
                 total = record[TOTAL] as? BigDecimal,
                 currency = record[CURRENCY] as? String
             )
+        }
+
+        companion object {
+            val query: StringBuilder = StringBuilder().append(BusinessConstants.Queries.QUERY_GET_REPORT)
         }
     }
 }
