@@ -37,6 +37,8 @@ class GetReport(private val transaction: Transaction) {
     @Component
     class Transaction(val transactionRepository: TransactionRepository) {
 
+        private val query: StringBuilder = StringBuilder().append(BusinessConstants.Queries.QUERY_GET_REPORT)
+
         fun get(request: GetReportRequest): List<GetReportResponse> {
             val params = fillParameters(request)
             query.append(" GROUP BY ft.original_currency")
@@ -71,10 +73,6 @@ class GetReport(private val transaction: Transaction) {
                 total = record[TOTAL] as? BigDecimal,
                 currency = record[CURRENCY] as? String
             )
-        }
-
-        companion object {
-            val query: StringBuilder = StringBuilder().append(BusinessConstants.Queries.QUERY_GET_REPORT)
         }
     }
 }

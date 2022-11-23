@@ -39,6 +39,7 @@ class GetTransactions(private val transaction: Transaction) {
         val transactionRepository: TransactionRepository,
         val filterFieldComponent: FilterFieldComponent,
     ) {
+        private val query: StringBuilder = StringBuilder().append(BusinessConstants.Queries.QUERY_GET_TRANSACTION_LIST)
         fun get(request: GetTransactionListRequest, page: Pageable): List<GetTransactionList> {
             val params = fillParameters(request)
             val resultList =
@@ -88,9 +89,6 @@ class GetTransactions(private val transaction: Transaction) {
                 parameters.plusAssign(Pair("acquirerId", it))
             }
             return parameters
-        }
-        companion object {
-            val query: StringBuilder = StringBuilder().append(BusinessConstants.Queries.QUERY_GET_TRANSACTION_LIST)
         }
     }
 }
