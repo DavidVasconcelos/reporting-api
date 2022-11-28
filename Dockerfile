@@ -1,4 +1,4 @@
-FROM gradle:7.4.0 as builder
+FROM gradle:7.5.1-jdk11 as builder
 
 USER root
 
