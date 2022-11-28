@@ -59,6 +59,9 @@ out
 atlassian-ide-plugin.xml
 .DS_Store
 
+### Fleet ###
+.fleet
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
