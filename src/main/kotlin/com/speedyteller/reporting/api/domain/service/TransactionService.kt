@@ -14,7 +14,6 @@ class TransactionService(
     val getTransactions: GetTransactions
 ) {
 
-    // refazer
     fun getTransaction(transactionId: String): GetTransactionResponse {
         val transaction = findTransactionById.handle(transactionId = transactionId)
         return GetTransactionResponse(model = transaction)

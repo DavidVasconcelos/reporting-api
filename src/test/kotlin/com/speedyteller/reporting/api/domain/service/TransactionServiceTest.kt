@@ -1,7 +1,10 @@
 package com.speedyteller.reporting.api.domain.service
 
 import com.speedyteller.reporting.api.controller.TransactionController
-import com.speedyteller.reporting.api.domain.model.request.GetReportRequest
+import com.speedyteller.reporting.api.domain.enum.FilterField
+import com.speedyteller.reporting.api.domain.enum.Operation
+import com.speedyteller.reporting.api.domain.enum.PaymentMethod
+import com.speedyteller.reporting.api.domain.enum.Status
 import com.speedyteller.reporting.api.domain.model.request.GetTransactionListRequest
 import com.speedyteller.reporting.api.mock.MockTest
 import com.speedyteller.reporting.api.support.annotations.IntegrationTest
@@ -16,9 +19,6 @@ class TransactionServiceTest {
 
     @Autowired
     private lateinit var service: TransactionService
-
-    @Autowired
-    private lateinit var reportService: ReportService
 
     @Autowired
     private lateinit var mockTest: MockTest
@@ -36,26 +36,18 @@ class TransactionServiceTest {
         val expectedTransaction = mockTest.getTransactionListResponse()
         val savedTransaction = service.getTransactionList(
             request = GetTransactionListRequest(
+                fromDate = LocalDate.of(2015, 9, 29),
+                toDate = LocalDate.of(2015, 10, 29),
+                status = Status.getStatus("APPROVED"),
+                operation = Operation.getOperation("3DAUTH"),
+                paymentMethod = PaymentMethod.getPaymentMethod("CREDITCARD"),
+                errorCode = null,
+                filterField = FilterField.getFilterField("Reference No"),
+                filterValue = "api_560a4a9314208",
                 merchantId = 3,
                 acquirerId = 12
             ), page = PageRequest.of(1, TransactionController.DEFAULT_PAGE_SIZE)
         )
-
         expectedTransaction shouldBeEqualTo savedTransaction
-    }
-
-    @Test
-    fun `Get Report`() {
-        val expectedReport = mockTest.getReportResponse()
-        val savedReport = reportService.getReport(
-            GetReportRequest(
-                fromDate = LocalDate.of(2015, 9, 29),
-                toDate = LocalDate.of(2015, 10, 9),
-                merchant = 1,
-                acquirer = 1
-            )
-        )
-
-        expectedReport shouldBeEqualTo savedReport
     }
 }
