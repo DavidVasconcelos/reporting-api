@@ -5,8 +5,11 @@ import com.speedyteller.reporting.api.domain.dto.response.LoginResponseDTO
 import com.speedyteller.reporting.api.domain.service.MerchantService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.cache.annotation.CacheEvict
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -25,6 +28,7 @@ class MerchantController(val authenticationManager: AuthenticationManager, val m
 
     private var logger: Logger = LoggerFactory.getLogger(this::class.java)
 
+    @Cacheable("logins")
     @PostMapping("login")
     fun login(@RequestBody loginRequestDTO: LoginRequestDTO): ResponseEntity<LoginResponseDTO> {
         return try {
@@ -36,5 +40,11 @@ class MerchantController(val authenticationManager: AuthenticationManager, val m
             logger.error(ex.message)
             ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()
         }
+    }
+
+    @CacheEvict(value = ["logins"], allEntries = true)
+    @Scheduled(fixedRateString = "\${caching.spring.loginListTTL}")
+    fun emptyLoginsCache() {
+        logger.info("emptying logins cache")
     }
 }

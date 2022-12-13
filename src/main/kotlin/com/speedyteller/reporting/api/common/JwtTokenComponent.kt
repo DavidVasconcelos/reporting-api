@@ -17,7 +17,8 @@ import java.util.Date
 @Component
 class JwtTokenComponent(
     @Value("\${jwt.secret}") val secret: String,
-    @Value("\${jwt.issuer}") val issuer: String
+    @Value("\${jwt.issuer}") val issuer: String,
+    @Value("\${caching.spring.loginListTTL}") val jwtExpirationTime: Int
 ) {
     private var logger: Logger = LoggerFactory.getLogger(this::class.java)
 
@@ -26,7 +27,7 @@ class JwtTokenComponent(
             .setSubject(user.username)
             .setIssuer(issuer)
             .setIssuedAt(Date())
-            .setExpiration(Date(System.currentTimeMillis() + JWT_EXPIRATION_TIME))
+            .setExpiration(Date(System.currentTimeMillis() + jwtExpirationTime))
             .signWith(SignatureAlgorithm.HS512, secret)
             .compact()
     }
@@ -55,9 +56,5 @@ class JwtTokenComponent(
             logger.error("JWT claims string is empty - {}", ex.message)
         }
         return false
-    }
-
-    companion object {
-        const val JWT_EXPIRATION_TIME = 10 * 60 * 1000 // 10 minutes
     }
 }

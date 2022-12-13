@@ -47,3 +47,6 @@ server:
 springdoc:
   api-docs:
     path: /openapi
+caching:
+  spring:
+    loginListTTL: 600000

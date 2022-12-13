@@ -1,4 +1,4 @@
-package com.speedyteller.reporting.api.config
+package com.speedyteller.reporting.api.cache
 
 import org.springframework.context.ApplicationContextInitializer
 import org.springframework.context.ConfigurableApplicationContext

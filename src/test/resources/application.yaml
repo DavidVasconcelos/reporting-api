@@ -38,3 +38,6 @@ server:
       charset: UTF-8
     context-path: /api/v3
 
+caching:
+  spring:
+    loginListTTL: 600000
