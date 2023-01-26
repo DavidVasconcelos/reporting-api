@@ -10,6 +10,7 @@ class CustomRepositoryImpl : CustomRepository {
     @PersistenceContext
     private lateinit var em: EntityManager
 
+    @Suppress("UNCHECKED_CAST")
     override fun executeNativeQuery(
         query: String,
         parameters: Map<String, Any>,
