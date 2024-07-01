@@ -3,7 +3,7 @@ def jacksonVersion           = '2.13.5'
 def valiktorVersion          = '0.12.0'
 def openApiVersion           = "1.6.15"
 def testContainerVersion     = '1.17.6'
-def jsonAssertVersion        = '1.5.1'
+def jsonAssertVersion        = '1.5.3'
 def kluentVersion            = '1.68'
 
 dependencies {
