@@ -1,4 +1,4 @@
-FROM gradle:7.5.1-jdk11 as builder
+FROM gradle:8.5.0-jdk17 AS builder
 
 USER root
 
@@ -20,7 +20,7 @@ USER guest
 
 # -----------------------------------------------------------------------------
 
-FROM openjdk:11-slim-buster
+FROM openjdk:17-slim-buster
 
 WORKDIR /app
 

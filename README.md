@@ -47,7 +47,7 @@ Run inside your project root:
 
 To check if your applications are up, use the health check route:
 
-[http://localhost:8080/health](http://localhost:8080/health)
+[http://localhost:8080/api/v3/health](http://localhost:8080/health)
 
 ### (OPTIONAL) Running with IntelliJ Ultimate
 

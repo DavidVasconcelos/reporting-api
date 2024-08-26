@@ -29,7 +29,7 @@ def jarSuffix = System.getenv('JAR_SUFFIX') ?: ""
 description = description
 group       = group
 version     = version + jarSuffix
-java.sourceCompatibility = JavaVersion.VERSION_11
+java.sourceCompatibility = JavaVersion.VERSION_17
 
 // Separando dependencias para outro arquivo.
 apply from: 'dependencies.gradle'
@@ -51,14 +51,14 @@ bootJar {
 compileKotlin {
 	kotlinOptions {
 		freeCompilerArgs += "-Xjsr305=strict"
-		jvmTarget = "11"
+		jvmTarget = "17"
 	}
 }
 
 compileTestKotlin {
 	kotlinOptions {
 		freeCompilerArgs += "-Xjsr305=strict"
-		jvmTarget = "11"
+		jvmTarget = "17"
 	}
 }
 
