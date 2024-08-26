@@ -1,5 +1,7 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 buildscript {
-	ext.kotlin_version = '1.7.22'
+	ext.kotlin_version = '1.9.23'
 	repositories {
 		mavenCentral()
 	}
@@ -31,7 +33,6 @@ group       = group
 version     = version + jarSuffix
 java.sourceCompatibility = JavaVersion.VERSION_17
 
-// Separando dependencias para outro arquivo.
 apply from: 'dependencies.gradle'
 
 repositories {
@@ -48,19 +49,13 @@ bootJar {
 	launchScript()
 }
 
-compileKotlin {
-	kotlinOptions {
-		freeCompilerArgs += "-Xjsr305=strict"
-		jvmTarget = "17"
+kotlin {
+	compilerOptions {
+		freeCompilerArgs.addAll '-Xjsr305=strict'
+		jvmTarget.set(JvmTarget.JVM_17)
 	}
 }
 
-compileTestKotlin {
-	kotlinOptions {
-		freeCompilerArgs += "-Xjsr305=strict"
-		jvmTarget = "17"
-	}
-}
 
 test {
 	useJUnitPlatform()
@@ -81,7 +76,7 @@ sourceSets {
 
 detekt {
 	toolVersion = detektVersion
-	config = files("$projectDir/config/detekt.yml")
+	config.setFrom("$projectDir/config/detekt.yml")
 	autoCorrect = true
 }
 
@@ -90,13 +85,14 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 jacoco {
-	toolVersion = "0.8.7"
+	toolVersion = "0.8.12"
 }
 
 jacocoTestReport {
 	reports {
 		xml.required = false
+		csv.required = false
 		html.required = true
-		html.destination(file("${buildDir}/reports/jacoco/html"))
+		html.outputLocation = layout.buildDirectory.dir("jacocoHtml")
 	}
 }

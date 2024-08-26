@@ -9,8 +9,12 @@ class PaginationComponent {
     fun getPagination(pageSize: Int, page: Int, uri: String, data: List<Any>): CustomPageDTO {
         val nextPageUrl = uri.substringBeforeLast("").plus("${page.plus(PAGE_INITIAL_SIZE)}")
         val prevPageUrl =
-            if (page > PAGE_INITIAL_SIZE) uri.substringBeforeLast("")
-                .plus("${page.minus(PAGE_INITIAL_SIZE)}") else null
+            if (page > PAGE_INITIAL_SIZE) {
+                uri.substringBeforeLast("")
+                .plus("${page.minus(PAGE_INITIAL_SIZE)}")
+            } else {
+                null
+            }
         val from = (page.minus(PAGE_INITIAL_SIZE)).times(pageSize).plus(PAGE_INITIAL_SIZE)
         val to = (from.minus(PAGE_INITIAL_SIZE)).plus(data.count())
         return CustomPageDTO(
