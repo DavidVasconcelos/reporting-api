@@ -47,12 +47,12 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
-          JWT_SECRET: ${{secrets.JWT_SECRET}}
-          JWT_ISSUER: ${{secrets.JWT_ISSUER}}
           cache: 'gradle'
       - name: Running tests
         run: ./gradlew test
-        continue-on-error: true
+        with:
+          JWT_SECRET: ${{secrets.JWT_SECRET}}
+          JWT_ISSUER: ${{secrets.JWT_ISSUER}}
       - name: Upload Jacoco HTML Reports
         uses: actions/upload-artifact@v3
         with:
