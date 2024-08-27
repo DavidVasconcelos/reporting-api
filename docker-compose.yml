@@ -23,8 +23,8 @@ services:
       - "reporting_db"
     environment:
       - "JDBC_DATABASE_URL=jdbc:postgresql://reporting_db:5432/speedyteller?user=postgres&password=postgres&currentSchema=speedyteller"
-      - "JWT_SECRET=teste"
-      - "JWT_ISSUER=speedyteller"
+      - "JWT_SECRET=${JWT_SECRET}"
+      - "JWT_ISSUER=${JWT_ISSUER}"
 
 networks:
   speedyteller:

@@ -20,8 +20,8 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQL9Dialect
     show-sql: true
 jwt:
-  secret: teste
-  issuer: speedyteller
+  secret: ${JWT_SECRET}
+  issuer: ${JWT_ISSUER}
 
 logging:
   level:
