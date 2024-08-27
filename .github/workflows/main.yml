@@ -32,6 +32,7 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
+          cache: 'gradle'
       - run: ./gradlew detekt
   test:
     needs: [lint]
@@ -46,9 +47,11 @@ jobs:
           java-version: 17
           JWT_SECRET: ${{secrets.JWT_SECRET}}
           JWT_ISSUER: ${{secrets.JWT_ISSUER}}
+          cache: 'gradle'
       - run: ./gradlew test
       - name: Upload Jacoco HTML Reports
         uses: actions/upload-artifact@v3
+        continue-on-error: true
         with:
           name: jacoco-reports
           path: ./build/jacocoHtml
