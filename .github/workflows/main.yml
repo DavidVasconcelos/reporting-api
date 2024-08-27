@@ -5,7 +5,7 @@ on:
   push:
     branches: [ master ]
   pull_request:
-    branches: [ master ]  
+    branches: [ master ]
   workflow_dispatch:
 
 jobs:
@@ -20,9 +20,10 @@ jobs:
           distribution: temurin
           java-version: 17
           cache: 'gradle'
-      - run: ./gradlew assemble --no-daemon
+      - name: Running assemble
+        run: ./gradlew assemble --no-daemon
   lint:
-    needs: [build]
+    needs: [ build ]
     runs-on: ubuntu-latest
     steps:
       - name: git clone
@@ -33,9 +34,10 @@ jobs:
           distribution: temurin
           java-version: 17
           cache: 'gradle'
-      - run: ./gradlew detekt
+      - name: Running detekt
+        run: ./gradlew detekt
   test:
-    needs: [lint]
+    needs: [ lint ]
     runs-on: ubuntu-latest
     steps:
       - name: git clone
@@ -48,10 +50,11 @@ jobs:
           JWT_SECRET: ${{secrets.JWT_SECRET}}
           JWT_ISSUER: ${{secrets.JWT_ISSUER}}
           cache: 'gradle'
-      - run: ./gradlew test
+      - name: Running tests
+        run: ./gradlew test
+        continue-on-error: true
       - name: Upload Jacoco HTML Reports
         uses: actions/upload-artifact@v3
-        continue-on-error: true
         with:
           name: jacoco-reports
           path: ./build/jacocoHtml
