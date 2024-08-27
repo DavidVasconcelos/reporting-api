@@ -13,7 +13,6 @@ import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 import java.math.BigDecimal
-import java.math.BigInteger
 import java.time.LocalDateTime
 import java.time.LocalTime
 import kotlin.streams.toList
@@ -68,7 +67,7 @@ class GetReport(private val transaction: Transaction) {
 
         private fun getReportRecord(record: Array<Any>): GetReportResponse {
             return GetReportResponse(
-                count = (record[COUNT] as? BigInteger)?.toLong(),
+                count = record[COUNT] as? Long,
                 total = record[TOTAL] as? BigDecimal,
                 currency = record[CURRENCY] as? String
             )

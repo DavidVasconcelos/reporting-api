@@ -1,5 +1,5 @@
 def ninjaSquadVersion        = '3.1.2'
-def jacksonVersion           = '2.13.5'
+def jacksonVersion           = '2.17.2'
 def valiktorVersion          = '0.12.0'
 def openApiVersion           = "1.6.15"
 def testContainerVersion     = '1.17.6'
@@ -17,7 +17,9 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-cache:${springBootVersion}"
 
     //JWT
-    implementation "io.jsonwebtoken:jjwt:${jwtVersion}"
+    implementation "io.jsonwebtoken:jjwt-api:${jwtVersion}"
+    implementation "io.jsonwebtoken:jjwt-impl:${jwtVersion}"
+    implementation "io.jsonwebtoken:jjwt-jackson:${jwtVersion}"
 
     //Spring boot test
     testImplementation("org.springframework.boot:spring-boot-starter-test:${springBootVersion}") {
@@ -28,6 +30,7 @@ dependencies {
     //Postgres
     runtimeOnly "org.postgresql:postgresql"
     implementation "org.flywaydb:flyway-core"
+    implementation "org.flywaydb:flyway-database-postgresql"
 
     //Kotlin
     implementation "org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}"

@@ -21,7 +21,6 @@ import com.speedyteller.reporting.api.domain.constant.BusinessConstants.DataBase
 import com.speedyteller.reporting.api.domain.constant.BusinessConstants.DataBaseFields.STATUS
 import com.speedyteller.reporting.api.domain.constant.BusinessConstants.DataBaseFields.TRANSACTION_ID
 import java.math.BigDecimal
-import java.math.BigInteger
 import java.sql.Timestamp
 import java.time.LocalDateTime
 
@@ -54,7 +53,7 @@ data class GetTransactionList(
         email = record[EMAIL] as? String
         billingFirstName = record[BILLING_FIRST_NAME] as? String
         billingLastName = record[BILLING_LAST_NAME] as? String
-        merchantId = (record[MERCHANT_ID] as? BigInteger)?.toLong()
+        merchantId = record[MERCHANT_ID] as? Long
         merchantName = record[MERCHANT_NAME] as? String
         received = record[RECEIVED] as? Boolean
         referenceNo = record[REFERENCE_NO] as? String
@@ -63,7 +62,7 @@ data class GetTransactionList(
         message = record[MESSAGE] as? String
         createdAt = (record[CREATED_AT] as? Timestamp)?.toLocalDateTime()
         transactionId = record[TRANSACTION_ID] as? String
-        acquirerId = (record[ACQUIRER_ID] as? BigInteger)?.toLong()
+        acquirerId = record[ACQUIRER_ID] as? Long
         acquirerName = record[ACQUIRER_NAME] as? String
         acquirerCode = record[ACQUIRER_CODE] as? String
         acquirerType = record[ACQUIRER_TYPE] as? String

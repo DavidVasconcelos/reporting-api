@@ -1,9 +1,9 @@
 package com.speedyteller.reporting.api.repository.impl
 
 import com.speedyteller.reporting.api.repository.CustomRepository
+import jakarta.persistence.EntityManager
+import jakarta.persistence.PersistenceContext
 import org.springframework.data.domain.Pageable
-import javax.persistence.EntityManager
-import javax.persistence.PersistenceContext
 
 class CustomRepositoryImpl : CustomRepository {
 

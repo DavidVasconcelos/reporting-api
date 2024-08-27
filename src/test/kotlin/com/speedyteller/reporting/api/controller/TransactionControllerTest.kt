@@ -101,14 +101,14 @@ class TransactionControllerTest {
         val pageDTO = paginationComponent.getPagination(
             pageSize = TransactionController.DEFAULT_PAGE_SIZE,
             page = page,
-            uri = "http://localhost/transaction/list/?page=$page",
+            uri = "http://localhost/transaction/list?page=$page",
             data = listResponseDTO
         )
         val dtoJSON = mapper.writeValueAsString(pageDTO) as String
 
         every { service.getTransactionList(any(), any()) } returns response
 
-        mockMvc.post("/transaction/list/?page=$page") {
+        mockMvc.post("/transaction/list?page=$page") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
             content = dtoJSON
