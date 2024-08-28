@@ -12,9 +12,18 @@ An API developed by me for portfolio purposes
 
 ## First Steps
 
-* Local URL: http://localhost:8080/api/v3
-* Remote URL: https://speedyteller-reporting-api.herokuapp.com/api/v3
-* [API documentation (remote with Swagger)](https://speedyteller-reporting-api.herokuapp.com/api/v3/swagger-ui/index.html)
+### Using Docker
+
+> [!WARNING]
+> **Prerequisites**
+> 
+> Install Docker and Docker-Compose on your machine
+
+* [Docker][]
+* [Docker Compose][]
+
+[Docker]: https://docs.docker.com/install/ "About Docker CE"
+[Docker Compose]: https://docs.docker.com/compose/install/#install-compose "Install Docker Compose"
 
 Some interesting Gradle *targets* (build system):
 
@@ -22,15 +31,6 @@ Some interesting Gradle *targets* (build system):
 * `./gradlew build`: Full project build (with dependencies download too)
 * `./gradlew detekt`: Linter that fixes simple errors and reports syntax problems.
 
-### Using Docker
-
-> :warning: **Prerequisites**
-
-* [Docker][]
-* [Docker Compose][]
-
-[Docker]: https://docs.docker.com/install/ "About Docker CE"
-[Docker Compose]: https://docs.docker.com/compose/install/#install-compose "Install Docker Compose"
 
 To create the database locally for the first time:
 
@@ -45,9 +45,12 @@ Run inside your project root:
 
     $ docker-compose up -d
 
-To check if your applications are up, use the health check route:
+### Endpoints
 
-[http://localhost:8080/api/v3/health](http://localhost:8080/health)
+* Local URL: http://localhost:8080/api/v3
+* Check application health: http://localhost:8080/api/v3/health
+* [API documentation (local with Swagger)](http://localhost:8080/api/v3/swagger-ui/index.html)
+
 
 ### (OPTIONAL) Running with IntelliJ Ultimate
 
@@ -63,6 +66,9 @@ Change `VM Options` to:
 
 ### Running tests and lint
 
+> [!WARNING]
+> You will need `Docker` service running in your machine to run tests.
+
 It's possible to run commands configured in Gradle (by plugins included in `build.gradle`) to run tasks like test or lint. The command below execute application build, test, and lint:
 
 This way, before committing, you can check for any possible problems in your change.
@@ -71,7 +77,8 @@ This way, before committing, you can check for any possible problems in your cha
 
 To lint (Detekt) inside IntelliJ IDEA, use this plugin: [detekt to IDEA](https://plugins.jetbrains.com/plugin/10761-detekt).
 
-:warning: You will need `Docker` service running in your machine to run tests.
+> [!IMPORTANT]  
+> A `git hook` running `./gradle check` will perform before every `git push` 
 
 ## Architecture
 
