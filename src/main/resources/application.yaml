@@ -47,6 +47,8 @@ server:
 springdoc:
   api-docs:
     path: /openapi
+  swagger-ui:
+    path: /swagger-ui/index.html
 caching:
   spring:
     list: logins;users;transactions;customers;

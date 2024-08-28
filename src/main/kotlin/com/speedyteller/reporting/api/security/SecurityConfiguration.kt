@@ -39,9 +39,7 @@ class SecurityConfiguration(private val jwtTokenFilter: JwtTokenFilter) {
                     .requestMatchers(
                         "/health",
                         "/merchant/**",
-                        "/openapi.yaml",
                         "/openapi/**",
-                        "/swagger-ui.html",
                         "/swagger-ui/**"
                     ).permitAll()
                     .anyRequest().authenticated()
