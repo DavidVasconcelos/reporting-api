@@ -21,6 +21,7 @@ plugins {
 	id "org.flywaydb.flyway"                 version "${flyWayVersion}"
 }
 
+apply from: "gradle/git-hooks/git-hooks.gradle"
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'kotlin'
 apply plugin: 'java'
