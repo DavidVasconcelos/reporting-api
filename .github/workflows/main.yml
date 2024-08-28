@@ -22,7 +22,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: temurin
-          java-version: 17
+          java-version: 21
           cache: 'gradle'
       - name: Running assemble
         run: ./gradlew assemble --no-daemon
@@ -36,7 +36,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: temurin
-          java-version: 17
+          java-version: 21
           cache: 'gradle'
       - name: Running detekt
         run: ./gradlew detekt
@@ -50,7 +50,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: temurin
-          java-version: 17
+          java-version: 21
           cache: 'gradle'
       - name: Running tests
         run: ./gradlew test

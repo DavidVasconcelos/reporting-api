@@ -18,6 +18,11 @@ case "$COMMAND" in
     exec java ${JVM_OPS} -Djava.security.egd=file:/dev/./urandom \
       -Duser.Timezone=America/Sao_Paulo \
       -Dserver.port=$APPLICATION_PORT \
+      -Xmx3500m \
+      -XX:MaxMetaspaceSize=256m \
+      -XX:+UseG1GC \
+      -XX:+HeapDumpOnOutOfMemoryError \
+      -XX:HeapDumpPath=/data/oom-dump \
       -jar /app/reporting-api-*.jar \
       $COMMAND
     ;;

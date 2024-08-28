@@ -33,7 +33,7 @@ def jarSuffix = System.getenv('JAR_SUFFIX') ?: ""
 description = description
 group       = group
 version     = version + jarSuffix
-java.sourceCompatibility = JavaVersion.VERSION_17
+java.sourceCompatibility = JavaVersion.VERSION_21
 
 apply from: 'dependencies.gradle'
 
@@ -54,7 +54,7 @@ bootJar {
 kotlin {
 	compilerOptions {
 		freeCompilerArgs.addAll '-Xjsr305=strict'
-		jvmTarget.set(JvmTarget.JVM_17)
+		jvmTarget.set(JvmTarget.JVM_21)
 	}
 }
 

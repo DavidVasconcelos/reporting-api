@@ -1,4 +1,4 @@
-FROM gradle:8.5.0-jdk17 AS builder
+FROM gradle:8.6-jdk21 AS builder
 
 USER root
 
@@ -9,18 +9,19 @@ COPY build.gradle $APP_DIR/
 COPY settings.gradle $APP_DIR/
 COPY dependencies.gradle $APP_DIR/
 COPY gradle.properties $APP_DIR/
+COPY ./gradle/git-hooks/git-hooks.gradle $APP_DIR/gradle/git-hooks/
 
 RUN gradle dependencies
 
 COPY . $APP_DIR
 
-RUN gradle build -x test
+RUN gradle assemble --no-daemon
 
 USER guest
 
 # -----------------------------------------------------------------------------
 
-FROM openjdk:17-slim-buster
+FROM openjdk:21-slim-buster
 
 WORKDIR /app
 
