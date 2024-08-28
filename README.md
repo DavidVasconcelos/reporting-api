@@ -1,6 +1,6 @@
 # Reporting API
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000) ![git_hub_actions](https://github.com/DavidVasconcelos/reporting-api/actions/workflows/main.yml/badge.svg)
+![Version](https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000) ![git_hub_actions](https://github.com/DavidVasconcelos/reporting-api/actions/workflows/main.yml/badge.svg) ![Kotlin Version](https://img.shields.io/badge/Kotlin-1.9.23-E24462) ![Gradle_version](https://img.shields.io/badge/Gradle-8.6-209BC4) ![Java_version](https://img.shields.io/badge/Java-21-f89820) ![Postgres_version](https://img.shields.io/badge/Postgres-16.2-0f5887)
 
 ## TL;DR - What it is?
 
