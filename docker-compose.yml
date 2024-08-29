@@ -3,7 +3,7 @@ version: '3.7'
 services:
   reporting_db:
     container_name: "reporting_db"
-    image: "postgres:11"
+    image: "postgres:16.2"
     volumes:
       - "./docker/postgres.conf:/usr/local/etc/postgres/postgres.conf"
     ports:

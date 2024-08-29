@@ -23,7 +23,7 @@ class PostgresContainerSetup : ApplicationContextInitializer<ConfigurableApplica
 
     companion object {
         private const val POSTGRES_PORT = "5433:5432"
-        private const val IMAGE_VERSION = "postgres:11"
+        private const val IMAGE_VERSION = "postgres:16.2"
         private const val POSTGRES = "postgres"
         private const val DATABASE_NAME = "report"
         private const val DB_URL =
