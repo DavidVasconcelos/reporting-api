@@ -13,6 +13,7 @@ echo "Application port:  $APPLICATION_PORT"
 case "$COMMAND" in
   migrate|web)
     export SPRING_DATASOURCE_URL="${JDBC_DATABASE_URL}"
+    export SPRING_PROFILES_ACTIVE=$( [[ "$COMMAND" == "web" ]] && echo "default" || echo "dbmigration" )
 
     exec java ${JVM_OPS} -Djava.security.egd=file:/dev/./urandom \
       -Duser.Timezone=America/Sao_Paulo \

@@ -28,4 +28,4 @@ WORKDIR /app
 COPY --from=builder /app/init.sh /app
 COPY --from=builder /app/build/libs/reporting-api-*.jar /app/
 
-ENTRYPOINT ["sh", "init.sh"]
+ENTRYPOINT ["bash", "init.sh"]

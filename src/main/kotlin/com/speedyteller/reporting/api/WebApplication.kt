@@ -10,10 +10,6 @@ import org.springframework.scheduling.annotation.EnableScheduling
 @SpringBootApplication
 class WebApplication
 
-fun main(args: Array<String>) {
-	runApplication<WebApplication> {
-		if (args.isNotEmpty() && args[0] == "migrate") {
-			this.setAdditionalProfiles("dbmigration")
-		}
-	}
+fun main() {
+    runApplication<WebApplication>()
 }
