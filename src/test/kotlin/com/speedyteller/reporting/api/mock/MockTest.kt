@@ -97,7 +97,7 @@ class MockTest {
             updatedAt = LocalDateTime.of(LocalDate.of(2015, 10, 9), LocalTime.of(12, 9, 12))
             createdAt = LocalDateTime.of(LocalDate.of(2015, 10, 9), LocalTime.of(12, 9, 10))
             id = 1
-            acquirerTransactionId = 1
+            acquirerTransactionId = 2
             code = "00"
             message = "Waiting"
             transactionId = "1-1444392550-1"
@@ -116,7 +116,7 @@ class MockTest {
         }
 
         val acquirerResponse = Acquirer().apply {
-            id = 12
+            id = 1
             name = "Mergen Bank"
             code = "MB"
             type = "CREDITCARD"

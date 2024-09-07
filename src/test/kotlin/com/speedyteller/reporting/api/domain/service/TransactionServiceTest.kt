@@ -45,7 +45,7 @@ class TransactionServiceTest {
                 filterField = FilterField.getFilterField("Reference No"),
                 filterValue = "api_560a4a9314208",
                 merchantId = 3,
-                acquirerId = 12
+                acquirerId = 1
             ), page = PageRequest.of(1, TransactionController.DEFAULT_PAGE_SIZE)
         )
         expectedTransaction shouldBeEqualTo savedTransaction

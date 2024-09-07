@@ -3,13 +3,18 @@ package com.speedyteller.reporting.api.domain.entity
 import java.time.LocalDateTime
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
+import jakarta.persistence.SequenceGenerator
 import jakarta.persistence.Table
 
 @Entity
 @Table(name = "transaction")
 data class TransactionEntity(
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transaction_id_seq")
+    @SequenceGenerator(name = "transaction_id_seq", sequenceName = "transaction_id_seq", allocationSize = 1)
     @Column(name = "id")
     val id: Long? = null,
     @Column(name = "reference_no")

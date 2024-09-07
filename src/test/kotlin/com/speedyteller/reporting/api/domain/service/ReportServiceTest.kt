@@ -25,7 +25,7 @@ class ReportServiceTest {
                 fromDate = LocalDate.of(2015, 9, 29),
                 toDate = LocalDate.of(2015, 10, 9),
                 merchant = 1,
-                acquirer = 1
+                acquirer = 2
             )
         )
 
