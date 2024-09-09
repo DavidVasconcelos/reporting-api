@@ -1,6 +1,5 @@
 name: Build pipeline
 
-
 on:
   push:
     branches: [ main ]
@@ -9,6 +8,8 @@ on:
   workflow_dispatch:
 
 env:
+  JAVA_VERSION: 21
+  JAVA_DISTRIBUTION: temurin
   JWT_SECRET: ${{secrets.JWT_SECRET}}
   JWT_ISSUER: ${{secrets.JWT_ISSUER}}
 
@@ -21,8 +22,8 @@ jobs:
       - name: setup java
         uses: actions/setup-java@v4
         with:
-          distribution: temurin
-          java-version: 21
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: ${{ env.JAVA_DISTRIBUTION }}
           cache: 'gradle'
       - name: Running assemble
         run: ./gradlew assemble --no-daemon
@@ -35,8 +36,8 @@ jobs:
       - name: setup java
         uses: actions/setup-java@v4
         with:
-          distribution: temurin
-          java-version: 21
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: ${{ env.JAVA_DISTRIBUTION }}
           cache: 'gradle'
       - name: Running detekt
         run: ./gradlew detekt
@@ -49,8 +50,8 @@ jobs:
       - name: setup java
         uses: actions/setup-java@v4
         with:
-          distribution: temurin
-          java-version: 21
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: ${{ env.JAVA_DISTRIBUTION }}
           cache: 'gradle'
       - name: Running tests
         run: ./gradlew test

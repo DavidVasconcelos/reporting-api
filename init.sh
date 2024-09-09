@@ -23,8 +23,7 @@ case "$COMMAND" in
       -XX:+UseG1GC \
       -XX:+HeapDumpOnOutOfMemoryError \
       -XX:HeapDumpPath=/data/oom-dump \
-      -jar /app/reporting-api-*.jar \
-      $COMMAND
+      -jar /app/reporting-api-*.jar
     ;;
   *)
     exec sh -c "$*"
