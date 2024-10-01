@@ -3,8 +3,9 @@ package com.speedyteller.reporting.api.config
 import org.springframework.context.ApplicationContextInitializer
 import org.springframework.context.ConfigurableApplicationContext
 import org.testcontainers.containers.PostgreSQLContainer
-import org.testcontainers.containers.wait.strategy.Wait
+import org.testcontainers.containers.wait.strategy.LogMessageWaitStrategy
 import java.time.Duration
+import java.time.temporal.ChronoUnit
 
 class PostgresContainerSetup : ApplicationContextInitializer<ConfigurableApplicationContext> {
 
@@ -13,7 +14,10 @@ class PostgresContainerSetup : ApplicationContextInitializer<ConfigurableApplica
         postgres.withDatabaseName(DATABASE_NAME)
         postgres.withUsername(POSTGRES)
         postgres.withPassword(POSTGRES)
-        postgres.waitingFor(Wait.forListeningPort().withStartupTimeout(Duration.ofSeconds(60)))
+        postgres.waitingFor(
+            LogMessageWaitStrategy()
+            .withRegEx(".*database system is ready to accept connections.*\\s")
+            .withTimes(2).withStartupTimeout(Duration.of(60L, ChronoUnit.SECONDS)))
         postgres.start()
 
         System.setProperty("DB_URL", DB_URL)
