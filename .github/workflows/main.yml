@@ -25,6 +25,10 @@ jobs:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: ${{ env.JAVA_DISTRIBUTION }}
           cache: 'gradle'
+      - name: Set up environment variables
+        run: |
+          echo "JWT_ISSUER=${{ secrets.JWT_ISSUER }}" >> $GITHUB_ENV
+          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> $GITHUB_ENV
       - name: Running assemble
         run: ./gradlew assemble --no-daemon
   lint:
@@ -39,6 +43,10 @@ jobs:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: ${{ env.JAVA_DISTRIBUTION }}
           cache: 'gradle'
+      - name: Set up environment variables
+        run: |
+          echo "JWT_ISSUER=${{ secrets.JWT_ISSUER }}" >> $GITHUB_ENV
+          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> $GITHUB_ENV
       - name: Running detekt
         run: ./gradlew detekt
   test:
@@ -53,6 +61,10 @@ jobs:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: ${{ env.JAVA_DISTRIBUTION }}
           cache: 'gradle'
+      - name: Set up environment variables
+        run: |
+          echo "JWT_ISSUER=${{ secrets.JWT_ISSUER }}" >> $GITHUB_ENV
+          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> $GITHUB_ENV
       - name: Running tests
         run: ./gradlew test
       - name: Upload Jacoco HTML Reports
