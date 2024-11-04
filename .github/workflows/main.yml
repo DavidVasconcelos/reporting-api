@@ -29,11 +29,6 @@ jobs:
           distribution: ${{ env.JAVA_DISTRIBUTION }}
           cache: 'gradle'
 
-      - name: Set up environment variables
-        run: |
-          echo "JWT_ISSUER=${{ secrets.JWT_ISSUER }}" >> $GITHUB_ENV
-          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> $GITHUB_ENV
-
       - name: Execute Job
         env:
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
