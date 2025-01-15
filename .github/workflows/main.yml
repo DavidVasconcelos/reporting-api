@@ -32,10 +32,10 @@ jobs:
       - name: Set Environment Variables
         run: |
           export JWT_SECRET=${{ secrets.JWT_SECRET }}
-          export echo "::add-mask::JWT_SECRET"          
+          echo "::add-mask::JWT_SECRET"          
           echo "JWT_SECRET" >> $GITHUB_ENV          
           export JWT_ISSUER=${{ secrets.JWT_ISSUER }}
-          export echo "::add-mask::JWT_ISSUER"          
+          echo "::add-mask::JWT_ISSUER"          
           echo "JWT_ISSUER" >> $GITHUB_ENV
 
       - name: Execute Job
