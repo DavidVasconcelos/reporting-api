@@ -2,7 +2,7 @@ FROM gradle:8.6-jdk21 AS builder
 
 USER root
 
-ENV APP_DIR /app
+ENV APP_DIR=/app
 WORKDIR $APP_DIR
 
 COPY build.gradle $APP_DIR/
