@@ -14,7 +14,7 @@ import com.speedyteller.reporting.api.domain.service.TransactionService
 import com.speedyteller.reporting.api.mock.MockTest
 import com.speedyteller.reporting.api.support.annotations.IntegrationTest
 import io.mockk.every
-import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -50,9 +50,8 @@ class TransactionControllerTest {
 
     private var token: String? = null
 
-    @BeforeEach
+    @BeforeAll
     fun setup() {
-
         this.token = jwtTokenComponent.generateAccessToken(User("test", "test", mutableListOf()))
     }
 
