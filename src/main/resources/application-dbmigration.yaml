@@ -5,6 +5,11 @@ spring:
     web-application-type: NONE
   flyway:
     enabled: true
+    default-schema: speedyteller
+    schemas: speedyteller
 jwt:
   secret: ~
   issuer: ~
+logging:
+  level:
+    org.springframework.core.env: TRACE

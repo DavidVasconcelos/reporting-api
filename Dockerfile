@@ -21,7 +21,7 @@ USER guest
 
 # -----------------------------------------------------------------------------
 
-FROM openjdk:21-slim-buster
+FROM eclipse-temurin:21
 
 WORKDIR /app
 

@@ -40,8 +40,7 @@ Some interesting Gradle *targets* (build system):
 
 To create the database locally for the first time:
 
-    $ docker-compose up -d reporting_db    
-    $ docker exec -it reporting_db psql -U postgres -c "create database speedyteller"
+    $ docker-compose up -d reporting_db
 
 For migrations (when new migrations are added, is necessary to execute docker build and have the database created)
 

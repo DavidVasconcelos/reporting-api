@@ -1,31 +1,32 @@
-version: '3.7'
-
 services:
   reporting_db:
     container_name: "reporting_db"
     image: "postgres:16.2"
-    volumes:
-      - "./docker/postgres.conf:/usr/local/etc/postgres/postgres.conf"
     ports:
       - "5432:5432"
     environment:
-      - "POSTGRES_USER=postgres"
-      - "POSTGRES_PASSWORD=postgres"
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: speedyteller
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./docker/postgres.conf:/usr/local/etc/postgres/postgres.conf
 
   reporting_api:
     build:
       context: .
-    image: "davidvasconcelos/reporting_api"
+    image: docker.io/davidvasconcelos/reporting_api:latest
+    pull_policy: always
     ports:
       - "8080:8080"
-    init: true
     depends_on:
-      - "reporting_db"
+      - reporting_db
     environment:
-      - "JDBC_DATABASE_URL=jdbc:postgresql://reporting_db:5432/speedyteller?user=postgres&password=postgres&currentSchema=speedyteller"
-      - "JWT_SECRET=${JWT_SECRET}"
-      - "JWT_ISSUER=${JWT_ISSUER}"
+      JDBC_DATABASE_URL: jdbc:postgresql://reporting_db:5432/speedyteller?currentSchema=speedyteller
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: postgres
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_ISSUER: ${JWT_ISSUER}
 
-networks:
-  speedyteller:
-    external: true
+volumes:
+  postgres-data:

@@ -4,9 +4,9 @@ spring:
   main:
     banner-mode: 'OFF'
   datasource:
-    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/speedyteller?user=postgres&password=postgres&currentSchema=speedyteller}
+    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/speedyteller?currentSchema=speedyteller}
     username: ${POSTGRES_USERNAME:postgres}
-    password: ${POSTGRES_PASSWORD:postgres"}
+    password: ${POSTGRES_PASSWORD:postgres}
   flyway:
     enabled: false
   jpa:
@@ -17,6 +17,7 @@ spring:
           lob:
             non_contextual_creation: true
       hibernate.default_schema: speedyteller
+      ddl-auto: none
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
 jwt:
