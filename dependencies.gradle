@@ -1,5 +1,5 @@
 def postgresVersion          = '42.7.8'
-def ninjaSquadVersion        = '4.0.2'
+def ninjaSquadVersion        = '5.0.1'
 def jacksonVersion           = '2.17.3'
 def valiktorVersion          = '0.12.0'
 def openApiVersion           = "2.6.0"
