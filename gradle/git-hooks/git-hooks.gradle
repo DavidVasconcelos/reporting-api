@@ -1,9 +1,10 @@
-task installGitHooks(type: Copy) {
-    from new File(rootProject.rootDir, 'gradle/git-hooks/pre-push')
-    into {
-        new File(rootProject.rootDir, '.git/hooks')
+tasks.register('installGitHooks', Copy) {
+    from(new File(rootProject.rootDir, 'gradle/git-hooks/pre-push'))
+    into(new File(rootProject.rootDir, '.git/hooks'))
+
+    filePermissions {
+        unix(0755)
     }
-    fileMode 0755
 }
 
-compileJava.dependsOn installGitHooks
+compileJava.dependsOn(tasks.named('installGitHooks'))

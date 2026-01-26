@@ -28,6 +28,7 @@ dependencies {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
         exclude group: "org.mockito", module: "mockito-core"
     }
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
     //Postgres
     runtimeOnly "org.postgresql:postgresql:${postgresVersion}"
