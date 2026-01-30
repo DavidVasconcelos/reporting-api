@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 buildscript {
-	ext.kotlin_version = '1.9.23'
+	ext.kotlin_version = "${kotlinVersion}"
 	repositories {
 		mavenCentral()
 	}
