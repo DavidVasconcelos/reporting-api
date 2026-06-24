@@ -76,7 +76,6 @@ detekt {
 	toolVersion = detektVersion
 	config.setFrom("$projectDir/config/detekt.yml")
 	autoCorrect = true
-//	buildUponDefaultConfig = true
 }
 
 tasks.withType(JavaCompile).configureEach {
