@@ -26,7 +26,7 @@ data class TransactionDTO(
     var customerId: Long? = null,
     var refundable: Boolean? = null,
     var errorCode: String? = null,
-    var agent: AgentInfoDTO? = null
+    var agent: AgentInfoDTO? = null,
 ) {
     constructor(model: Transaction) : this() {
         this.id = model.id

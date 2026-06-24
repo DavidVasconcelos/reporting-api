@@ -14,7 +14,7 @@ data class GetReportRequest(
     var fromDate: LocalDate? = null,
     var toDate: LocalDate? = null,
     var merchant: Int? = null,
-    var acquirer: Int? = null
+    var acquirer: Int? = null,
 ) {
     constructor(dto: GetReportRequestDTO) : this() {
         try {
@@ -36,10 +36,13 @@ data class GetReportRequest(
     private fun interpretConstraintViolation(exception: ConstraintViolationException) {
         val error = exception.constraintViolations.toList().first()
         when {
-            ((error.property == "fromDate" || error.property == "toDate") &&
-                    (error.constraint.name == "Matches")) -> {
+            (
+                (error.property == "fromDate" || error.property == "toDate") &&
+                    (error.constraint.name == "Matches")
+                ) -> {
                 throw BusinessValidationException(DATE_FORMAT_VALIDATOR_MESSAGE)
             }
+
             else -> throw BusinessValidationException("${error.property}: ${error.constraint.name}")
         }
     }

@@ -16,14 +16,12 @@ class FindCustomerByTranscationId(private val transaction: Transaction) {
 
     private var logger: Logger = LoggerFactory.getLogger(this::class.java)
 
-    fun handle(transactionId: String): Customer {
-        return try {
-            transaction.find(transactionId)
-        } catch (ex: DataIntegrityViolationException) {
-            // Tries again when having a unique constraint error due to data concurrency
-            logger.warn(ex.message)
-            transaction.find(transactionId)
-        }
+    fun handle(transactionId: String): Customer = try {
+        transaction.find(transactionId)
+    } catch (ex: DataIntegrityViolationException) {
+        // Tries again when having a unique constraint error due to data concurrency
+        logger.warn(ex.message)
+        transaction.find(transactionId)
     }
 
     @Transactional

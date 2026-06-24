@@ -25,7 +25,7 @@ class JsonScope {
      * @param T the type of the value
      * @return nothing.
      */
-    infix fun<T> String.to(value: T?) {
+    infix fun <T> String.to(value: T?) {
         json.put(this, value ?: JSONObject.NULL)
     }
 

@@ -20,9 +20,8 @@ class FilterFieldComponent {
         fieldProviderMap[FilterField.CARD_PAN] = "c.number"
     }
 
-    fun interpret(filterField: FilterField): String {
-        return fieldProviderMap[filterField] ?: throw BusinessValidationException(ERROR_MESSAGE)
-    }
+    fun interpret(filterField: FilterField): String =
+        fieldProviderMap[filterField] ?: throw BusinessValidationException(ERROR_MESSAGE)
 
     companion object {
         const val ERROR_MESSAGE = "Invalid FilterField"

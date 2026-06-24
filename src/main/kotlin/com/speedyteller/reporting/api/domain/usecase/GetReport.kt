@@ -22,14 +22,12 @@ class GetReport(private val transaction: Transaction) {
 
     private var logger: Logger = LoggerFactory.getLogger(this::class.java)
 
-    fun handle(request: GetReportRequest): List<GetReportResponse> {
-        return try {
-            transaction.get(request)
-        } catch (ex: DataIntegrityViolationException) {
-            // Tries again when having a unique constraint error due to data concurrency
-            logger.warn(ex.message)
-            transaction.get(request)
-        }
+    fun handle(request: GetReportRequest): List<GetReportResponse> = try {
+        transaction.get(request)
+    } catch (ex: DataIntegrityViolationException) {
+        // Tries again when having a unique constraint error due to data concurrency
+        logger.warn(ex.message)
+        transaction.get(request)
     }
 
     @Transactional
@@ -65,12 +63,10 @@ class GetReport(private val transaction: Transaction) {
             return Pair(query.toString(), parameters)
         }
 
-        private fun getReportRecord(record: Array<Any>): GetReportResponse {
-            return GetReportResponse(
-                count = record[COUNT] as? Long,
-                total = record[TOTAL] as? BigDecimal,
-                currency = record[CURRENCY] as? String
-            )
-        }
+        private fun getReportRecord(record: Array<Any>): GetReportResponse = GetReportResponse(
+            count = record[COUNT] as? Long,
+            total = record[TOTAL] as? BigDecimal,
+            currency = record[CURRENCY] as? String,
+        )
     }
 }

@@ -40,7 +40,7 @@ class SecurityConfiguration(private val jwtTokenFilter: JwtTokenFilter) {
                         "/health",
                         "/merchant/**",
                         "/openapi/**",
-                        "/swagger-ui/**"
+                        "/swagger-ui/**",
                     ).permitAll()
                     .anyRequest().authenticated()
             }
@@ -51,16 +51,13 @@ class SecurityConfiguration(private val jwtTokenFilter: JwtTokenFilter) {
     }
 
     @Bean
-    fun passwordEncoder(): PasswordEncoder {
-        return BCryptPasswordEncoder()
-    }
+    fun passwordEncoder(): PasswordEncoder = BCryptPasswordEncoder()
 
     @Bean
     @Throws(Exception::class)
-    fun authenticationManager(http: HttpSecurity): AuthenticationManager {
-        return http.getSharedObject(AuthenticationManagerBuilder::class.java)
+    fun authenticationManager(http: HttpSecurity): AuthenticationManager =
+        http.getSharedObject(AuthenticationManagerBuilder::class.java)
             .build()
-    }
 
     @Bean
     fun corsFilter(): CorsFilter {

@@ -38,9 +38,9 @@ dependencies {
     //Kotlin
     implementation "org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}"
-    detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:$detektVersion"
-    detektPlugins "io.gitlab.arturbosch.detekt:detekt-cli:$detektVersion"
-    detektPlugins "io.gitlab.arturbosch.detekt:detekt-rules-libraries:$detektVersion"
+    detektPlugins "dev.detekt:detekt-rules-ktlint-wrapper:${detektVersion}"
+    detektPlugins "dev.detekt:detekt-cli:${detektVersion}"
+    detektPlugins "dev.detekt:detekt-rules-libraries:${detektVersion}"
 
     //Jackson
     implementation "com.fasterxml.jackson.module:jackson-module-kotlin:${jacksonVersion}"

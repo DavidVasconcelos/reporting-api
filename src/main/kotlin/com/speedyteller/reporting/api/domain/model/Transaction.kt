@@ -23,7 +23,7 @@ data class Transaction(
     var customerId: Long? = null,
     var refundable: Boolean? = null,
     var errorCode: String? = null,
-    var agent: AgentInfo? = null
+    var agent: AgentInfo? = null,
 
 ) {
     constructor(entity: TransactionEntity) : this() {

@@ -10,12 +10,12 @@ import jakarta.persistence.Table
 
 @Entity
 @Table(name = "merchant")
-data class MerchantEntity(
+class MerchantEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "merchant_id_seq")
     @SequenceGenerator(name = "merchant_id_seq", sequenceName = "merchant_id_seq", allocationSize = 1)
     @Column(name = "id")
     val id: Long? = null,
     @Column(name = "name")
-    val name: String? = null
+    val name: String? = null,
 )

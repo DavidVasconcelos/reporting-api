@@ -11,10 +11,11 @@ enum class PaymentMethod {
     STORED,
     PAYTOCARD,
     CEPBANK,
-    CITADEL;
+    CITADEL,
+    ;
 
     companion object {
         fun getPaymentMethod(paymentMethod: String) =
-            values().firstOrNull { it.name == paymentMethod.trim().uppercase(Locale.getDefault()) }
+            PaymentMethod.entries.firstOrNull { it.name == paymentMethod.trim().uppercase(Locale.getDefault()) }
     }
 }

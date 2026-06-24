@@ -7,5 +7,5 @@ data class CustomPageDTO(
     val prevPageUrl: String? = null,
     val from: Int? = null,
     val to: Int? = null,
-    val data: List<Any>? = null
+    val data: List<Any>? = null,
 )

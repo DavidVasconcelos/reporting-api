@@ -11,12 +11,7 @@ class CustomRepositoryImpl : CustomRepository {
     private lateinit var em: EntityManager
 
     @Suppress("UNCHECKED_CAST")
-    override fun executeNativeQuery(
-        query: String,
-        parameters: Map<String, Any>,
-        page: Pageable?
-    ): List<Array<Any>> {
-
+    override fun executeNativeQuery(query: String, parameters: Map<String, Any>, page: Pageable?): List<Array<Any>> {
         val nativeQuery = em.createNativeQuery(query)
 
         parameters.forEach { (key, value) -> nativeQuery.setParameter(key, value) }

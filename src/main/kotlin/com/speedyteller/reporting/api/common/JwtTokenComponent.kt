@@ -19,19 +19,17 @@ import java.util.Date
 class JwtTokenComponent(
     @Value("\${jwt.secret}") val secret: String,
     @Value("\${jwt.issuer}") val issuer: String,
-    @Value("\${caching.spring.loginListTTL}") val jwtExpirationTime: Int
+    @Value("\${caching.spring.loginListTTL}") val jwtExpirationTime: Int,
 ) {
     private var logger: Logger = LoggerFactory.getLogger(this::class.java)
 
-    fun generateAccessToken(user: User): String {
-        return Jwts.builder()
-            .subject(user.username)
-            .issuer(issuer)
-            .issuedAt(Date())
-            .expiration(Date(System.currentTimeMillis() + jwtExpirationTime))
-            .signWith(getKey())
-            .compact()
-    }
+    fun generateAccessToken(user: User): String = Jwts.builder()
+        .subject(user.username)
+        .issuer(issuer)
+        .issuedAt(Date())
+        .expiration(Date(System.currentTimeMillis() + jwtExpirationTime))
+        .signWith(getKey())
+        .compact()
 
     fun getUsername(token: String): String {
         val claims: Claims = Jwts.parser().verifyWith(getKey())

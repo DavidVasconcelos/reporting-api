@@ -11,7 +11,7 @@ class PaginationComponent {
         val prevPageUrl =
             if (page > PAGE_INITIAL_SIZE) {
                 uri.substringBeforeLast("")
-                .plus("${page.minus(PAGE_INITIAL_SIZE)}")
+                    .plus("${page.minus(PAGE_INITIAL_SIZE)}")
             } else {
                 null
             }
@@ -24,7 +24,7 @@ class PaginationComponent {
             prevPageUrl = prevPageUrl,
             from = from,
             to = to,
-            data = data
+            data = data,
         )
     }
 

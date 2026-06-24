@@ -20,17 +20,12 @@ class GetTransactions(private val transaction: Transaction) {
 
     private var logger: Logger = LoggerFactory.getLogger(this::class.java)
 
-    fun handle(
-        request: GetTransactionListRequest,
-        page: Pageable
-    ): List<GetTransactionList> {
-        return try {
-            transaction.get(request, page)
-        } catch (ex: DataIntegrityViolationException) {
-            // Tries again when having a unique constraint error due to data concurrency
-            logger.warn(ex.message)
-            transaction.get(request, page)
-        }
+    fun handle(request: GetTransactionListRequest, page: Pageable): List<GetTransactionList> = try {
+        transaction.get(request, page)
+    } catch (ex: DataIntegrityViolationException) {
+        // Tries again when having a unique constraint error due to data concurrency
+        logger.warn(ex.message)
+        transaction.get(request, page)
     }
 
     @Transactional

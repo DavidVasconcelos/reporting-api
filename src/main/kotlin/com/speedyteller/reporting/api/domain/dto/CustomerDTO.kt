@@ -44,7 +44,7 @@ data class CustomerDTO(
     var shippingState: String? = null,
     var shippingCountry: String? = null,
     var shippingPhone: String? = null,
-    var shippingFax: String? = null
+    var shippingFax: String? = null,
 ) {
     constructor(model: Customer) : this() {
         this.id = model.id

@@ -6,7 +6,7 @@ data class AcquirerDTO(
     var id: Long? = null,
     var name: String? = null,
     var code: String? = null,
-    var type: String? = null
+    var type: String? = null,
 ) {
     constructor(model: Acquirer) : this() {
         this.id = model.id

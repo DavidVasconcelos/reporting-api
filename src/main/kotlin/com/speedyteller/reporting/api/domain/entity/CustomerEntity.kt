@@ -1,6 +1,5 @@
 package com.speedyteller.reporting.api.domain.entity
 
-import java.time.LocalDateTime
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
@@ -8,10 +7,11 @@ import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.SequenceGenerator
 import jakarta.persistence.Table
+import java.time.LocalDateTime
 
 @Entity
 @Table(name = "customer")
-data class CustomerEntity(
+class CustomerEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customer_id_seq")
     @SequenceGenerator(name = "customer_id_seq", sequenceName = "customer_id_seq", allocationSize = 1)
@@ -88,5 +88,5 @@ data class CustomerEntity(
     @Column(name = "shipping_phone")
     val shippingPhone: String? = null,
     @Column(name = "shipping_fax")
-    val shippingFax: String? = null
+    val shippingFax: String? = null,
 )

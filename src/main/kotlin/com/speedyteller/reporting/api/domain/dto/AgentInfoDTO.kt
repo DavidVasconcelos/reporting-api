@@ -6,7 +6,7 @@ data class AgentInfoDTO(
     var id: Long? = null,
     var customerIp: String? = null,
     var customerUserAgent: String? = null,
-    var merchantIp: String? = null
+    var merchantIp: String? = null,
 ) {
     constructor(model: AgentInfo) : this() {
         this.id = model.id

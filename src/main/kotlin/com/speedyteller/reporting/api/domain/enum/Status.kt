@@ -6,9 +6,14 @@ enum class Status {
     APPROVED,
     WAITING,
     DECLINED,
-    ERROR;
+    ERROR,
+    ;
 
     companion object {
-        fun getStatus(status: String) = values().firstOrNull { it.name == status.trim().uppercase(Locale.getDefault()) }
+        fun getStatus(status: String) = Status.entries.firstOrNull {
+            it.name == status.trim().uppercase(
+                Locale.getDefault(),
+            )
+        }
     }
 }

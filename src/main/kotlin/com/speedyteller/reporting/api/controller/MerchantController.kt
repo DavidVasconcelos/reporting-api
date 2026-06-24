@@ -30,16 +30,14 @@ class MerchantController(val authenticationManager: AuthenticationManager, val m
 
     @Cacheable("logins")
     @PostMapping("login")
-    fun login(@RequestBody loginRequestDTO: LoginRequestDTO): ResponseEntity<LoginResponseDTO> {
-        return try {
-            val authenticate: Authentication = authenticationManager
-                .authenticate(UsernamePasswordAuthenticationToken(loginRequestDTO.email, loginRequestDTO.password))
-            val user = authenticate.principal as User
-            ResponseEntity.ok().body(LoginResponseDTO(token = merchantService.login(user = user)))
-        } catch (ex: BadCredentialsException) {
-            logger.error(ex.message)
-            ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()
-        }
+    fun login(@RequestBody loginRequestDTO: LoginRequestDTO): ResponseEntity<LoginResponseDTO> = try {
+        val authenticate: Authentication = authenticationManager
+            .authenticate(UsernamePasswordAuthenticationToken(loginRequestDTO.email, loginRequestDTO.password))
+        val user = authenticate.principal as User
+        ResponseEntity.ok().body(LoginResponseDTO(token = merchantService.login(user = user)))
+    } catch (ex: BadCredentialsException) {
+        logger.error(ex.message)
+        ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()
     }
 
     @CacheEvict(value = ["logins"], allEntries = true)

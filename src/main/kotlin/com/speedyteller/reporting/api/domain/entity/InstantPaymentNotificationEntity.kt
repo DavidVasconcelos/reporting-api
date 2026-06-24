@@ -10,21 +10,21 @@ import jakarta.persistence.Table
 
 @Entity
 @Table(name = "instant_payment_notification")
-data class InstantPaymentNotificationEntity(
+class InstantPaymentNotificationEntity(
     @Id
     @GeneratedValue(
         strategy = GenerationType.SEQUENCE,
-        generator = "instant_payment_notification_id_seq"
+        generator = "instant_payment_notification_id_seq",
     )
     @SequenceGenerator(
         name = "instant_payment_notification_id_seq",
         sequenceName = "instant_payment_notification_id_seq",
-        allocationSize = 1
+        allocationSize = 1,
     )
     @Column(name = "id")
     val id: Long? = null,
     @Column(name = "transaction_id")
     val transactionId: String? = null,
     @Column(name = "received")
-    val received: Boolean? = null
+    val received: Boolean? = null,
 )

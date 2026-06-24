@@ -12,21 +12,21 @@ data class GetTransactionResponse(
     val customerInfo: Customer,
     val acquirer: GetTransactionAcquirerResponse,
     val merchant: GetTransactionMerchantResponse,
-    val transaction: GetTransactionMerchantTransactionResponse
+    val transaction: GetTransactionMerchantTransactionResponse,
 ) {
     constructor(model: GetTransaction) : this(
         fx = FXResponse(
             merchant = FXMerchant(
                 FXTransaction(
                     originalAmount = model.fx.originalAmount,
-                    originalCurrency = model.fx.originalCurrency
-                )
-            )
+                    originalCurrency = model.fx.originalCurrency,
+                ),
+            ),
         ),
         customerInfo = model.customerInfo,
         acquirer = GetTransactionAcquirerResponse(acquirer = model.acquirer),
         merchant = GetTransactionMerchantResponse(merchant = model.merchant),
-        transaction = GetTransactionMerchantTransactionResponse(merchant = model.transaction)
+        transaction = GetTransactionMerchantTransactionResponse(merchant = model.transaction),
     )
 }
 

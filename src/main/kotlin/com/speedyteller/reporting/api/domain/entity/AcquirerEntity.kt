@@ -10,7 +10,7 @@ import jakarta.persistence.Table
 
 @Entity
 @Table(name = "acquirer")
-data class AcquirerEntity(
+class AcquirerEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "acquirer_id_seq")
     @SequenceGenerator(name = "acquirer_id_seq", sequenceName = "acquirer_id_seq", allocationSize = 1)
@@ -21,5 +21,5 @@ data class AcquirerEntity(
     @Column(name = "code")
     val code: String? = null,
     @Column(name = "type")
-    val type: String? = null
+    val type: String? = null,
 )

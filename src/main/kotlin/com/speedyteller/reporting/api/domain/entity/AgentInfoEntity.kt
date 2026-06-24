@@ -10,7 +10,7 @@ import jakarta.persistence.Table
 
 @Entity
 @Table(name = "agent_info")
-data class AgentInfoEntity(
+class AgentInfoEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "agent_info_id_seq")
     @SequenceGenerator(name = "agent_info_id_seq", sequenceName = "agent_info_id_seq", allocationSize = 1)
@@ -21,5 +21,5 @@ data class AgentInfoEntity(
     @Column(name = "customer_user_agent")
     val customerUserAgent: String? = null,
     @Column(name = "merchant_ip")
-    val merchantIp: String? = null
+    val merchantIp: String? = null,
 )

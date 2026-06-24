@@ -26,62 +26,48 @@ import java.time.LocalTime
 @Component
 class MockTest {
 
-    fun getCustumer(): Customer {
-
-        return Customer().apply {
-            id = 1
-            createdAt = LocalDateTime.of(LocalDate.of(2015, 10, 9), LocalTime.of(12, 9, 10))
-            updatedAt = LocalDateTime.of(LocalDate.of(2015, 10, 9), LocalTime.of(12, 9, 10))
-            number = "401288XXXXXX1881"
-            expiryMonth = "6"
-            expiryYear = "2017"
-            email = "michael@gmail.com"
-            birthday = LocalDateTime.of(LocalDate.of(1986, 3, 20), LocalTime.of(12, 9, 10))
-            billingFirstName = "Michael"
-            billingLastName = "Kara"
-            billingAddress1 = "test address"
-            billingCity = "Antalya"
-            billingPostcode = "07070"
-            billingCountry = "TR"
-            shippingFirstName = "Michael"
-            shippingLastName = "Kara"
-            shippingAddress1 = "test address"
-            shippingCity = "Antalya"
-            shippingPostcode = "07070"
-            shippingCountry = "TR"
-        }
+    fun getCustumer(): Customer = Customer().apply {
+        id = 1
+        createdAt = LocalDateTime.of(LocalDate.of(2015, 10, 9), LocalTime.of(12, 9, 10))
+        updatedAt = LocalDateTime.of(LocalDate.of(2015, 10, 9), LocalTime.of(12, 9, 10))
+        number = "401288XXXXXX1881"
+        expiryMonth = "6"
+        expiryYear = "2017"
+        email = "michael@gmail.com"
+        birthday = LocalDateTime.of(LocalDate.of(1986, 3, 20), LocalTime.of(12, 9, 10))
+        billingFirstName = "Michael"
+        billingLastName = "Kara"
+        billingAddress1 = "test address"
+        billingCity = "Antalya"
+        billingPostcode = "07070"
+        billingCountry = "TR"
+        shippingFirstName = "Michael"
+        shippingLastName = "Kara"
+        shippingAddress1 = "test address"
+        shippingCity = "Antalya"
+        shippingPostcode = "07070"
+        shippingCountry = "TR"
     }
 
-    fun getTransactionResponse(): GetTransactionResponse {
+    fun getTransactionResponse(): GetTransactionResponse = GetTransactionResponse(
+        fx = FXResponse(merchant = this.getFXMerchant()),
+        customerInfo = this.getCustumer(),
+        acquirer = this.getGetTransactionAcquirerResponse(),
+        merchant = GetTransactionMerchantResponse(name = "Dev-Merchant"),
+        transaction = GetTransactionMerchantTransactionResponse(merchant = this.getTransaction()),
+    )
 
-        return GetTransactionResponse(
-            fx = FXResponse(merchant = this.getFXMerchant()),
-            customerInfo = this.getCustumer(),
-            acquirer = this.getGetTransactionAcquirerResponse(),
-            merchant = GetTransactionMerchantResponse(name = "Dev-Merchant"),
-            transaction = GetTransactionMerchantTransactionResponse(merchant = this.getTransaction())
-        )
+    fun getGetTransactionAcquirerResponse(): GetTransactionAcquirerResponse = GetTransactionAcquirerResponse().apply {
+        name = "Comitten Bank"
+        code = "CB"
     }
 
-    fun getGetTransactionAcquirerResponse(): GetTransactionAcquirerResponse {
-
-        return GetTransactionAcquirerResponse().apply {
-            name = "Comitten Bank"
-            code = "CB"
-        }
-    }
-
-    fun getFXMerchant(): FXMerchant {
-
-        return FXMerchant().apply {
-
-            originalAmount = BigDecimal("100.00")
-            originalCurrency = "EUR"
-        }
+    fun getFXMerchant(): FXMerchant = FXMerchant().apply {
+        originalAmount = BigDecimal("100.00")
+        originalCurrency = "EUR"
     }
 
     fun getTransaction(): Transaction {
-
         val agentInfo =
             AgentInfo(id = 1, customerIp = "192.168.1.2", customerUserAgent = "Agent", merchantIp = "127.0.0.1")
 
@@ -108,9 +94,7 @@ class MockTest {
     }
 
     fun getTransactionListResponse(): List<GetTransactionListResponse> {
-
         val fxResponse = FXMerchant().apply {
-
             originalAmount = BigDecimal("5.00")
             originalCurrency = "EUR"
         }
@@ -150,25 +134,22 @@ class MockTest {
             ipn = GetTransactionListIPNResponse(received = true),
             transaction = GetTransactionListMerchantTransactionResponse(merchant = transactionResponse),
             acquirer = acquirerResponse,
-            refundable = true
+            refundable = true,
         )
 
         return mutableListOf(getTransactionListResponse)
     }
 
-    fun getReportResponse(): List<GetReportResponse> {
-
-        return mutableListOf(
-            GetReportResponse(
-                count = 1,
-                total = BigDecimal("100.00"),
-                currency = "EUR"
-            ),
-            GetReportResponse(
-                count = 2,
-                total = BigDecimal("375.00"),
-                currency = "USD"
-            )
-        )
-    }
+    fun getReportResponse(): List<GetReportResponse> = mutableListOf(
+        GetReportResponse(
+            count = 1,
+            total = BigDecimal("100.00"),
+            currency = "EUR",
+        ),
+        GetReportResponse(
+            count = 2,
+            total = BigDecimal("375.00"),
+            currency = "USD",
+        ),
+    )
 }

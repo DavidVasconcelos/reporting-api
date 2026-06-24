@@ -101,7 +101,7 @@ class TransactionControllerTest {
             pageSize = TransactionController.DEFAULT_PAGE_SIZE,
             page = page,
             uri = "http://localhost/transaction/list?page=$page",
-            data = listResponseDTO
+            data = listResponseDTO,
         )
         val dtoJSON = mapper.writeValueAsString(pageDTO) as String
 
@@ -128,7 +128,7 @@ class TransactionControllerTest {
             pageSize = TransactionController.DEFAULT_PAGE_SIZE,
             page = page,
             uri = "http://localhost/transaction/list/?page=$page",
-            data = listResponseDTO
+            data = listResponseDTO,
         )
         val dtoJSON = mapper.writeValueAsString(pageDTO) as String
 

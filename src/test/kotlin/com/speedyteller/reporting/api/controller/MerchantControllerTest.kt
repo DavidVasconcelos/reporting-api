@@ -47,14 +47,14 @@ class MerchantControllerTest {
             MockMvcRequestBuilders.post("/merchant/user/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content(requestDTOJSON)
+                .content(requestDTOJSON),
         ).andExpect(
-            MockMvcResultMatchers.status().isOk
+            MockMvcResultMatchers.status().isOk,
         ).andResultBodyMatches(
             json = json {
                 "token" to expectedToken
                 "status" to "APPROVED"
-            }
+            },
         )
     }
 
