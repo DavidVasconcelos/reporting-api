@@ -1,7 +1,8 @@
+import org.codehaus.groovy.runtime.GStringImpl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 buildscript {
-	ext.kotlin_version = "${kotlinVersion}"
+	ext.kotlin_version = "${kotlinVersion}" as GStringImpl
 	repositories {
 		mavenCentral()
 	}
@@ -17,7 +18,7 @@ plugins {
 	id "org.jetbrains.kotlin.plugin.jpa"     version "${kotlinVersion}"
 	id "org.springframework.boot"            version "${springBootVersion}"
 	id "io.spring.dependency-management"     version "${dependencyManagementVersion}"
-	id "io.gitlab.arturbosch.detekt"         version "${detektVersion}"
+	id "dev.detekt"                          version "${detektVersion}"
 	id "org.flywaydb.flyway"                 version "${flyWayVersion}"
 	id "jacoco"
 }
@@ -75,6 +76,7 @@ detekt {
 	toolVersion = detektVersion
 	config.setFrom("$projectDir/config/detekt.yml")
 	autoCorrect = true
+//	buildUponDefaultConfig = true
 }
 
 tasks.withType(JavaCompile).configureEach {
