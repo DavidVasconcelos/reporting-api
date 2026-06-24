@@ -44,7 +44,7 @@ data class GetTransactionList(
     var acquirerName: String? = null,
     var acquirerCode: String? = null,
     var acquirerType: String? = null,
-    var refundable: Boolean = false
+    var refundable: Boolean = false,
 ) {
     constructor(record: Array<Any>) : this() {
         originalAmount = record[ORIGINAL_AMOUNT] as? BigDecimal

@@ -10,7 +10,7 @@ import jakarta.persistence.Table
 
 @Entity
 @Table(name = "merchant_user")
-data class UserEntity(
+class UserEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "merchant_user_id_seq")
     @SequenceGenerator(name = "merchant_user_id_seq", sequenceName = "merchant_user_id_seq", allocationSize = 1)
@@ -19,5 +19,5 @@ data class UserEntity(
     @Column(name = "email")
     val email: String? = null,
     @Column(name = "password")
-    val password: String? = null
+    val password: String? = null,
 )

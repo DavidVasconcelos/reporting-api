@@ -8,10 +8,7 @@ data class FXResponseDTO(val merchant: FXMerchantDTO) {
     constructor(model: FXResponse) : this(merchant = FXMerchantDTO(model.merchant))
 }
 
-data class FXMerchantDTO(
-    var originalAmount: BigDecimal? = null,
-    var originalCurrency: String? = null
-) {
+data class FXMerchantDTO(var originalAmount: BigDecimal? = null, var originalCurrency: String? = null) {
     constructor(model: FXMerchant) : this() {
         this.originalAmount = model.originalAmount
         this.originalCurrency = model.originalCurrency

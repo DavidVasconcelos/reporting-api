@@ -15,7 +15,10 @@ typealias ExplicitJson = JsonScope.(JSONObject) -> Unit
  */
 infix fun ExplicitJson.merge(anotherExplicitJson: ExplicitJson): ExplicitJson {
     val actualExplicitJson = this
-    return { actualExplicitJson(it); anotherExplicitJson(it) }
+    return {
+        actualExplicitJson(it)
+        anotherExplicitJson(it)
+    }
 }
 
 /**

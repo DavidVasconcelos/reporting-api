@@ -12,16 +12,16 @@ data class GetTransactionResponseDTO(
     val customerInfo: CustomerDTO,
     val acquirer: GetTransactionAcquirerResponseDTO,
     val merchant: GetTransactionMerchantResponseDTO,
-    val transaction: GetTransactionMerchantTransactionResponseDTO
+    val transaction: GetTransactionMerchantTransactionResponseDTO,
 ) {
     constructor(
-        model: GetTransactionResponse
+        model: GetTransactionResponse,
     ) : this(
         fx = FXResponseDTO(model = model.fx),
         customerInfo = CustomerDTO(model = model.customerInfo),
         acquirer = GetTransactionAcquirerResponseDTO(model = model.acquirer),
         merchant = GetTransactionMerchantResponseDTO(model = model.merchant),
-        transaction = GetTransactionMerchantTransactionResponseDTO(model = model.transaction)
+        transaction = GetTransactionMerchantTransactionResponseDTO(model = model.transaction),
     )
 }
 
@@ -43,5 +43,5 @@ data class GetTransactionMerchantResponseDTO(var name: String? = null) {
 data class GetTransactionMerchantTransactionResponseDTO(val merchant: TransactionDTO) {
 
     constructor(model: GetTransactionMerchantTransactionResponse) :
-            this(merchant = TransactionDTO(model = model.merchant))
+        this(merchant = TransactionDTO(model = model.merchant))
 }

@@ -16,8 +16,9 @@ class PostgresContainerSetup : ApplicationContextInitializer<ConfigurableApplica
         postgres.withPassword(POSTGRES)
         postgres.waitingFor(
             LogMessageWaitStrategy()
-            .withRegEx(".*database system is ready to accept connections.*\\s")
-            .withTimes(2).withStartupTimeout(Duration.of(60L, ChronoUnit.SECONDS)))
+                .withRegEx(".*database system is ready to accept connections.*\\s")
+                .withTimes(2).withStartupTimeout(Duration.of(60L, ChronoUnit.SECONDS)),
+        )
         postgres.start()
 
         System.setProperty("DB_URL", DB_URL)

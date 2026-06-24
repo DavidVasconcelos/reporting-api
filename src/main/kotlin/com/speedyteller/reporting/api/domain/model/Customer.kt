@@ -40,7 +40,7 @@ data class Customer(
     var shippingState: String? = null,
     var shippingCountry: String? = null,
     var shippingPhone: String? = null,
-    var shippingFax: String? = null
+    var shippingFax: String? = null,
 ) {
     constructor(entity: CustomerEntity) : this() {
         this.id = entity.id

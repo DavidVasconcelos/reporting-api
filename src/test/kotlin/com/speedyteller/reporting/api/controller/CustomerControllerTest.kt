@@ -62,9 +62,9 @@ class CustomerControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(requestDTOJSON)
-                .header("Authorization", arrayOf(jwtToken))
+                .header("Authorization", arrayOf(jwtToken)),
         ).andExpect(
-            MockMvcResultMatchers.status().isOk
+            MockMvcResultMatchers.status().isOk,
         ).andResultBodyMatches(json = expectedCustomer)
     }
 
@@ -80,9 +80,9 @@ class CustomerControllerTest {
             MockMvcRequestBuilders.post("/client")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content(requestDTOJSON)
+                .content(requestDTOJSON),
         ).andExpect(
-            MockMvcResultMatchers.status().isUnauthorized
+            MockMvcResultMatchers.status().isUnauthorized,
         )
     }
 }

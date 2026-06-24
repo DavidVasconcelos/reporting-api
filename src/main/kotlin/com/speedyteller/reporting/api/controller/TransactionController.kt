@@ -31,11 +31,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 class TransactionController(
     val transactionService: TransactionService,
     val reportService: ReportService,
-    val paginationComponent: PaginationComponent
+    val paginationComponent: PaginationComponent,
 ) {
     @PostMapping
-    fun getTransaction(@Valid @RequestBody request: GetTransactionRequestDTO):
-            ResponseEntity<GetTransactionResponseDTO> {
+    fun getTransaction(
+        @Valid @RequestBody request: GetTransactionRequestDTO,
+    ): ResponseEntity<GetTransactionResponseDTO> {
         val transactionResponse = transactionService.getTransaction(transactionId = request.transactionId)
         return ResponseEntity.ok(GetTransactionResponseDTO(model = transactionResponse))
     }
@@ -45,7 +46,7 @@ class TransactionController(
         @Valid
         @Min(value = 1, message = "Use 1 instead 0 on page")
         @RequestParam(name = "page", defaultValue = "1") page: Int,
-        @RequestBody dto: GetTransactionListRequestDTO
+        @RequestBody dto: GetTransactionListRequestDTO,
     ): ResponseEntity<CustomPageDTO> {
         val pageRequest = PageRequest.of(page, DEFAULT_PAGE_SIZE)
         val listOfResponse =
@@ -55,7 +56,7 @@ class TransactionController(
             pageSize = DEFAULT_PAGE_SIZE,
             page = page,
             uri = getUri(),
-            data = listOfResponseDTO
+            data = listOfResponseDTO,
         )
         return ResponseEntity.ok(pageDTO)
     }
@@ -67,11 +68,9 @@ class TransactionController(
         return ResponseEntity.ok(responseDTO)
     }
 
-    private fun getUri(): String {
-        return ServletUriComponentsBuilder
-            .fromCurrentRequest()
-            .toUriString()
-    }
+    private fun getUri(): String = ServletUriComponentsBuilder
+        .fromCurrentRequest()
+        .toUriString()
 
     companion object {
         const val DEFAULT_PAGE_SIZE = 50

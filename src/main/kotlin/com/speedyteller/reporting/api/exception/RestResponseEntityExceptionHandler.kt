@@ -15,45 +15,44 @@ class RestResponseEntityExceptionHandler : ResponseEntityExceptionHandler() {
         val errors = arrayListOf(
             Error(
                 codigo = HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                mensagem = ex.localizedMessage
-            )
+                mensagem = ex.localizedMessage,
+            ),
         )
         val errorResponse = ErrorResponse(INTERNAL_SERVER_ERROR_MESSAGE, errors)
         return ResponseEntity(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 
     @ExceptionHandler(ConstraintViolationException::class)
-    fun handleConstraintViolationException(ex: ConstraintViolationException):
-            ResponseEntity<Any?> {
+    fun handleConstraintViolationException(ex: ConstraintViolationException): ResponseEntity<Any?> {
         val errors = arrayListOf(
-            Error(codigo = HttpStatus.BAD_REQUEST.value(),
-                mensagem = ex.localizedMessage.run { this.substringAfter(COLON).trimStart() })
+            Error(
+                codigo = HttpStatus.BAD_REQUEST.value(),
+                mensagem = ex.localizedMessage.run { this.substringAfter(COLON).trimStart() },
+            ),
         )
         val errorResponse = ErrorResponse(VALIDATION_FAILED_MESSAGE, errors)
         return ResponseEntity(errorResponse, HttpStatus.BAD_REQUEST)
     }
 
     @ExceptionHandler(NotFoundException::class)
-    fun handleNotFoundException(ex: NotFoundException):
-            ResponseEntity<Any?> {
+    fun handleNotFoundException(ex: NotFoundException): ResponseEntity<Any?> {
         val errors = arrayListOf(
             Error(
                 codigo = HttpStatus.NOT_FOUND.value(),
-                mensagem = ex.localizedMessage
-            )
+                mensagem = ex.localizedMessage,
+            ),
         )
         val errorResponse = ErrorResponse(NOT_FOUND_FAIL_MESSAGE, errors)
         return ResponseEntity(errorResponse, HttpStatus.NOT_FOUND)
     }
 
     @ExceptionHandler(BusinessValidationException::class)
-    fun handleBusinessValidationException(ex: BusinessValidationException):
-            ResponseEntity<Any?> {
+    fun handleBusinessValidationException(ex: BusinessValidationException): ResponseEntity<Any?> {
         val errors = arrayListOf(
             Error(
                 codigo = HttpStatus.BAD_REQUEST.value(),
-                mensagem = ex.localizedMessage
-            )
+                mensagem = ex.localizedMessage,
+            ),
         )
         val errorResponse = ErrorResponse(VALIDATION_FAILED_MESSAGE, errors)
         return ResponseEntity(errorResponse, HttpStatus.BAD_REQUEST)

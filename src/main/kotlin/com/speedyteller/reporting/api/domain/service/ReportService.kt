@@ -8,6 +8,5 @@ import org.springframework.stereotype.Service
 @Service
 class ReportService(val getReport: GetReport) {
 
-    fun getReport(request: GetReportRequest): List<GetReportResponse> =
-        getReport.handle(request = request)
+    fun getReport(request: GetReportRequest): List<GetReportResponse> = getReport.handle(request = request)
 }

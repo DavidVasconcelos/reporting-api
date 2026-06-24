@@ -14,7 +14,5 @@ class SpringCachingConfig {
 
     @Bean
     @Suppress("SpreadOperator")
-    fun cacheManager(): CacheManager {
-        return ConcurrentMapCacheManager(*cacheList.toTypedArray())
-    }
+    fun cacheManager(): CacheManager = ConcurrentMapCacheManager(*cacheList.toTypedArray())
 }

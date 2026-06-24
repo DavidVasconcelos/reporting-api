@@ -10,10 +10,7 @@ import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 
 @Service
-class TransactionService(
-    val findTransactionById: FindTransactionById,
-    val getTransactions: GetTransactions
-) {
+class TransactionService(val findTransactionById: FindTransactionById, val getTransactions: GetTransactions) {
 
     @Cacheable(cacheNames = ["transactions"], key = "#transactionId")
     fun getTransaction(transactionId: String): GetTransactionResponse {
@@ -21,9 +18,6 @@ class TransactionService(
         return GetTransactionResponse(model = transaction)
     }
 
-    fun getTransactionList(
-        request: GetTransactionListRequest,
-        page: Pageable
-    ): List<GetTransactionListResponse> =
+    fun getTransactionList(request: GetTransactionListRequest, page: Pageable): List<GetTransactionListResponse> =
         getTransactions.handle(request = request, page = page).map { GetTransactionListResponse(model = it) }
 }

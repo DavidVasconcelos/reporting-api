@@ -13,23 +13,19 @@ import org.springframework.context.annotation.Configuration
 class SwaggerConfiguration {
 
     @Bean
-    fun openAPI(): OpenAPI {
-        return OpenAPI()
-            .addSecurityItem(
-                SecurityRequirement()
-                    .addList("JWT Authentication")
-            )
-            .components(
-                Components()
-                    .addSecuritySchemes("JWT Authentication", createAPIKeyScheme())
-            )
-    }
+    fun openAPI(): OpenAPI = OpenAPI()
+        .addSecurityItem(
+            SecurityRequirement()
+                .addList("JWT Authentication"),
+        )
+        .components(
+            Components()
+                .addSecuritySchemes("JWT Authentication", createAPIKeyScheme()),
+        )
 
-    private fun createAPIKeyScheme(): SecurityScheme {
-        return SecurityScheme().type(Type.APIKEY)
-            .`in`(In.HEADER)
-            .name(TOKEN_HEADER)
-    }
+    private fun createAPIKeyScheme(): SecurityScheme = SecurityScheme().type(Type.APIKEY)
+        .`in`(In.HEADER)
+        .name(TOKEN_HEADER)
 
     companion object {
         const val TOKEN_HEADER = "Authorization"

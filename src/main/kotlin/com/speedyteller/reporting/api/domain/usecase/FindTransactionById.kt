@@ -26,14 +26,12 @@ class FindTransactionById(private val transaction: Transaction) {
 
     private var logger: Logger = LoggerFactory.getLogger(this::class.java)
 
-    fun handle(transactionId: String): GetTransaction {
-        return try {
-            transaction.find(transactionId)
-        } catch (ex: DataIntegrityViolationException) {
-            // Tries again when having a unique constraint error due to data concurrency
-            logger.warn(ex.message)
-            transaction.find(transactionId)
-        }
+    fun handle(transactionId: String): GetTransaction = try {
+        transaction.find(transactionId)
+    } catch (ex: DataIntegrityViolationException) {
+        // Tries again when having a unique constraint error due to data concurrency
+        logger.warn(ex.message)
+        transaction.find(transactionId)
     }
 
     @Transactional
@@ -44,7 +42,7 @@ class FindTransactionById(private val transaction: Transaction) {
         val customerRepository: CustomerRepository,
         val acquirerRepository: AcquirerRepository,
         val merchantRepository: MerchantRepository,
-        val agentInfoRepository: AgentInfoRepository
+        val agentInfoRepository: AgentInfoRepository,
     ) {
 
         fun find(id: String): GetTransaction {
@@ -62,7 +60,7 @@ class FindTransactionById(private val transaction: Transaction) {
                 fx = fxTransaction,
                 customerInfo = customer,
                 acquirer = acquirer,
-                merchant = merchant
+                merchant = merchant,
             )
         }
 

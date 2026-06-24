@@ -7,10 +7,13 @@ enum class Operation(val operation: String) {
     REFUND("REFUND"),
     THREE_D("3D"),
     THREE_D_AUTH("3DAUTH"),
-    STORED("STORED");
+    STORED("STORED"),
+    ;
 
     companion object {
-        fun getOperation(operation: String) = values().firstOrNull { it.operation == operation.trim()
-            .uppercase(Locale.getDefault()) }
+        fun getOperation(operation: String) = Operation.entries.firstOrNull {
+            it.operation == operation.trim()
+                .uppercase(Locale.getDefault())
+        }
     }
 }

@@ -6,7 +6,7 @@ data class Acquirer(
     var id: Long? = null,
     var name: String? = null,
     var code: String? = null,
-    var type: String? = null
+    var type: String? = null,
 ) {
     constructor(entity: AcquirerEntity) : this() {
         this.id = entity.id

@@ -12,56 +12,56 @@ data class GetTransactionListResponse(
     val ipn: GetTransactionListIPNResponse,
     val transaction: GetTransactionListMerchantTransactionResponse,
     val acquirer: Acquirer,
-    val refundable: Boolean
+    val refundable: Boolean,
 ) {
     constructor(model: GetTransactionList) :
-            this(
-                fx = FXResponse(
-                    merchant = FXMerchant(
-                        FXTransaction(
-                            originalAmount = model.originalAmount,
-                            originalCurrency = model.originalCurrency
-                        )
-                    )
+        this(
+            fx = FXResponse(
+                merchant = FXMerchant(
+                    FXTransaction(
+                        originalAmount = model.originalAmount,
+                        originalCurrency = model.originalCurrency,
+                    ),
                 ),
-                customerInfo = GetTransactionListCustmerResponse(
-                    number = model.number,
-                    email = model.email,
-                    billingFirstName = model.billingFirstName,
-                    billingLastName = model.billingLastName
+            ),
+            customerInfo = GetTransactionListCustmerResponse(
+                number = model.number,
+                email = model.email,
+                billingFirstName = model.billingFirstName,
+                billingLastName = model.billingLastName,
+            ),
+            merchant = GetTransactionListMerchantResponse(
+                id = model.merchantId,
+                name = model.merchantName,
+            ),
+            ipn = GetTransactionListIPNResponse(
+                received = model.received,
+            ),
+            acquirer = Acquirer(
+                id = model.acquirerId,
+                name = model.acquirerName,
+                code = model.acquirerCode,
+                type = model.acquirerType,
+            ),
+            transaction = GetTransactionListMerchantTransactionResponse(
+                merchant = GetTransactionListTransactionResponse(
+                    referenceNo = model.referenceNo,
+                    status = model.status,
+                    operation = model.operation,
+                    message = model.message,
+                    createdAt = model.createdAt,
+                    transactionId = model.transactionId,
                 ),
-                merchant = GetTransactionListMerchantResponse(
-                    id = model.merchantId,
-                    name = model.merchantName
-                ),
-                ipn = GetTransactionListIPNResponse(
-                    received = model.received
-                ),
-                acquirer = Acquirer(
-                    id = model.acquirerId,
-                    name = model.acquirerName,
-                    code = model.acquirerCode,
-                    type = model.acquirerType
-                ),
-                transaction = GetTransactionListMerchantTransactionResponse(
-                    merchant = GetTransactionListTransactionResponse(
-                        referenceNo = model.referenceNo,
-                        status = model.status,
-                        operation = model.operation,
-                        message = model.message,
-                        createdAt = model.createdAt,
-                        transactionId = model.transactionId
-                    )
-                ),
-                refundable = model.refundable
-            )
+            ),
+            refundable = model.refundable,
+        )
 }
 
 data class GetTransactionListCustmerResponse(
     var number: String? = null,
     var email: String? = null,
     var billingFirstName: String? = null,
-    var billingLastName: String? = null
+    var billingLastName: String? = null,
 )
 
 data class GetTransactionListMerchantResponse(var id: Long? = null, var name: String? = null)
@@ -76,5 +76,5 @@ data class GetTransactionListTransactionResponse(
     var operation: String? = null,
     var message: String? = null,
     var createdAt: LocalDateTime? = null,
-    var transactionId: String? = null
+    var transactionId: String? = null,
 )

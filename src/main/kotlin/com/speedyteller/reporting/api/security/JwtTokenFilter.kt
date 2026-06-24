@@ -13,15 +13,13 @@ import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
 
 @Component
-class JwtTokenFilter(
-    val jwtTokenComponent: JwtTokenComponent,
-    val userDetailsService: UserDetailsService
-) : OncePerRequestFilter() {
+class JwtTokenFilter(val jwtTokenComponent: JwtTokenComponent, val userDetailsService: UserDetailsService) :
+    OncePerRequestFilter() {
 
     override fun doFilterInternal(
         request: HttpServletRequest,
         response: HttpServletResponse,
-        filterChain: FilterChain
+        filterChain: FilterChain,
     ) {
         val header = request.getHeader(HttpHeaders.AUTHORIZATION)
         if (header.isNullOrEmpty() || !jwtTokenComponent.validate(header)) {

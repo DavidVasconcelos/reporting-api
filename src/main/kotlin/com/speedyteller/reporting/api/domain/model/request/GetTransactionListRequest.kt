@@ -28,7 +28,7 @@ data class GetTransactionListRequest(
     var filterField: FilterField? = null,
     var filterValue: String? = null,
     var merchantId: Int? = null,
-    var acquirerId: Int? = null
+    var acquirerId: Int? = null,
 ) {
     constructor(dto: GetTransactionListRequestDTO) : this() {
         this.validateFields(dto)
@@ -72,8 +72,10 @@ data class GetTransactionListRequest(
         val errorMessage = when {
             ((error.property == "fromDate" || error.property == "toDate") && (error.constraint.name == "Matches")) ->
                 DATE_FORMAT_VALIDATOR_MESSAGE
+
             (fieldsList.contains(error.property) && error.constraint.name == "In") ->
                 "Invalid ${error.property.toCapital()}"
+
             else -> "${error.property}: ${error.constraint.name}"
         }
         throw BusinessValidationException(errorMessage)

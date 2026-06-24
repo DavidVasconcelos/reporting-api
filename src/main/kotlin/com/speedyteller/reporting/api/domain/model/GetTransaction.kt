@@ -5,5 +5,5 @@ data class GetTransaction(
     val customerInfo: Customer,
     val acquirer: Acquirer,
     val merchant: Merchant,
-    val transaction: Transaction
+    val transaction: Transaction,
 )

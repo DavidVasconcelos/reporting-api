@@ -16,29 +16,29 @@ data class GetTransactionListResponseDTO(
     val ipn: GetTransactionListIPNResponseDTO,
     val transaction: GetTransactionListMerchantTransactionResponseDTO,
     val acquirer: AcquirerDTO,
-    val refundable: Boolean
+    val refundable: Boolean,
 ) {
     constructor(model: GetTransactionListResponse) :
-            this(
-                fx = FXResponseDTO(model = model.fx),
-                customerInfo = GetTransactionListCustmerResponseDTO(model = model.customerInfo),
-                merchant = GetTransactionListMerchantResponseDTO(model = model.merchant),
-                ipn = GetTransactionListIPNResponseDTO(model = model.ipn),
-                transaction = GetTransactionListMerchantTransactionResponseDTO(
-                    merchant = GetTransactionListTransactionResponseDTO(
-                        model = model.transaction.merchant
-                    )
+        this(
+            fx = FXResponseDTO(model = model.fx),
+            customerInfo = GetTransactionListCustmerResponseDTO(model = model.customerInfo),
+            merchant = GetTransactionListMerchantResponseDTO(model = model.merchant),
+            ipn = GetTransactionListIPNResponseDTO(model = model.ipn),
+            transaction = GetTransactionListMerchantTransactionResponseDTO(
+                merchant = GetTransactionListTransactionResponseDTO(
+                    model = model.transaction.merchant,
                 ),
-                acquirer = AcquirerDTO(model = model.acquirer),
-                refundable = model.refundable
-            )
+            ),
+            acquirer = AcquirerDTO(model = model.acquirer),
+            refundable = model.refundable,
+        )
 }
 
 data class GetTransactionListCustmerResponseDTO(
     var number: String? = null,
     var email: String? = null,
     var billingFirstName: String? = null,
-    var billingLastName: String? = null
+    var billingLastName: String? = null,
 ) {
     constructor(model: GetTransactionListCustmerResponse) : this() {
         this.number = model.number
@@ -70,7 +70,7 @@ data class GetTransactionListTransactionResponseDTO(
     var message: String? = null,
     @JsonProperty("created_at")
     var createdAt: String? = null,
-    var transactionId: String? = null
+    var transactionId: String? = null,
 ) {
     constructor(model: GetTransactionListTransactionResponse) : this() {
         this.referenceNo = model.referenceNo

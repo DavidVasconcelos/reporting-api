@@ -12,8 +12,7 @@ fun ResultActions.andResultBodyMatches(strict: Boolean = true, json: ExplicitJso
         JSONAssert.assertEquals(json.serialize(), content, strict)
     }
 
-fun ResultActions.andResultBodyMatches(json: String): ResultActions =
-    this.andDo { mvcResult ->
-        val content = mvcResult.response.contentAsString
-        JSONAssert.assertEquals(json, content, JSONCompareMode.LENIENT)
-    }
+fun ResultActions.andResultBodyMatches(json: String): ResultActions = this.andDo { mvcResult ->
+    val content = mvcResult.response.contentAsString
+    JSONAssert.assertEquals(json, content, JSONCompareMode.LENIENT)
+}

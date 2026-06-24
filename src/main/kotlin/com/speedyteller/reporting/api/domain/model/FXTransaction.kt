@@ -6,7 +6,7 @@ import java.math.BigDecimal
 data class FXTransaction(
     var id: Long? = null,
     var originalAmount: BigDecimal? = null,
-    var originalCurrency: String? = null
+    var originalCurrency: String? = null,
 ) {
     constructor(entity: FXTransactionEntity) : this() {
         this.id = entity.id
