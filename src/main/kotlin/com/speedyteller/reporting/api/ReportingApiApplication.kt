@@ -8,8 +8,8 @@ import org.springframework.scheduling.annotation.EnableScheduling
 @EnableCaching
 @EnableScheduling
 @SpringBootApplication
-class WebApplication
+class ReportingApiApplication
 
 fun main() {
-    runApplication<WebApplication>()
+    runApplication<ReportingApiApplication>()
 }

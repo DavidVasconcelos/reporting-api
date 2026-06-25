@@ -1,4 +1,4 @@
-FROM eclipse-temurin:21-jdk AS builder
+FROM eclipse-temurin:25-jdk AS builder
 
 WORKDIR /app
 
@@ -18,7 +18,7 @@ RUN ./gradlew assemble
 
 # -----------------------------------------------------------------------------
 
-FROM eclipse-temurin:21-jre
+FROM eclipse-temurin:25-jre
 
 WORKDIR /app
 
@@ -26,6 +26,6 @@ RUN addgroup --system spring && adduser --system --ingroup spring spring
 USER spring
 
 COPY --from=builder /app/init.sh /app/
-COPY --from=builder /app/build/libs/reporting-api-*.jar /app/app.jar
+COPY --from=builder /app/build/libs/reporting-api.jar /app/app.jar
 
 ENTRYPOINT ["bash", "init.sh"]
