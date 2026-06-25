@@ -28,11 +28,12 @@ dependencies {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
         exclude group: "org.mockito", module: "mockito-core"
     }
+    testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test:${springBootVersion}")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
     //Postgres
     runtimeOnly "org.postgresql:postgresql:${postgresVersion}"
-    implementation "org.flywaydb:flyway-core:${flyWayVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-flyway:${springBootVersion}"
     implementation "org.flywaydb:flyway-database-postgresql:${flyWayVersion}"
 
     //Kotlin

@@ -12,13 +12,14 @@ spring:
     enabled: true
   jpa:
     properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
       jdbc:
         lob:
           non_contextual_creation: true
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
+  servlet:
+    encoding:
+      enabled: true
+      charset: UTF-8
 jwt:
   secret: ${JWT_SECRET}
   issuer: ${JWT_ISSUER}
@@ -33,9 +34,6 @@ logging:
 server:
   port: ${SERVER_PORT:8080}
   servlet:
-    encoding:
-      enabled: true
-      charset: UTF-8
     context-path: /api/v3
 
 caching:

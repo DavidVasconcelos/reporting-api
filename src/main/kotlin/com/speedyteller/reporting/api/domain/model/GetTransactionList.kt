@@ -21,7 +21,6 @@ import com.speedyteller.reporting.api.domain.constant.BusinessConstants.DataBase
 import com.speedyteller.reporting.api.domain.constant.BusinessConstants.DataBaseFields.STATUS
 import com.speedyteller.reporting.api.domain.constant.BusinessConstants.DataBaseFields.TRANSACTION_ID
 import java.math.BigDecimal
-import java.sql.Timestamp
 import java.time.LocalDateTime
 
 data class GetTransactionList(
@@ -60,7 +59,7 @@ data class GetTransactionList(
         status = record[STATUS] as? String
         operation = record[OPERATION] as? String
         message = record[MESSAGE] as? String
-        createdAt = (record[CREATED_AT] as? Timestamp)?.toLocalDateTime()
+        createdAt = record[CREATED_AT] as? LocalDateTime
         transactionId = record[TRANSACTION_ID] as? String
         acquirerId = record[ACQUIRER_ID] as? Long
         acquirerName = record[ACQUIRER_NAME] as? String

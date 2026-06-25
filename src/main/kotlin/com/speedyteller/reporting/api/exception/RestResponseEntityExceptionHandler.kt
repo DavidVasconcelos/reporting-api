@@ -11,7 +11,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 class RestResponseEntityExceptionHandler : ResponseEntityExceptionHandler() {
 
     @ExceptionHandler(Exception::class)
-    fun handleAllExceptions(ex: Exception): ResponseEntity<Any?> {
+    fun handleAllExceptions(ex: Exception): ResponseEntity<Any> {
         val errors = arrayListOf(
             Error(
                 codigo = HttpStatus.INTERNAL_SERVER_ERROR.value(),
@@ -23,7 +23,7 @@ class RestResponseEntityExceptionHandler : ResponseEntityExceptionHandler() {
     }
 
     @ExceptionHandler(ConstraintViolationException::class)
-    fun handleConstraintViolationException(ex: ConstraintViolationException): ResponseEntity<Any?> {
+    fun handleConstraintViolationException(ex: ConstraintViolationException): ResponseEntity<Any> {
         val errors = arrayListOf(
             Error(
                 codigo = HttpStatus.BAD_REQUEST.value(),
@@ -35,7 +35,7 @@ class RestResponseEntityExceptionHandler : ResponseEntityExceptionHandler() {
     }
 
     @ExceptionHandler(NotFoundException::class)
-    fun handleNotFoundException(ex: NotFoundException): ResponseEntity<Any?> {
+    fun handleNotFoundException(ex: NotFoundException): ResponseEntity<Any> {
         val errors = arrayListOf(
             Error(
                 codigo = HttpStatus.NOT_FOUND.value(),
@@ -47,7 +47,7 @@ class RestResponseEntityExceptionHandler : ResponseEntityExceptionHandler() {
     }
 
     @ExceptionHandler(BusinessValidationException::class)
-    fun handleBusinessValidationException(ex: BusinessValidationException): ResponseEntity<Any?> {
+    fun handleBusinessValidationException(ex: BusinessValidationException): ResponseEntity<Any> {
         val errors = arrayListOf(
             Error(
                 codigo = HttpStatus.BAD_REQUEST.value(),

@@ -14,7 +14,8 @@ import io.mockk.every
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc
+import org.springframework.context.annotation.Import
 import org.springframework.http.MediaType
 import org.springframework.security.core.userdetails.User
 import org.springframework.test.web.servlet.MockMvc
@@ -23,6 +24,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
 @IntegrationTest
 @AutoConfigureMockMvc
+@Import(ObjectMapper::class)
 class CustomerControllerTest {
 
     @Autowired
@@ -62,7 +64,7 @@ class CustomerControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(requestDTOJSON)
-                .header("Authorization", arrayOf(jwtToken)),
+                .header("Authorization", jwtToken),
         ).andExpect(
             MockMvcResultMatchers.status().isOk,
         ).andResultBodyMatches(json = expectedCustomer)

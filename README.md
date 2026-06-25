@@ -2,10 +2,10 @@
 
 ![app_version](https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000) 
 ![git_hub_actions](https://github.com/DavidVasconcelos/reporting-api/actions/workflows/main.yml/badge.svg) 
-![spring_boot version](https://img.shields.io/badge/SpringBoot-3.5.10-8BC34A) 
-![kotlin_version](https://img.shields.io/badge/Kotlin-2.4.0-E24462) 
+![spring_boot version](https://img.shields.io/badge/SpringBoot-4.0.7-8BC34A) 
+![kotlin_version](https://img.shields.io/badge/Kotlin-2.4.0-E24462)
+![java_version](https://img.shields.io/badge/Java-25-f89820)
 ![gradle_version](https://img.shields.io/badge/Gradle-9.5.1-209BC4) 
-![java_version](https://img.shields.io/badge/Java-21-f89820) 
 ![postgres_version](https://img.shields.io/badge/Postgres-16.2-0f5887)
 
 ## TL;DR - What it is?

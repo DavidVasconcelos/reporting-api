@@ -14,7 +14,7 @@ class FlywayMigrationShutdownListener(private val context: ApplicationContext) {
 
     @EventListener
     fun onApplicationReadyEvent(event: ApplicationReadyEvent) {
-        println("Application ready in ${event.timeTaken.toSeconds()} seconds")
+        println("Application ready in ${event.timeTaken?.toSeconds()} seconds")
         println("Flyway migration completed. Shutting down.")
         SpringApplication.exit(context, ExitCodeGenerator { 0 })
     }

@@ -1,7 +1,7 @@
 package com.speedyteller.reporting.api.cache
 
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.boot.autoconfigure.cache.CacheManagerCustomizer
+import org.springframework.boot.cache.autoconfigure.CacheManagerCustomizer
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager
 import org.springframework.stereotype.Component
 

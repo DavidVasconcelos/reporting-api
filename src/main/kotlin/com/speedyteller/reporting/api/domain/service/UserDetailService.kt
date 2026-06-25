@@ -18,7 +18,7 @@ class UserDetailService(var userService: UserService) : UserDetailsService {
     @Cacheable("users")
     override fun loadUserByUsername(username: String): UserDetails {
         val userModel = userService.findByEmail(email = username)
-        return User(userModel.email, userModel.password, mutableListOf())
+        return User(userModel.email!!, userModel.password, mutableListOf())
     }
 
     @CacheEvict(value = ["users"], allEntries = true)

@@ -29,19 +29,35 @@ jar {
 }
 
 bootJar {
-    launchScript()
+    archiveFileName = 'reporting-api.jar'
+
+    mainClass = 'com.speedyteller.reporting.api.ReportingApiApplication'
+
+    layered {
+        enabled = true
+    }
+
+    exclude("**/spring-boot-devtools-*.jar")
+
+    manifest {
+        attributes(
+                'Implementation-Title': 'SpeedyTeller Reporting API',
+                'Implementation-Version': project.version,
+                'Built-With-Java': '25'
+        )
+    }
 }
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(21))
+        languageVersion.set(JavaLanguageVersion.of(25))
     }
 }
 
 kotlin {
     compilerOptions {
         freeCompilerArgs.addAll '-Xjsr305=strict', '-Xmx2g', '-XX:MaxMetaspaceSize=512m', '-XX:+UseParallelGC'
-        jvmTarget.set(JvmTarget.JVM_21)
+        jvmTarget.set(JvmTarget.JVM_25)
     }
 }
 
