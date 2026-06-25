@@ -7,6 +7,13 @@ spring:
     url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/speedyteller?currentSchema=speedyteller}
     username: ${POSTGRES_USERNAME:postgres}
     password: ${POSTGRES_PASSWORD:postgres}
+    hikari:
+      minimum-idle: 2
+      maximum-pool-size: 4
+      auto-commit: false
+      connection-timeout: 20000
+      idle-timeout: 300000
+      max-lifetime: 1200000
   flyway:
     enabled: true
   jpa:
@@ -28,12 +35,13 @@ jwt:
 logging:
   level:
     ROOT: ${LOGGING_LEVEL_ROOT:INFO}
-    com:
-      speedyteller:
-        reporting: ${LOGGING_COM_SPEEDYTELLER:DEBUG}
+    com.speedyteller.reporting: ${LOGGING_COM_SPEEDYTELLER:DEBUG}
+    org.hibernate.orm.connections.pooling: WARN
+    com.zaxxer.hikari.HikariConfig: INFO
+    com.zaxxer.hikari: INFO
 logbook:
   exclude:
-    - /health
+    - "/health"
 management:
   endpoints:
     web:
