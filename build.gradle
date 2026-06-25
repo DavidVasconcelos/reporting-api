@@ -12,9 +12,6 @@ plugins {
     id "jacoco"
 }
 
-def jarSuffix = System.getenv('JAR_SUFFIX') ?: ""
-version = version + jarSuffix
-
 apply from: "gradle/git-hooks/git-hooks.gradle"
 apply from: 'dependencies.gradle'
 
@@ -31,7 +28,7 @@ jar {
 bootJar {
     archiveFileName = 'reporting-api.jar'
 
-    mainClass = 'com.speedyteller.reporting.api.ReportingApiApplication'
+    mainClass = 'com.speedyteller.reporting.api.ReportingApiApplicationKt'
 
     layered {
         enabled = true
