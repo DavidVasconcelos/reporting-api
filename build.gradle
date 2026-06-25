@@ -1,96 +1,87 @@
-import org.codehaus.groovy.runtime.GStringImpl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
-buildscript {
-	ext.kotlin_version = "${kotlinVersion}" as GStringImpl
-	repositories {
-		mavenCentral()
-	}
-	dependencies {
-		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-	}
-}
-
 plugins {
-	id "org.jetbrains.kotlin.jvm"            version "${kotlinVersion}"
-	id "org.jetbrains.kotlin.plugin.spring"  version "${kotlinVersion}"
-	id "org.jetbrains.kotlin.plugin.allopen" version "${kotlinVersion}"
-	id "org.jetbrains.kotlin.plugin.jpa"     version "${kotlinVersion}"
-	id "org.springframework.boot"            version "${springBootVersion}"
-	id "io.spring.dependency-management"     version "${dependencyManagementVersion}"
-	id "dev.detekt"                          version "${detektVersion}"
-	id "org.flywaydb.flyway"                 version "${flyWayVersion}"
-	id "jacoco"
+    id "org.jetbrains.kotlin.jvm" version "${kotlinVersion}"
+    id "org.jetbrains.kotlin.plugin.spring" version "${kotlinVersion}"
+    id "org.jetbrains.kotlin.plugin.allopen" version "${kotlinVersion}"
+    id "org.jetbrains.kotlin.plugin.jpa" version "${kotlinVersion}"
+    id "org.springframework.boot" version "${springBootVersion}"
+    id "io.spring.dependency-management" version "${dependencyManagementVersion}"
+    id "dev.detekt" version "${detektVersion}"
+    id "org.flywaydb.flyway" version "${flyWayVersion}"
+    id "jacoco"
 }
-
-apply from: "gradle/git-hooks/git-hooks.gradle"
 
 def jarSuffix = System.getenv('JAR_SUFFIX') ?: ""
-description = description
-group       = group
-version     = version + jarSuffix
-java.sourceCompatibility = JavaVersion.VERSION_21
+version = version + jarSuffix
 
+apply from: "gradle/git-hooks/git-hooks.gradle"
 apply from: 'dependencies.gradle'
 
 repositories {
-	mavenCentral()
-	gradlePluginPortal()
-	mavenLocal()
+    mavenCentral()
+    gradlePluginPortal()
+    mavenLocal()
 }
 
 jar {
-	enabled = false
+    enabled = false
 }
 
 bootJar {
-	launchScript()
+    launchScript()
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(21))
+    }
 }
 
 kotlin {
-	compilerOptions {
-		freeCompilerArgs.addAll '-Xjsr305=strict'
-		jvmTarget.set(JvmTarget.JVM_21)
-	}
+    compilerOptions {
+        freeCompilerArgs.addAll '-Xjsr305=strict'
+        jvmTarget.set(JvmTarget.JVM_21)
+    }
 }
 
 
 test {
-	useJUnitPlatform()
-	ignoreFailures = false
-	jvmArgs = ["-Duser.timezone=America/Sao_Paulo",
-			   "-XX:+UnlockExperimentalVMOptions"]
-	finalizedBy(jacocoTestReport)
+    useJUnitPlatform()
+    ignoreFailures = false
+    jvmArgs = ["-Duser.timezone=America/Sao_Paulo",
+               "-XX:+UnlockExperimentalVMOptions"]
+    finalizedBy(jacocoTestReport)
 }
 
 sourceSets {
-	main {
-		java.srcDir("src/main/kotlin")
-	}
-	test {
-		java.srcDir("src/test/kotlin")
-	}
+    main {
+        java.srcDir("src/main/kotlin")
+    }
+    test {
+        java.srcDir("src/test/kotlin")
+    }
 }
 
 detekt {
-	toolVersion = detektVersion
-	config.setFrom("$projectDir/config/detekt.yml")
-	autoCorrect = true
+    toolVersion = detektVersion
+    config.setFrom(file("$projectDir/config/detekt.yml"))
+    autoCorrect = true
 }
 
 tasks.withType(JavaCompile).configureEach {
-	options.encoding = 'UTF-8'
+    options.encoding = 'UTF-8'
 }
 
 jacoco {
-	toolVersion = "0.8.12"
+    toolVersion = "0.8.15"
 }
 
 jacocoTestReport {
-	reports {
-		xml.required = false
-		csv.required = false
-		html.required = true
-		html.outputLocation = layout.buildDirectory.dir("jacocoHtml")
-	}
+    reports {
+        xml.required = false
+        csv.required = false
+        html.required = true
+        html.outputLocation = layout.buildDirectory.dir("jacocoHtml")
+    }
 }
