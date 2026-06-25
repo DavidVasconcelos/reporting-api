@@ -37,7 +37,8 @@ dependencies {
 
     //Kotlin
     implementation "org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}"
+
+    // Detekt
     detektPlugins "dev.detekt:detekt-rules-ktlint-wrapper:${detektVersion}"
     detektPlugins "dev.detekt:detekt-cli:${detektVersion}"
     detektPlugins "dev.detekt:detekt-rules-libraries:${detektVersion}"

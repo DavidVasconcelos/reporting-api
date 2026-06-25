@@ -40,7 +40,7 @@ java {
 
 kotlin {
     compilerOptions {
-        freeCompilerArgs.addAll '-Xjsr305=strict'
+        freeCompilerArgs.addAll '-Xjsr305=strict', '-Xmx2g', '-XX:MaxMetaspaceSize=512m', '-XX:+UseParallelGC'
         jvmTarget.set(JvmTarget.JVM_21)
     }
 }
@@ -52,6 +52,10 @@ test {
     jvmArgs = ["-Duser.timezone=America/Sao_Paulo",
                "-XX:+UnlockExperimentalVMOptions"]
     finalizedBy(jacocoTestReport)
+}
+
+allOpen {
+    annotation 'jakarta.persistence.Entity'
 }
 
 sourceSets {
