@@ -8,7 +8,7 @@ import com.speedyteller.reporting.api.domain.model.response.FXMerchant
 import com.speedyteller.reporting.api.domain.model.response.FXResponse
 import com.speedyteller.reporting.api.domain.model.response.GetReportResponse
 import com.speedyteller.reporting.api.domain.model.response.GetTransactionAcquirerResponse
-import com.speedyteller.reporting.api.domain.model.response.GetTransactionListCustmerResponse
+import com.speedyteller.reporting.api.domain.model.response.GetTransactionListCustomerResponse
 import com.speedyteller.reporting.api.domain.model.response.GetTransactionListIPNResponse
 import com.speedyteller.reporting.api.domain.model.response.GetTransactionListMerchantResponse
 import com.speedyteller.reporting.api.domain.model.response.GetTransactionListMerchantTransactionResponse
@@ -106,7 +106,7 @@ class MockTest {
             type = "CREDITCARD"
         }
 
-        val customerResponse = GetTransactionListCustmerResponse().apply {
+        val customerResponse = GetTransactionListCustomerResponse().apply {
             number = "448574XXXXXX3395"
             email = "aykut.aras@bumin.com.tr"
             billingFirstName = "Aykut"

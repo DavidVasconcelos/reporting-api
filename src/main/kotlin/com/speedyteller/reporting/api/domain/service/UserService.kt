@@ -1,10 +1,8 @@
 package com.speedyteller.reporting.api.domain.service
 
-import com.speedyteller.reporting.api.domain.usecase.FindUserByEmail
-import org.springframework.stereotype.Service
+import com.speedyteller.reporting.api.domain.model.User
 
-@Service
-class UserService(val findUserByEmail: FindUserByEmail) {
+fun interface UserService {
 
-    fun findByEmail(email: String) = findUserByEmail.handle(email = email)
+    fun findByEmail(email: String): User
 }

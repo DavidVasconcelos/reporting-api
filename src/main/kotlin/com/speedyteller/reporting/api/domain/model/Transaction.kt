@@ -46,5 +46,6 @@ data class Transaction(
         this.customerId = entity.customer?.id
         this.refundable = entity.refundable
         this.errorCode = entity.errorCode
+        this.agent = entity.agentInfo?.let { AgentInfo(entity = it) } ?: AgentInfo()
     }
 }

@@ -7,7 +7,7 @@ import java.time.LocalDateTime
 
 data class GetTransactionListResponse(
     val fx: FXResponse,
-    val customerInfo: GetTransactionListCustmerResponse,
+    val customerInfo: GetTransactionListCustomerResponse,
     val merchant: GetTransactionListMerchantResponse,
     val ipn: GetTransactionListIPNResponse,
     val transaction: GetTransactionListMerchantTransactionResponse,
@@ -24,7 +24,7 @@ data class GetTransactionListResponse(
                     ),
                 ),
             ),
-            customerInfo = GetTransactionListCustmerResponse(
+            customerInfo = GetTransactionListCustomerResponse(
                 number = model.number,
                 email = model.email,
                 billingFirstName = model.billingFirstName,
@@ -57,7 +57,7 @@ data class GetTransactionListResponse(
         )
 }
 
-data class GetTransactionListCustmerResponse(
+data class GetTransactionListCustomerResponse(
     var number: String? = null,
     var email: String? = null,
     var billingFirstName: String? = null,

@@ -1,4 +1,4 @@
-package com.speedyteller.reporting.api.domain.service
+package com.speedyteller.reporting.api.domain.service.impl
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Service
 
 @Service
-class UserDetailService(var userService: UserService) : UserDetailsService {
+class UserDetailsServiceImpl(var userService: UserServiceImpl) : UserDetailsService {
 
     private var logger: Logger = LoggerFactory.getLogger(this::class.java)
 
