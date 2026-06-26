@@ -7,9 +7,6 @@ import com.speedyteller.reporting.api.domain.constant.BusinessConstants.DataBase
 import com.speedyteller.reporting.api.domain.model.request.GetReportRequest
 import com.speedyteller.reporting.api.domain.model.response.GetReportResponse
 import com.speedyteller.reporting.api.repository.TransactionRepository
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
-import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 import java.math.BigDecimal
@@ -18,55 +15,49 @@ import java.time.LocalTime
 import kotlin.streams.toList
 
 @Component
-class GetReport(private val transaction: Transaction) {
+class GetReport(private val transactionRepository: TransactionRepository) {
 
-    private var logger: Logger = LoggerFactory.getLogger(this::class.java)
-
-    fun handle(request: GetReportRequest): List<GetReportResponse> = try {
-        transaction.get(request)
-    } catch (ex: DataIntegrityViolationException) {
-        // Tries again when having a unique constraint error due to data concurrency
-        logger.warn(ex.message)
-        transaction.get(request)
+    @Transactional(readOnly = true)
+    fun handle(request: GetReportRequest): List<GetReportResponse> {
+        val (query, params) = buildQueryWithParams(request)
+        val resultList =
+            transactionRepository.executeNativeQuery(query = query, parameters = params)
+        return resultList.stream().map { record -> getReportRecord(record = record) }
+            .toList<GetReportResponse>()
     }
 
-    @Transactional
-    @Component
-    class Transaction(val transactionRepository: TransactionRepository) {
-
-        fun get(request: GetReportRequest): List<GetReportResponse> {
-            val (query, params) = buildQueryWithParams(request)
-            val resultList = transactionRepository.executeNativeQuery(query = query, parameters = params)
-            return resultList.stream().map { record -> getReportRecord(record = record) }.toList<GetReportResponse>()
+    private fun buildQueryWithParams(request: GetReportRequest): Pair<String, Map<String, Any>> {
+        val query: StringBuilder =
+            StringBuilder().append(BusinessConstants.Queries.QUERY_GET_REPORT)
+        val parameters = mutableMapOf<String, Any>()
+        request.fromDate?.let {
+            query.append("AND tr.created_at >= :created_at_start ")
+            parameters.plusAssign(
+                Pair(
+                    "created_at_start",
+                    LocalDateTime.of(it, LocalTime.MIDNIGHT),
+                ),
+            )
         }
-
-        private fun buildQueryWithParams(request: GetReportRequest): Pair<String, Map<String, Any>> {
-            val query: StringBuilder = StringBuilder().append(BusinessConstants.Queries.QUERY_GET_REPORT)
-            val parameters = mutableMapOf<String, Any>()
-            request.fromDate?.let {
-                query.append("AND tr.created_at >= :created_at_start ")
-                parameters.plusAssign(Pair("created_at_start", LocalDateTime.of(it, LocalTime.MIDNIGHT)))
-            }
-            request.toDate?.let {
-                query.append("AND tr.created_at <= :created_at_end ")
-                parameters.plusAssign(Pair("created_at_end", LocalDateTime.of(it, LocalTime.MAX)))
-            }
-            request.merchant?.let {
-                query.append("AND tr.merchant_id = :merchant ")
-                parameters.plusAssign(Pair("merchant", it))
-            }
-            request.acquirer?.let {
-                query.append("AND tr.acquirer_transaction_id = :acquirer ")
-                parameters.plusAssign(Pair("acquirer", it))
-            }
-            query.append(" GROUP BY ft.original_currency")
-            return Pair(query.toString(), parameters)
+        request.toDate?.let {
+            query.append("AND tr.created_at <= :created_at_end ")
+            parameters.plusAssign(Pair("created_at_end", LocalDateTime.of(it, LocalTime.MAX)))
         }
-
-        private fun getReportRecord(record: Array<Any>): GetReportResponse = GetReportResponse(
-            count = record[COUNT] as? Long,
-            total = record[TOTAL] as? BigDecimal,
-            currency = record[CURRENCY] as? String,
-        )
+        request.merchant?.let {
+            query.append("AND tr.merchant_id = :merchant ")
+            parameters.plusAssign(Pair("merchant", it))
+        }
+        request.acquirer?.let {
+            query.append("AND tr.acquirer_transaction_id = :acquirer ")
+            parameters.plusAssign(Pair("acquirer", it))
+        }
+        query.append(" GROUP BY ft.original_currency")
+        return Pair(query.toString(), parameters)
     }
+
+    private fun getReportRecord(record: Array<Any>): GetReportResponse = GetReportResponse(
+        count = record[COUNT] as? Long,
+        total = record[TOTAL] as? BigDecimal,
+        currency = record[CURRENCY] as? String,
+    )
 }

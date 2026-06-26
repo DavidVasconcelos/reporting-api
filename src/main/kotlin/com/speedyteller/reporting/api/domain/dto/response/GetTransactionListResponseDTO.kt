@@ -2,7 +2,7 @@ package com.speedyteller.reporting.api.domain.dto.response
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.speedyteller.reporting.api.domain.dto.AcquirerDTO
-import com.speedyteller.reporting.api.domain.model.response.GetTransactionListCustmerResponse
+import com.speedyteller.reporting.api.domain.model.response.GetTransactionListCustomerResponse
 import com.speedyteller.reporting.api.domain.model.response.GetTransactionListIPNResponse
 import com.speedyteller.reporting.api.domain.model.response.GetTransactionListMerchantResponse
 import com.speedyteller.reporting.api.domain.model.response.GetTransactionListResponse
@@ -40,7 +40,7 @@ data class GetTransactionListCustmerResponseDTO(
     var billingFirstName: String? = null,
     var billingLastName: String? = null,
 ) {
-    constructor(model: GetTransactionListCustmerResponse) : this() {
+    constructor(model: GetTransactionListCustomerResponse) : this() {
         this.number = model.number
         this.email = model.email
         this.billingFirstName = model.billingFirstName
