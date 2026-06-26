@@ -29,21 +29,21 @@ data class Transaction(
     constructor(entity: TransactionEntity) : this() {
         this.id = entity.id
         this.referenceNo = entity.referenceNo
-        this.merchantId = entity.merchantId
+        this.merchantId = entity.merchant?.id
         this.status = entity.status
         this.channel = entity.channel
         this.customData = entity.customData
         this.chainId = entity.chainId
-        this.agentInfoId = entity.agentInfoId
+        this.agentInfoId = entity.agentInfo?.id
         this.operation = entity.operation
-        this.fxTransactionId = entity.fxTransactionId
+        this.fxTransactionId = entity.fxTransaction?.id
         this.updatedAt = entity.updatedAt
         this.createdAt = entity.createdAt
-        this.acquirerTransactionId = entity.acquirerTransactionId
+        this.acquirerTransactionId = entity.acquirer?.id
         this.code = entity.code
         this.message = entity.message
         this.transactionId = entity.transactionId
-        this.customerId = entity.customerId
+        this.customerId = entity.customer?.id
         this.refundable = entity.refundable
         this.errorCode = entity.errorCode
     }
