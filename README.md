@@ -57,18 +57,6 @@ Run inside your project root:
 * [API documentation (local with Swagger)](http://localhost:8080/api/v3/swagger-ui/index.html)
 
 
-### (OPTIONAL) Running with IntelliJ Ultimate
-
-On your IntelliJ top bar, go to `Edit Configurations...`
-
-![image](images/intellij-configure-top-bar.png)
-
-Change `VM Options` to:
-
-```
--Dspring.profiles.active=local
-```
-
 ### Running tests and lint
 
 > [!WARNING]
@@ -97,7 +85,6 @@ To lint (Detekt) inside IntelliJ IDEA, use this plugin: [detekt to IDEA](https:/
 * **Flyway**: Postgres migration manager (made with pure SQL)
 * **Kluent**: Fluent assertions
 * **[Detekt](https://github.com/detekt/detekt)**: Static code analysis and linter for Kotlin
-* **[Validktor](https://github.com/valiktor/valiktor)**: Is a type-safe, powerful and extensible fluent DSL to validate objects in Kotlin.
 * **[SpringMockK](https://github.com/Ninja-Squad/springmockk)**: Support for Spring Boot integration tests written in Kotlin using MockK instead of Mockito.
 * **Testcontainers**: Testcontainers is a Java library that supports JUnit tests, providing lightweight, throwaway instances of common databases, Selenium web browsers, or anything else that can run in a Docker container.
 * **Jackson**: JSON serializer/deserializer

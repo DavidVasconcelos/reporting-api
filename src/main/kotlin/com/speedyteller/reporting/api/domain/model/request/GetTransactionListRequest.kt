@@ -10,13 +10,9 @@ import com.speedyteller.reporting.api.domain.enum.PaymentMethod
 import com.speedyteller.reporting.api.domain.enum.Status
 import com.speedyteller.reporting.api.exception.BusinessValidationException
 import com.speedyteller.reporting.api.extension.toCapital
-import org.valiktor.ConstraintViolation
-import org.valiktor.ConstraintViolationException
-import org.valiktor.functions.isIn
-import org.valiktor.functions.matches
-import org.valiktor.validate
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import kotlin.enums.enumEntries
 
 data class GetTransactionListRequest(
     var fromDate: LocalDate? = null,
@@ -36,7 +32,8 @@ data class GetTransactionListRequest(
         this.toDate = dto.toDate?.let { LocalDate.parse(it, DateTimeFormatter.ISO_DATE) }
         this.status = dto.status?.let { Status.getStatus(status = it) }
         this.operation = dto.operation?.let { Operation.getOperation(operation = it) }
-        this.paymentMethod = dto.paymentMethod?.let { PaymentMethod.getPaymentMethod(paymentMethod = it) }
+        this.paymentMethod =
+            dto.paymentMethod?.let { PaymentMethod.getPaymentMethod(paymentMethod = it) }
         this.errorCode = dto.errorCode?.let { ErrorCode.getErrorCode(errorCode = it) }
         this.filterField = dto.filterField?.let { FilterField.getFilterField(filterField = it) }
         this.filterValue = dto.filterValue
@@ -45,39 +42,35 @@ data class GetTransactionListRequest(
     }
 
     private fun validateFields(dto: GetTransactionListRequestDTO) {
-        try {
-            validate(dto) {
-                validate(GetTransactionListRequestDTO::fromDate)
-                    .matches(Regex(REGEX_DATE_FORMAT_VALIDATOR))
-                validate(GetTransactionListRequestDTO::toDate)
-                    .matches(Regex(REGEX_DATE_FORMAT_VALIDATOR))
-                validate(GetTransactionListRequestDTO::status)
-                    .isIn(enumValues<Status>().toList().map { it.name })
-                validate(GetTransactionListRequestDTO::operation)
-                    .isIn(enumValues<Operation>().toList().map { it.operation })
-                validate(GetTransactionListRequestDTO::paymentMethod)
-                    .isIn(enumValues<PaymentMethod>().toList().map { it.name })
-                validate(GetTransactionListRequestDTO::errorCode)
-                    .isIn(enumValues<ErrorCode>().toList().map { it.errorCode })
-                validate(GetTransactionListRequestDTO::filterField)
-                    .isIn(enumValues<FilterField>().toList().map { it.filterField })
-            }
-        } catch (ex: ConstraintViolationException) {
-            this.handleConstraintViolation(error = ex.constraintViolations.toList().first())
+        requireDateMatches(dto.fromDate)
+        requireDateMatches(dto.toDate)
+
+        requireInEnum(dto.status, enumEntries<Status>().map { it.name }, "status")
+        requireInEnum(dto.operation, enumEntries<Operation>().map { it.operation }, "operation")
+        requireInEnum(
+            dto.paymentMethod,
+            enumEntries<PaymentMethod>().map { it.name },
+            "paymentMethod",
+        )
+        requireInEnum(dto.errorCode, enumEntries<ErrorCode>().map { it.errorCode }, "errorCode")
+        requireInEnum(
+            dto.filterField,
+            enumEntries<FilterField>().map { it.filterField },
+            "filterField",
+        )
+    }
+
+    fun requireDateMatches(value: String?) {
+        val dateRegex = Regex(REGEX_DATE_FORMAT_VALIDATOR)
+
+        if (value != null && !value.matches(dateRegex)) {
+            throw BusinessValidationException(DATE_FORMAT_VALIDATOR_MESSAGE)
         }
     }
 
-    private fun handleConstraintViolation(error: ConstraintViolation) {
-        val fieldsList = listOf("status", "operation", "paymentMethod", "errorCode", "filterField")
-        val errorMessage = when {
-            ((error.property == "fromDate" || error.property == "toDate") && (error.constraint.name == "Matches")) ->
-                DATE_FORMAT_VALIDATOR_MESSAGE
-
-            (fieldsList.contains(error.property) && error.constraint.name == "In") ->
-                "Invalid ${error.property.toCapital()}"
-
-            else -> "${error.property}: ${error.constraint.name}"
+    fun requireInEnum(value: String?, validValues: List<String>, fieldName: String) {
+        if (value != null && value !in validValues) {
+            throw BusinessValidationException("Invalid ${fieldName.toCapital()}")
         }
-        throw BusinessValidationException(errorMessage)
     }
 }
