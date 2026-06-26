@@ -1,25 +1,31 @@
 # Getting Started
 
-### Reference Documentation
-For further reference, please consider the following sections:
+### 📖 Reference Documentation
+For further reference, please consider the following official documentation sections:
 
-* [Official Gradle documentation](https://docs.gradle.org)
-* [Spring Boot Gradle Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/2.3.9.RELEASE/gradle-plugin/reference/html/)
-* [Create an OCI image](https://docs.spring.io/spring-boot/docs/2.3.9.RELEASE/gradle-plugin/reference/html/#build-image)
-* [Spring Boot DevTools](https://docs.spring.io/spring-boot/docs/2.4.3/reference/htmlsingle/#using-boot-devtools)
-* [Spring Web](https://docs.spring.io/spring-boot/docs/2.4.3/reference/htmlsingle/#boot-features-developing-web-applications)
-* [Spring Data MongoDB](https://docs.spring.io/spring-boot/docs/2.4.3/reference/htmlsingle/#boot-features-mongodb)
+* [Official Gradle Documentation](https://docs.gradle.org)
+* [Spring Boot Gradle Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/html/)
+* [Create an OCI Image (Docker) with Spring Boot](https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/html/#build-image)
+* [Spring Boot DevTools](https://docs.spring.io/spring-boot/reference/using/devtools.html)
+* [Developing Web Applications with Spring](https://docs.spring.io/spring-boot/reference/web/index.html)
+* [Spring Data JPA](https://docs.spring.io/spring-boot/reference/data/sql.html#data.sql.jpa-and-spring-data)
+* [PostgreSQL & Spring Boot](https://docs.spring.io/spring-boot/reference/data/sql.html#data.sql.datasource.connection-pool)
+* [Database Migrations with Flyway](https://docs.spring.io/spring-boot/reference/data/sql.html#data.sql.migration.flyway)
 
-### Guides
-The following guides illustrate how to use some features concretely:
+### 💡 Guides & Tutorials
+The following guides illustrate how to use the core features implemented in this project concretely:
 
-* [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
-* [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
-* [Building REST services with Spring](https://spring.io/guides/tutorials/bookmarks/)
-* [Accessing Data with MongoDB](https://spring.io/guides/gs/accessing-data-mongodb/)
+* [Building a RESTful Web Service with Spring Boot](https://spring.io/guides/gs/rest-service/)
+* [Building web applications with Spring Boot and Kotlin](https://spring.io/guides/tutorials/spring-boot-kotlin/)
+* [Accessing Data with JPA and Hibernate](https://spring.io/guides/gs/accessing-data-jpa/)
+* [Testing Spring Boot Applications](https://spring.io/guides/gs/testing-web/)
+* [Using Testcontainers for Integration Testing](https://testcontainers.com/guides/testing-spring-boot-rest-api-part-1/)
 
-### Additional Links
-These additional references should also help you:
+### 🛠 Additional Links
+These additional references should also help you understand the build and deployment lifecycle:
 
 * [Gradle Build Scans – insights for your project's build](https://scans.gradle.com#gradle)
+* [Detekt - Static code analysis for Kotlin](https://detekt.dev/)
+* [MockK - Mocking library for Kotlin](https://mockk.io/)
+
 
