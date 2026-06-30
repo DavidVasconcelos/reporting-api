@@ -53,7 +53,7 @@ java {
 
 kotlin {
     compilerOptions {
-        freeCompilerArgs.addAll '-Xjsr305=strict', '-Xmx2g', '-XX:MaxMetaspaceSize=512m', '-XX:+UseParallelGC'
+        freeCompilerArgs.addAll '-Xjsr305=strict', '-Xmx2g', '-XX:MaxMetaspaceSize=512m', '-XX:+UseParallelGC', '--enable-native-access=ALL-UNNAMED'
         jvmTarget.set(JvmTarget.JVM_25)
     }
 }
