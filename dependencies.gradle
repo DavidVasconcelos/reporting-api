@@ -1,4 +1,4 @@
-def postgresVersion          = '42.7.11'
+def postgresVersion          = '42.7.12'
 def ninjaSquadVersion        = '4.0.2'
 def jacksonVersion           = '2.17.3'
 def openApiVersion           = "2.6.0"
