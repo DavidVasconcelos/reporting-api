@@ -27,6 +27,7 @@ case "$COMMAND" in
       -XX:+HeapDumpOnOutOfMemoryError \
       -XX:HeapDumpPath=/data/oom-dump \
       -XX:+ExitOnOutOfMemoryError \
+      --enable-native-access=ALL-UNNAMED \
       -jar /app/app.jar
     ;;
   *)
