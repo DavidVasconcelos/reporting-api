@@ -38,5 +38,5 @@ server:
 
 caching:
   spring:
-    list: logins;users;transactions;customers;
+    list: transactions;customers;
     loginListTTL: 600000

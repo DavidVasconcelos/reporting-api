@@ -2,12 +2,12 @@ package com.speedyteller.reporting.api.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
-import com.speedyteller.reporting.api.common.JwtTokenComponent
 import com.speedyteller.reporting.api.domain.dto.request.GetTransactionRequestDTO
 import com.speedyteller.reporting.api.domain.dto.response.GetCustomerResponseDTO
 import com.speedyteller.reporting.api.domain.model.response.GetCustomerResponse
 import com.speedyteller.reporting.api.domain.service.CustomerService
 import com.speedyteller.reporting.api.mock.MockTest
+import com.speedyteller.reporting.api.security.JwtTokenComponent
 import com.speedyteller.reporting.api.support.annotations.IntegrationTest
 import com.speedyteller.reporting.api.support.annotations.andResultBodyMatches
 import io.mockk.every
