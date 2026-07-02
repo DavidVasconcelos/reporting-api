@@ -37,7 +37,9 @@ class SecurityConfiguration(private val jwtTokenFilter: JwtTokenFilter) {
             .authorizeHttpRequests { requests ->
                 requests
                     .requestMatchers(
+                        "/info",
                         "/health",
+                        "/metrics/**",
                         "/merchant/**",
                         "/openapi/**",
                         "/swagger-ui/**",
