@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service
 @Service
 class CustomerServiceImpl(val findCustomerByTransactionId: FindCustomerByTransactionId) : CustomerService {
 
-    @Cacheable(cacheNames = ["customers"], key = "#transactionId")
+    @Cacheable(value = ["customers"], keyGenerator = "customKeyGenerator")
     override fun getCustomer(transactionId: String): GetCustomerResponse {
         logger.info("Getting customer with transactionId: $transactionId")
         val customer = findCustomerByTransactionId.handle(transactionId = transactionId)
