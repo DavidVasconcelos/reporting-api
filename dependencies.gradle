@@ -27,13 +27,16 @@ dependencies {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
         exclude group: "org.mockito", module: "mockito-core"
     }
-    testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test:${springBootVersion}")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testImplementation "org.springframework.boot:spring-boot-starter-webmvc-test:${springBootVersion}"
+    testRuntimeOnly "org.junit.platform:junit-platform-launcher"
 
     //Postgres
     runtimeOnly "org.postgresql:postgresql:${postgresVersion}"
     implementation "org.springframework.boot:spring-boot-starter-flyway:${springBootVersion}"
     implementation "org.flywaydb:flyway-database-postgresql:${flyWayVersion}"
+
+    //Redis
+    implementation "org.springframework.boot:spring-boot-starter-data-redis:${springBootVersion}"
 
     //Kotlin
     implementation "org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}"

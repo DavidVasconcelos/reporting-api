@@ -15,6 +15,8 @@ import com.speedyteller.reporting.api.domain.service.ReportService
 import com.speedyteller.reporting.api.domain.service.TransactionService
 import jakarta.validation.Valid
 import jakarta.validation.constraints.Min
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.data.domain.PageRequest
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
@@ -37,7 +39,8 @@ class TransactionController(
     fun getTransaction(
         @Valid @RequestBody request: GetTransactionRequestDTO,
     ): ResponseEntity<GetTransactionResponseDTO> {
-        val transactionResponse = transactionService.getTransaction(transactionId = request.transactionId)
+        val transactionResponse =
+            transactionService.getTransaction(transactionId = request.transactionId)
         return ResponseEntity.ok(GetTransactionResponseDTO(model = transactionResponse))
     }
 
@@ -50,7 +53,10 @@ class TransactionController(
     ): ResponseEntity<CustomPageDTO> {
         val pageRequest = PageRequest.of(page, DEFAULT_PAGE_SIZE)
         val listOfResponse =
-            transactionService.getTransactionList(request = GetTransactionListRequest(dto = dto), page = pageRequest)
+            transactionService.getTransactionList(
+                request = GetTransactionListRequest(dto = dto),
+                page = pageRequest,
+            )
         val listOfResponseDTO = listOfResponse.map { GetTransactionListResponseDTO(model = it) }
         val pageDTO = paginationComponent.getPagination(
             pageSize = DEFAULT_PAGE_SIZE,
@@ -63,8 +69,10 @@ class TransactionController(
 
     @PostMapping("/report")
     fun getReport(@RequestBody dto: GetReportRequestDTO): ResponseEntity<GetReportResponseDTO> {
+        logger.info("Get Report Request $dto")
         val listOfResponse = reportService.getReport(request = GetReportRequest(dto = dto))
-        val responseDTO = GetReportResponseDTO(response = listOfResponse.map { GetReportDTO(model = it) })
+        val responseDTO =
+            GetReportResponseDTO(response = listOfResponse.map { GetReportDTO(model = it) })
         return ResponseEntity.ok(responseDTO)
     }
 
@@ -73,6 +81,7 @@ class TransactionController(
         .toUriString()
 
     companion object {
+        private val logger: Logger = LoggerFactory.getLogger(this::class.java)
         const val DEFAULT_PAGE_SIZE = 50
     }
 }

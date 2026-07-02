@@ -10,9 +10,11 @@ import org.springframework.stereotype.Service
 @Service
 class MerchantServiceImpl(val jwtTokenComponent: JwtTokenComponent) : MerchantService {
 
-    private var logger: Logger = LoggerFactory.getLogger(this::class.java)
-
     override fun login(user: User): String = jwtTokenComponent.generateAccessToken(user = user).also {
         logger.info("Client ${user.username} successfully logged")
+    }
+
+    companion object {
+        private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     }
 }

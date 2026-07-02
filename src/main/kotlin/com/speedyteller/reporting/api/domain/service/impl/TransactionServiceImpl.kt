@@ -6,6 +6,8 @@ import com.speedyteller.reporting.api.domain.model.response.GetTransactionRespon
 import com.speedyteller.reporting.api.domain.service.TransactionService
 import com.speedyteller.reporting.api.domain.usecase.FindTransactionById
 import com.speedyteller.reporting.api.domain.usecase.GetTransactions
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
@@ -14,8 +16,9 @@ import org.springframework.stereotype.Service
 class TransactionServiceImpl(val findTransactionById: FindTransactionById, val getTransactions: GetTransactions) :
     TransactionService {
 
-    @Cacheable(cacheNames = ["transactions"], key = "#transactionId")
+    @Cacheable(value = ["transactions"], keyGenerator = "customKeyGenerator")
     override fun getTransaction(transactionId: String): GetTransactionResponse {
+        logger.info("Looking for transaction $transactionId")
         val transaction = findTransactionById.handle(transactionId = transactionId)
         return GetTransactionResponse(model = transaction)
     }
@@ -23,9 +26,16 @@ class TransactionServiceImpl(val findTransactionById: FindTransactionById, val g
     override fun getTransactionList(
         request: GetTransactionListRequest,
         page: Pageable,
-    ): List<GetTransactionListResponse> = getTransactions.handle(request = request, page = page).map {
-        GetTransactionListResponse(
-            model = it,
-        )
+    ): List<GetTransactionListResponse> {
+        logger.info("Looking for transactions with request $request")
+        return getTransactions.handle(request = request, page = page).map {
+            GetTransactionListResponse(
+                model = it,
+            )
+        }
+    }
+
+    companion object {
+        private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     }
 }

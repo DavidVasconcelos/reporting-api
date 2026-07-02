@@ -34,7 +34,7 @@ import java.util.Date
 @Import(ObjectMapper::class)
 class TransactionControllerTest {
 
-    @Value("\${caching.spring.loginListTTL}")
+    @Value("\${security.jwt-expiration-time}")
     private var jwtExpirationTime: Int = 0
 
     @Autowired

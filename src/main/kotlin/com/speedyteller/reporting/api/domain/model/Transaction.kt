@@ -1,6 +1,8 @@
 package com.speedyteller.reporting.api.domain.model
 
 import com.speedyteller.reporting.api.domain.entity.TransactionEntity
+import java.io.Serial
+import java.io.Serializable
 import java.time.LocalDateTime
 
 data class Transaction(
@@ -25,7 +27,7 @@ data class Transaction(
     var errorCode: String? = null,
     var agent: AgentInfo? = null,
 
-) {
+) : Serializable {
     constructor(entity: TransactionEntity) : this() {
         this.id = entity.id
         this.referenceNo = entity.referenceNo
@@ -47,5 +49,10 @@ data class Transaction(
         this.refundable = entity.refundable
         this.errorCode = entity.errorCode
         this.agent = entity.agentInfo?.let { AgentInfo(entity = it) } ?: AgentInfo()
+    }
+
+    companion object {
+        @Serial
+        private const val serialVersionUID: Long = 2503696395834428223L
     }
 }
