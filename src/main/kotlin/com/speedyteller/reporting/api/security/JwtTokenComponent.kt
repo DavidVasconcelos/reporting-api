@@ -20,10 +20,8 @@ import java.util.Date
 class JwtTokenComponent(
     @Value("\${jwt.secret}") val secret: String,
     @Value("\${jwt.issuer}") val issuer: String,
-    @Value("\${caching.spring.loginListTTL}") val jwtExpirationTime: Int,
+    @Value("\${security.jwt-expiration-time}") val jwtExpirationTime: Int,
 ) {
-    private var logger: Logger = LoggerFactory.getLogger(this::class.java)
-
     private val secretKey by lazy {
         Keys.hmacShaKeyFor(secret.toByteArray(StandardCharsets.UTF_8))
     }
@@ -32,7 +30,7 @@ class JwtTokenComponent(
         .subject(user.username)
         .issuer(issuer)
         .issuedAt(Date())
-        .expiration(Date(System.currentTimeMillis() + jwtExpirationTime))
+        .expiration(Date(System.currentTimeMillis() + jwtExpirationTime * SECOND_MILLIS))
         .signWith(secretKey)
         .compact()
 
@@ -71,4 +69,9 @@ class JwtTokenComponent(
     }
 
     private fun sanitizeToken(token: String): String = token.removePrefix("Bearer").trim()
+
+    companion object {
+        private val logger: Logger = LoggerFactory.getLogger(this::class.java)
+        const val SECOND_MILLIS = 1000
+    }
 }

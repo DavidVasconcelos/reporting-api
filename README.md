@@ -3,10 +3,11 @@
 ![app_version](https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000) 
 ![git_hub_actions](https://github.com/DavidVasconcelos/reporting-api/actions/workflows/main.yml/badge.svg) 
 ![spring_boot version](https://img.shields.io/badge/SpringBoot-4.1.0-8BC34A) 
-![kotlin_version](https://img.shields.io/badge/Kotlin-2.4.0-E24462)
+![kotlin_version](https://img.shields.io/badge/Kotlin-2.4.0-7F52FF)
 ![java_version](https://img.shields.io/badge/Java-25-f89820)
 ![gradle_version](https://img.shields.io/badge/Gradle-9.5.1-209BC4) 
 ![postgres_version](https://img.shields.io/badge/Postgres-16.2-0f5887)
+![redis_version](https://img.shields.io/badge/Postgres-7.4-D82C20)
 
 ## TL;DR - What it is?
 
@@ -81,7 +82,7 @@ To lint (Detekt) inside IntelliJ IDEA, use this plugin: [detekt to IDEA](https:/
 * **Spring**: Web framework ("Rails")
 * **Spring Data/JPA**: Postgres persistency framework ("Sequel")
 * **Spring Security**: To implement the JWT standard
-* **Spring Cache**: To implement caching
+* **Spring Cache**: To implement caching using Redis
 * **Flyway**: Postgres migration manager (made with pure SQL)
 * **Kluent**: Fluent assertions
 * **[Detekt](https://github.com/detekt/detekt)**: Static code analysis and linter for Kotlin

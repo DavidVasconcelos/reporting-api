@@ -23,20 +23,15 @@ spring:
 jwt:
   secret: ${JWT_SECRET}
   issuer: ${JWT_ISSUER}
-
 logging:
   level:
     ROOT: ${LOGGING_LEVEL_ROOT:INFO}
     com:
       speedyteller:
         reporting: ${LOGGING_COM_SPEEDYTELLER:DEBUG}
-
 server:
   port: ${SERVER_PORT:8080}
   servlet:
     context-path: /api/v3
-
-caching:
-  spring:
-    list: transactions;customers;
-    loginListTTL: 600000
+security:
+  jwt-expiration-time: 3599

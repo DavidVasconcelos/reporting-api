@@ -1,6 +1,8 @@
 package com.speedyteller.reporting.api.domain.model
 
 import com.speedyteller.reporting.api.domain.entity.CustomerEntity
+import java.io.Serial
+import java.io.Serializable
 import java.time.LocalDateTime
 
 data class Customer(
@@ -41,7 +43,7 @@ data class Customer(
     var shippingCountry: String? = null,
     var shippingPhone: String? = null,
     var shippingFax: String? = null,
-) {
+) : Serializable {
     constructor(entity: CustomerEntity) : this() {
         this.id = entity.id
         this.createdAt = entity.createdAt
@@ -80,5 +82,10 @@ data class Customer(
         this.shippingCountry = entity.shippingCountry
         this.shippingPhone = entity.shippingPhone
         this.shippingFax = entity.shippingFax
+    }
+
+    companion object {
+        @Serial
+        private const val serialVersionUID: Long = -3246575652397869773L
     }
 }

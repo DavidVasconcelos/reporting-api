@@ -3,6 +3,16 @@ spring:
     name: /reporting-api
   main:
     banner-mode: 'OFF'
+  cache:
+    type: redis
+    redis:
+      time-to-live: 600000
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      repositories:
+        enabled: false
   datasource:
     url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/speedyteller?currentSchema=speedyteller}
     username: ${POSTGRES_USERNAME:postgres}
@@ -61,7 +71,5 @@ springdoc:
   swagger-ui:
     path: /swagger-ui/index.html
   override-with-generic-response: false
-caching:
-  spring:
-    list: transactions;customers;
-    loginListTTL: 600000
+security:
+  jwt-expiration-time: 3599

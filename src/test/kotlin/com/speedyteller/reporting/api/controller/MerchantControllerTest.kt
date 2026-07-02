@@ -54,8 +54,10 @@ class MerchantControllerTest {
             MockMvcResultMatchers.status().isOk,
         ).andResultBodyMatches(
             json = json {
-                "token" to expectedToken
+                "access_token" to expectedToken
                 "status" to "APPROVED"
+                "token_type" to "Bearer"
+                "expires_in" to 3599
             },
         )
     }
