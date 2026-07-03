@@ -15,7 +15,7 @@ An API developed by me for portfolio purposes
 
 ## Documentation
 
-[Business Specification](https://github.com/DavidVasconcelos/reporting-api/blob/master/docs/reporting-api.pdf)
+[Business Specification](https://github.com/DavidVasconcelos/reporting-api/blob/main/docs/reporting-api.pdf)
 
 ## First Steps
 
