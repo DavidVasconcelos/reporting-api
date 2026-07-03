@@ -28,5 +28,13 @@ services:
       JWT_SECRET: ${JWT_SECRET}
       JWT_ISSUER: ${JWT_ISSUER}
 
+  redis:
+    image: redis:7.4
+    command: redis-server
+    volumes:
+      - ./docker/redis.conf:/redis.conf
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+
 volumes:
   postgres-data:
