@@ -1,8 +1,9 @@
 package com.speedyteller.reporting.api.domain.service
 
-import org.springframework.security.core.userdetails.User
+import com.speedyteller.reporting.api.domain.model.request.LoginRequest
+import com.speedyteller.reporting.api.domain.model.response.LoginResponse
 
 fun interface MerchantService {
 
-    fun login(user: User): String
+    fun login(loginRequest: LoginRequest): LoginResponse
 }

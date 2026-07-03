@@ -16,7 +16,7 @@ class RedisContainerSetup : ApplicationContextInitializer<ConfigurableApplicatio
     }
 
     companion object {
-        private const val IMAGE_VERSION = "redis:7.4"
+        private const val IMAGE_VERSION = "redis:8.6"
         private const val REDIS_INTERNAL_PORT = 6379
 
         val redis: GenericContainer<*> = GenericContainer(DockerImageName.parse(IMAGE_VERSION))

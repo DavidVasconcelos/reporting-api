@@ -4,7 +4,6 @@ import com.speedyteller.reporting.api.common.PaginationComponent
 import com.speedyteller.reporting.api.domain.dto.page.CustomPageDTO
 import com.speedyteller.reporting.api.domain.dto.request.GetReportRequestDTO
 import com.speedyteller.reporting.api.domain.dto.request.GetTransactionListRequestDTO
-import com.speedyteller.reporting.api.domain.dto.request.GetTransactionRequestDTO
 import com.speedyteller.reporting.api.domain.dto.response.GetReportDTO
 import com.speedyteller.reporting.api.domain.dto.response.GetReportResponseDTO
 import com.speedyteller.reporting.api.domain.dto.response.GetTransactionListResponseDTO
@@ -20,6 +19,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.data.domain.PageRequest
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -35,12 +35,12 @@ class TransactionController(
     val reportService: ReportService,
     val paginationComponent: PaginationComponent,
 ) {
-    @PostMapping
+    @GetMapping
     fun getTransaction(
-        @Valid @RequestBody request: GetTransactionRequestDTO,
+        @RequestParam(name = "transactionId", required = true) transactionId: String,
     ): ResponseEntity<GetTransactionResponseDTO> {
         val transactionResponse =
-            transactionService.getTransaction(transactionId = request.transactionId)
+            transactionService.getTransaction(transactionId = transactionId)
         return ResponseEntity.ok(GetTransactionResponseDTO(model = transactionResponse))
     }
 

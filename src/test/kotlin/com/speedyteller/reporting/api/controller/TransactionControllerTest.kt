@@ -3,7 +3,8 @@ package com.speedyteller.reporting.api.controller
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
 import com.speedyteller.reporting.api.common.PaginationComponent
-import com.speedyteller.reporting.api.domain.dto.request.GetTransactionRequestDTO
+import com.speedyteller.reporting.api.domain.dto.request.GetReportRequestDTO
+import com.speedyteller.reporting.api.domain.dto.request.GetTransactionListRequestDTO
 import com.speedyteller.reporting.api.domain.dto.response.GetReportDTO
 import com.speedyteller.reporting.api.domain.dto.response.GetReportResponseDTO
 import com.speedyteller.reporting.api.domain.dto.response.GetTransactionListResponseDTO
@@ -13,6 +14,7 @@ import com.speedyteller.reporting.api.domain.service.TransactionService
 import com.speedyteller.reporting.api.mock.MockTest
 import com.speedyteller.reporting.api.security.JwtTokenComponent
 import com.speedyteller.reporting.api.support.annotations.IntegrationTest
+import com.speedyteller.reporting.api.support.annotations.andResultBodyMatches
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
 import io.mockk.every
@@ -25,7 +27,8 @@ import org.springframework.context.annotation.Import
 import org.springframework.http.MediaType
 import org.springframework.security.core.userdetails.User
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.post
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import java.nio.charset.StandardCharsets
 import java.util.Date
 
@@ -58,55 +61,79 @@ class TransactionControllerTest {
     @Autowired
     private lateinit var paginationComponent: PaginationComponent
 
-    private var token: String? = null
+    private lateinit var jwtToken: String
 
     @BeforeAll
     fun setup() {
-        this.token = jwtTokenComponent.generateAccessToken(User("test", "test", mutableListOf()))
+        this.jwtToken = jwtTokenComponent.generateAccessToken(User("test", "test", mutableListOf()))
     }
 
     @Test
     fun `Successful test get transaction`() {
         val response = mockTest.getTransactionResponse()
-        val requestDTOJSON =
-            mapper.writeValueAsString(GetTransactionRequestDTO(transactionId = "1-1444392550-1")) as String
-        val responseDTOJSON =
+        val transactionId = "1-1444392550-1"
+        val expectedTransaction =
             mapper.writeValueAsString(GetTransactionResponseDTO(model = response)) as String
 
         every { service.getTransaction(any()) } returns response
 
-        mockMvc.post("/transaction") {
-            contentType = MediaType.APPLICATION_JSON
-            accept = MediaType.APPLICATION_JSON
-            content = requestDTOJSON
-            header("Authorization", values = arrayOf(token!!))
-        }.andExpect {
-            status { isOk() }
-            content { contentType(MediaType.APPLICATION_JSON) }
-            content { json(responseDTOJSON) }
-        }
+        mockMvc.perform(
+            MockMvcRequestBuilders.get("/transaction?transactionId=$transactionId")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .header("Authorization", jwtToken),
+        ).andExpect(
+            MockMvcResultMatchers.status().isOk,
+        ).andResultBodyMatches(json = expectedTransaction)
     }
 
     @Test
     fun `Returns unauthorized when token is not present in the request`() {
         val response = mockTest.getTransactionResponse()
-        val dtoJSON =
-            mapper.writeValueAsString(GetTransactionResponseDTO(model = response)) as String
+        val transactionId = "1-1444392550-1"
 
         every { service.getTransaction(any()) } returns response
 
-        mockMvc.post("/transaction") {
-            contentType = MediaType.APPLICATION_JSON
-            accept = MediaType.APPLICATION_JSON
-            content = dtoJSON
-        }.andExpect {
-            status { isUnauthorized() }
-        }
+        mockMvc.perform(
+            MockMvcRequestBuilders.get("/transaction?transactionId=$transactionId")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON),
+        ).andExpect(
+            MockMvcResultMatchers.status().isUnauthorized,
+        )
+    }
+
+    @Test
+    fun `Returns unauthorized when token has an invalid issuer`() {
+        val badIssuerToken = generateBadIssuerToken()
+        val transactionId = "1-1444392550-1"
+
+        mockMvc.perform(
+            MockMvcRequestBuilders.get("/transaction?transactionId=$transactionId")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .header("Authorization", badIssuerToken),
+        ).andExpect(
+            MockMvcResultMatchers.status().isUnauthorized,
+        )
+    }
+
+    @Test
+    fun `Returns bad request when transaction is provided`() {
+        mockMvc.perform(
+            MockMvcRequestBuilders.get("/transaction")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .header("Authorization", jwtToken),
+        ).andExpect(
+            MockMvcResultMatchers.status().isBadRequest,
+        )
     }
 
     @Test
     fun `Successful test get transaction list`() {
         val page = 1
+        val request = mapper.writeValueAsString(GetTransactionListRequestDTO())
         val response = mockTest.getTransactionListResponse()
         val listResponseDTO = response.map { GetTransactionListResponseDTO(model = it) }
         val pageDTO = paginationComponent.getPagination(
@@ -115,20 +142,19 @@ class TransactionControllerTest {
             uri = "http://localhost/transaction/list?page=$page",
             data = listResponseDTO,
         )
-        val dtoJSON = mapper.writeValueAsString(pageDTO) as String
+        val expectedTransactionList = mapper.writeValueAsString(pageDTO) as String
 
         every { service.getTransactionList(any(), any()) } returns response
 
-        mockMvc.post("/transaction/list?page=$page") {
-            contentType = MediaType.APPLICATION_JSON
-            accept = MediaType.APPLICATION_JSON
-            content = dtoJSON
-            header("Authorization", values = arrayOf(token!!))
-        }.andExpect {
-            status { isOk() }
-            content { contentType(MediaType.APPLICATION_JSON) }
-            content { json(dtoJSON) }
-        }
+        mockMvc.perform(
+            MockMvcRequestBuilders.post("/transaction/list?page=$page")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .header("Authorization", jwtToken)
+                .content(request),
+        ).andExpect(
+            MockMvcResultMatchers.status().isOk,
+        ).andResultBodyMatches(json = expectedTransactionList)
     }
 
     @Test
@@ -146,33 +172,34 @@ class TransactionControllerTest {
 
         every { service.getTransactionList(any(), any()) } returns response
 
-        mockMvc.post("/transaction/list/?page=$page") {
-            contentType = MediaType.APPLICATION_JSON
-            accept = MediaType.APPLICATION_JSON
-            content = dtoJSON
-        }.andExpect {
-            status { isUnauthorized() }
-        }
+        mockMvc.perform(
+            MockMvcRequestBuilders.post("/transaction/list/?page=$page")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(dtoJSON),
+        ).andExpect(
+            MockMvcResultMatchers.status().isUnauthorized,
+        )
     }
 
     @Test
     fun `Successful test get report`() {
+        val request = mapper.writeValueAsString(GetReportRequestDTO())
         val response = mockTest.getReportResponse()
         val responseDTO = GetReportResponseDTO(response = response.map { GetReportDTO(model = it) })
-        val dtoJSON = mapper.writeValueAsString(responseDTO) as String
+        val expectedReport = mapper.writeValueAsString(responseDTO) as String
 
         every { reportService.getReport(any()) } returns response
 
-        mockMvc.post("/transaction/report") {
-            contentType = MediaType.APPLICATION_JSON
-            accept = MediaType.APPLICATION_JSON
-            content = dtoJSON
-            header("Authorization", values = arrayOf(token!!))
-        }.andExpect {
-            status { isOk() }
-            content { contentType(MediaType.APPLICATION_JSON) }
-            content { json(dtoJSON) }
-        }
+        mockMvc.perform(
+            MockMvcRequestBuilders.post("/transaction/report")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .header("Authorization", jwtToken)
+                .content(request),
+        ).andExpect(
+            MockMvcResultMatchers.status().isOk,
+        ).andResultBodyMatches(json = expectedReport)
     }
 
     @Test
@@ -183,30 +210,14 @@ class TransactionControllerTest {
 
         every { reportService.getReport(any()) } returns response
 
-        mockMvc.post("/transaction/report") {
-            contentType = MediaType.APPLICATION_JSON
-            accept = MediaType.APPLICATION_JSON
-            content = dtoJSON
-        }.andExpect {
-            status { isUnauthorized() }
-        }
-    }
-
-    @Test
-    fun `Returns unauthorized when token has an invalid issuer`() {
-        val badIssuerToken = generateBadIssuerToken()
-        val requestDTOJSON = mapper.writeValueAsString(
-            GetTransactionRequestDTO(transactionId = "1-1444392550-1"),
+        mockMvc.perform(
+            MockMvcRequestBuilders.post("/transaction/report")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(dtoJSON),
+        ).andExpect(
+            MockMvcResultMatchers.status().isUnauthorized,
         )
-
-        mockMvc.post("/transaction") {
-            contentType = MediaType.APPLICATION_JSON
-            accept = MediaType.APPLICATION_JSON
-            content = requestDTOJSON
-            header("Authorization", values = arrayOf(badIssuerToken))
-        }.andExpect {
-            status { isUnauthorized() }
-        }
     }
 
     private fun generateBadIssuerToken(): String {

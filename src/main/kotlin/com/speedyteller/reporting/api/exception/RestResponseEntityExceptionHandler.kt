@@ -1,10 +1,15 @@
 package com.speedyteller.reporting.api.exception
 
 import jakarta.validation.ConstraintViolationException
+import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
+import org.springframework.http.HttpStatusCode
 import org.springframework.http.ResponseEntity
+import org.springframework.security.authentication.BadCredentialsException
+import org.springframework.web.bind.MissingServletRequestParameterException
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
+import org.springframework.web.context.request.WebRequest
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
 
 @ControllerAdvice
@@ -12,6 +17,7 @@ class RestResponseEntityExceptionHandler : ResponseEntityExceptionHandler() {
 
     @ExceptionHandler(Exception::class)
     fun handleAllExceptions(ex: Exception): ResponseEntity<Any> {
+        logger.error(ex.message, ex)
         val errors = arrayListOf(
             Error(
                 codigo = HttpStatus.INTERNAL_SERVER_ERROR.value(),
@@ -24,6 +30,7 @@ class RestResponseEntityExceptionHandler : ResponseEntityExceptionHandler() {
 
     @ExceptionHandler(ConstraintViolationException::class)
     fun handleConstraintViolationException(ex: ConstraintViolationException): ResponseEntity<Any> {
+        logger.warn(ex.message, ex)
         val errors = arrayListOf(
             Error(
                 codigo = HttpStatus.BAD_REQUEST.value(),
@@ -36,6 +43,7 @@ class RestResponseEntityExceptionHandler : ResponseEntityExceptionHandler() {
 
     @ExceptionHandler(NotFoundException::class)
     fun handleNotFoundException(ex: NotFoundException): ResponseEntity<Any> {
+        logger.warn(ex.message, ex)
         val errors = arrayListOf(
             Error(
                 codigo = HttpStatus.NOT_FOUND.value(),
@@ -46,12 +54,36 @@ class RestResponseEntityExceptionHandler : ResponseEntityExceptionHandler() {
         return ResponseEntity(errorResponse, HttpStatus.NOT_FOUND)
     }
 
+    @ExceptionHandler(BadCredentialsException::class)
+    fun handleBadCredentialsException(ex: BadCredentialsException): ResponseEntity<Any> {
+        logger.warn(ex.message, ex)
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()
+    }
+
     @ExceptionHandler(BusinessValidationException::class)
     fun handleBusinessValidationException(ex: BusinessValidationException): ResponseEntity<Any> {
+        logger.warn(ex.message, ex)
         val errors = arrayListOf(
             Error(
                 codigo = HttpStatus.BAD_REQUEST.value(),
                 mensagem = ex.localizedMessage,
+            ),
+        )
+        val errorResponse = ErrorResponse(VALIDATION_FAILED_MESSAGE, errors)
+        return ResponseEntity(errorResponse, HttpStatus.BAD_REQUEST)
+    }
+
+    override fun handleMissingServletRequestParameter(
+        ex: MissingServletRequestParameterException,
+        headers: HttpHeaders,
+        status: HttpStatusCode,
+        request: WebRequest,
+    ): ResponseEntity<Any> {
+        val errorMessage = "Required query parameter '${ex.parameterName}' is missing."
+        val errors = arrayListOf(
+            Error(
+                codigo = HttpStatus.BAD_REQUEST.value(),
+                mensagem = errorMessage,
             ),
         )
         val errorResponse = ErrorResponse(VALIDATION_FAILED_MESSAGE, errors)

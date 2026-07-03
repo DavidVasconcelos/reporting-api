@@ -2,7 +2,6 @@ package com.speedyteller.reporting.api.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
-import com.speedyteller.reporting.api.domain.dto.request.GetTransactionRequestDTO
 import com.speedyteller.reporting.api.domain.dto.response.GetCustomerResponseDTO
 import com.speedyteller.reporting.api.domain.model.response.GetCustomerResponse
 import com.speedyteller.reporting.api.domain.service.CustomerService
@@ -52,18 +51,16 @@ class CustomerControllerTest {
     @Test
     fun `Successful test get client`() {
         val customer = mockTest.getCustumer()
-        val requestDTOJSON =
-            mapper.writeValueAsString(GetTransactionRequestDTO(transactionId = "1-1444392550-1")) as String
+        val transactionId = "1-1444392550-1"
         val expectedCustomer =
             mapper.writeValueAsString(GetCustomerResponseDTO(GetCustomerResponse(customerInfo = customer))) as String
 
         every { service.getCustomer(any()) } returns GetCustomerResponse(customerInfo = customer)
 
         mockMvc.perform(
-            MockMvcRequestBuilders.post("/client")
+            MockMvcRequestBuilders.get("/client?transactionId=$transactionId")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content(requestDTOJSON)
                 .header("Authorization", jwtToken),
         ).andExpect(
             MockMvcResultMatchers.status().isOk,
@@ -73,18 +70,28 @@ class CustomerControllerTest {
     @Test
     fun `Returns unauthorized when token is not present in the request`() {
         val customer = mockTest.getCustumer()
-        val requestDTOJSON =
-            mapper.writeValueAsString(GetTransactionRequestDTO(transactionId = "1-1444392550-1")) as String
+        val transactionId = "1-1444392550-1"
 
         every { service.getCustomer(any()) } returns GetCustomerResponse(customerInfo = customer)
 
         mockMvc.perform(
-            MockMvcRequestBuilders.post("/client")
+            MockMvcRequestBuilders.get("/client?transactionId=$transactionId")
                 .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(requestDTOJSON),
+                .accept(MediaType.APPLICATION_JSON),
         ).andExpect(
             MockMvcResultMatchers.status().isUnauthorized,
+        )
+    }
+
+    @Test
+    fun `Returns bad request when transaction is provided`() {
+        mockMvc.perform(
+            MockMvcRequestBuilders.get("/client")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .header("Authorization", jwtToken),
+        ).andExpect(
+            MockMvcResultMatchers.status().isBadRequest,
         )
     }
 }
