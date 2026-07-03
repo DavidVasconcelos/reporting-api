@@ -1,5 +1,7 @@
 FROM eclipse-temurin:25-jdk AS builder
 
+LABEL org.opencontainers.image.source="https://github.com/DavidVasconcelos/reporting-api"
+
 WORKDIR /app
 
 ENV GRADLE_OPTS="-Dorg.gradle.daemon=false -Dorg.gradle.parallel=false -Dorg.gradle.workers.max=2 -Xmx1g"
@@ -21,6 +23,8 @@ RUN ./gradlew assemble
 FROM eclipse-temurin:25-jre
 
 WORKDIR /app
+
+EXPOSE 8080
 
 RUN addgroup --system spring && adduser --system --ingroup spring spring
 USER spring

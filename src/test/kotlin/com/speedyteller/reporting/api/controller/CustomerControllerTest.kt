@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc
 import org.springframework.context.annotation.Import
 import org.springframework.http.MediaType
+import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.User
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
@@ -45,7 +46,12 @@ class CustomerControllerTest {
 
     @BeforeAll
     fun setup() {
-        this.jwtToken = jwtTokenComponent.generateAccessToken(User("test", "test", mutableListOf()))
+        val mockUser = User(
+            "test",
+            "test",
+            mutableListOf(SimpleGrantedAuthority("session:role-any")),
+        )
+        this.jwtToken = jwtTokenComponent.generateAccessToken(mockUser)
     }
 
     @Test
@@ -68,7 +74,7 @@ class CustomerControllerTest {
     }
 
     @Test
-    fun `Returns unauthorized when token is not present in the request`() {
+    fun `Returns forbidden when token is not present in the request`() {
         val customer = mockTest.getCustumer()
         val transactionId = "1-1444392550-1"
 
@@ -79,7 +85,7 @@ class CustomerControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON),
         ).andExpect(
-            MockMvcResultMatchers.status().isUnauthorized,
+            MockMvcResultMatchers.status().isForbidden,
         )
     }
 

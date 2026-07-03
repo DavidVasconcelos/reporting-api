@@ -26,21 +26,32 @@ class JwtTokenComponent(
         Keys.hmacShaKeyFor(secret.toByteArray(StandardCharsets.UTF_8))
     }
 
-    fun generateAccessToken(user: User): String = Jwts.builder()
-        .subject(user.username)
-        .issuer(issuer)
-        .issuedAt(Date())
-        .expiration(Date(System.currentTimeMillis() + jwtExpirationTime * SECOND_MILLIS))
-        .signWith(secretKey)
-        .compact()
+    fun generateAccessToken(user: User): String {
+        val roles = user.authorities.map { it.authority }
+        return Jwts.builder()
+            .subject(user.username)
+            .claim("roles", roles)
+            .issuer(issuer)
+            .issuedAt(Date())
+            .expiration(Date(System.currentTimeMillis() + jwtExpirationTime * SECOND_MILLIS))
+            .signWith(secretKey)
+            .compact()
+    }
 
-    fun getUsername(token: String): String {
+    fun getUsername(token: String): String = getClaims(token)["sub"].toString()
+
+    @Suppress("UNCHECKED_CAST")
+    fun getRoles(token: String): List<String> {
+        val claims = getClaims(token)
+        return claims["roles"] as? List<String> ?: emptyList()
+    }
+
+    private fun getClaims(token: String): Claims {
         val sanitizedToken = sanitizeToken(token)
-        val claims: Claims = Jwts.parser().verifyWith(secretKey)
+        return Jwts.parser().verifyWith(secretKey)
             .build()
             .parseSignedClaims(sanitizedToken)
             .payload
-        return claims["sub"].toString()
     }
 
     fun validate(token: String): Boolean {

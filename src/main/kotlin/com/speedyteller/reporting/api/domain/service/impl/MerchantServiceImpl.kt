@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
+import org.springframework.security.core.authority.SimpleGrantedAuthority // 🚀 Don't forget this import!
 import org.springframework.security.core.userdetails.User
 import org.springframework.stereotype.Service
 
@@ -18,13 +19,16 @@ class MerchantServiceImpl(
     val authenticationManager: AuthenticationManager,
     val jwtTokenComponent: JwtTokenComponent,
     @Value("\${security.jwt-expiration-time}") private val jwtExpirationTime: Int,
+    @Value("\${security.role}") private val role: String,
 ) : MerchantService {
 
     override fun login(loginRequest: LoginRequest): LoginResponse {
         val user = authenticate(loginRequest)
-        logger.info("Client ${user.username} successfully logged")
-        val accessToken = jwtTokenComponent.generateAccessToken(user = user)
+        logger.info("Client ${user.username} successfully logged in")
 
+        val userWithNewRole = updateAuthorities(user)
+
+        val accessToken = jwtTokenComponent.generateAccessToken(user = userWithNewRole)
         return LoginResponse(token = accessToken, expiresIn = jwtExpirationTime)
     }
 
@@ -37,6 +41,17 @@ class MerchantServiceImpl(
                 ),
             )
         return authenticate.principal as User
+    }
+
+    private fun updateAuthorities(user: User): User {
+        val updatedAuthorities = user.authorities.toMutableList()
+        updatedAuthorities.add(SimpleGrantedAuthority(role))
+        val userWithNewRole = User(
+            user.username,
+            user.password ?: "",
+            updatedAuthorities,
+        )
+        return userWithNewRole
     }
 
     companion object {
