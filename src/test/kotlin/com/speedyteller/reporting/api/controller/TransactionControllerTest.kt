@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc
 import org.springframework.context.annotation.Import
 import org.springframework.http.MediaType
+import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.User
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
@@ -65,7 +66,12 @@ class TransactionControllerTest {
 
     @BeforeAll
     fun setup() {
-        this.jwtToken = jwtTokenComponent.generateAccessToken(User("test", "test", mutableListOf()))
+        val mockUser = User(
+            "test",
+            "test",
+            mutableListOf(SimpleGrantedAuthority("session:role-any")),
+        )
+        this.jwtToken = jwtTokenComponent.generateAccessToken(mockUser)
     }
 
     @Test
@@ -88,7 +94,7 @@ class TransactionControllerTest {
     }
 
     @Test
-    fun `Returns unauthorized when token is not present in the request`() {
+    fun `Returns forbidden when token is not present in the request`() {
         val response = mockTest.getTransactionResponse()
         val transactionId = "1-1444392550-1"
 
@@ -99,12 +105,12 @@ class TransactionControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON),
         ).andExpect(
-            MockMvcResultMatchers.status().isUnauthorized,
+            MockMvcResultMatchers.status().isForbidden,
         )
     }
 
     @Test
-    fun `Returns unauthorized when token has an invalid issuer`() {
+    fun `Returns forbidden when token has an invalid issuer`() {
         val badIssuerToken = generateBadIssuerToken()
         val transactionId = "1-1444392550-1"
 
@@ -114,7 +120,7 @@ class TransactionControllerTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .header("Authorization", badIssuerToken),
         ).andExpect(
-            MockMvcResultMatchers.status().isUnauthorized,
+            MockMvcResultMatchers.status().isForbidden,
         )
     }
 
@@ -158,7 +164,7 @@ class TransactionControllerTest {
     }
 
     @Test
-    fun `Returns unauthorized when token is not present in the request to get the list`() {
+    fun `Returns forbidden when token is not present in the request to get the list`() {
         val page = 1
         val response = mockTest.getTransactionListResponse()
         val listResponseDTO = response.map { GetTransactionListResponseDTO(model = it) }
@@ -178,7 +184,7 @@ class TransactionControllerTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .content(dtoJSON),
         ).andExpect(
-            MockMvcResultMatchers.status().isUnauthorized,
+            MockMvcResultMatchers.status().isForbidden,
         )
     }
 
@@ -203,7 +209,7 @@ class TransactionControllerTest {
     }
 
     @Test
-    fun `Returns unauthorized when token is not present in the request to get the report`() {
+    fun `Returns forbidden when token is not present in the request to get the report`() {
         val response = mockTest.getReportResponse()
         val responseDTO = GetReportResponseDTO(response = response.map { GetReportDTO(model = it) })
         val dtoJSON = mapper.writeValueAsString(responseDTO) as String
@@ -216,7 +222,7 @@ class TransactionControllerTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .content(dtoJSON),
         ).andExpect(
-            MockMvcResultMatchers.status().isUnauthorized,
+            MockMvcResultMatchers.status().isForbidden,
         )
     }
 

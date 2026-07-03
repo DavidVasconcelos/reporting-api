@@ -12,6 +12,14 @@ services:
       - postgres-data:/var/lib/postgresql/data
       - ./docker/postgres.conf:/usr/local/etc/postgres/postgres.conf
 
+  redis:
+    image: redis:8.6
+    command: redis-server
+    volumes:
+      - ./docker/redis.conf:/redis.conf
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+
   reporting_api:
     build:
       context: .
@@ -21,20 +29,17 @@ services:
       - "8080:8080"
     depends_on:
       - reporting_db
+      - redis
     environment:
       JDBC_DATABASE_URL: jdbc:postgresql://reporting_db:5432/speedyteller?currentSchema=speedyteller
       POSTGRES_USERNAME: postgres
       POSTGRES_PASSWORD: postgres
       JWT_SECRET: ${JWT_SECRET}
       JWT_ISSUER: ${JWT_ISSUER}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
 
-  redis:
-    image: redis:8.6
-    command: redis-server
-    volumes:
-      - ./docker/redis.conf:/redis.conf
-    ports:
-      - "${REDIS_PORT:-6379}:6379"
+
 
 volumes:
   postgres-data:

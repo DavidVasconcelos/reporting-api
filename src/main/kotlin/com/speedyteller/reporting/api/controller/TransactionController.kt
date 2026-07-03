@@ -39,6 +39,7 @@ class TransactionController(
     fun getTransaction(
         @RequestParam(name = "transactionId", required = true) transactionId: String,
     ): ResponseEntity<GetTransactionResponseDTO> {
+        logger.info("Get transaction called for transactionId: $transactionId")
         val transactionResponse =
             transactionService.getTransaction(transactionId = transactionId)
         return ResponseEntity.ok(GetTransactionResponseDTO(model = transactionResponse))
@@ -51,6 +52,7 @@ class TransactionController(
         @RequestParam(name = "page", defaultValue = "1") page: Int,
         @RequestBody dto: GetTransactionListRequestDTO,
     ): ResponseEntity<CustomPageDTO> {
+        logger.info("Get transaction list request $dto")
         val pageRequest = PageRequest.of(page, DEFAULT_PAGE_SIZE)
         val listOfResponse =
             transactionService.getTransactionList(
@@ -69,7 +71,7 @@ class TransactionController(
 
     @PostMapping("/report")
     fun getReport(@RequestBody dto: GetReportRequestDTO): ResponseEntity<GetReportResponseDTO> {
-        logger.info("Get Report Request $dto")
+        logger.info("Get report request $dto")
         val listOfResponse = reportService.getReport(request = GetReportRequest(dto = dto))
         val responseDTO =
             GetReportResponseDTO(response = listOfResponse.map { GetReportDTO(model = it) })
