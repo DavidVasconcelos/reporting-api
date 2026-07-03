@@ -19,7 +19,6 @@ import org.springframework.http.MediaType
 import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.core.userdetails.User
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.post
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
@@ -80,12 +79,13 @@ class MerchantControllerTest {
 
         every { service.login(any()) } throws BadCredentialsException("Bad Credentials")
 
-        mockMvc.post("/merchant/user/login") {
-            contentType = MediaType.APPLICATION_JSON
-            accept = MediaType.APPLICATION_JSON
-            content = requestDTOJSON
-        }.andExpect {
-            status { isUnauthorized() }
-        }
+        mockMvc.perform(
+            MockMvcRequestBuilders.post("/merchant/user/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(requestDTOJSON),
+        ).andExpect(
+            MockMvcResultMatchers.status().isUnauthorized,
+        )
     }
 }
