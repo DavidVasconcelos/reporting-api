@@ -29,7 +29,7 @@ services:
       JWT_ISSUER: ${JWT_ISSUER}
 
   redis:
-    image: redis:7.4
+    image: redis:8.6
     command: redis-server
     volumes:
       - ./docker/redis.conf:/redis.conf
