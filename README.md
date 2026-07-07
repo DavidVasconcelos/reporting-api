@@ -19,6 +19,13 @@ An API developed by me for portfolio purposes
 
 ## First Steps
 
+
+### Set up Environment Variables
+To run this project locally, simply copy the example environment file:
+
+    $ cp .env.example .env
+
+
 ### Using Docker
 
 > [!WARNING]
