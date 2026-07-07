@@ -1,7 +1,7 @@
 services:
   reporting_db:
     container_name: "reporting_db"
-    image: "postgres:16.2"
+    image: "postgres:18.4"
     ports:
       - "5432:5432"
     environment:
@@ -9,7 +9,7 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: speedyteller
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql
       - ./docker/postgres.conf:/usr/local/etc/postgres/postgres.conf
 
   redis:
