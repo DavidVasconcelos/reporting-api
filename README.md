@@ -6,8 +6,8 @@
 ![kotlin_version](https://img.shields.io/badge/Kotlin-2.4.0-7F52FF)
 ![java_version](https://img.shields.io/badge/Java-25-f89820)
 ![gradle_version](https://img.shields.io/badge/Gradle-9.5.1-209BC4) 
-![postgres_version](https://img.shields.io/badge/Postgres-16.2-0f5887)
-![redis_version](https://img.shields.io/badge/Redis-7.4-D82C20)
+![postgres_version](https://img.shields.io/badge/Postgres-18.4-0f5887)
+![redis_version](https://img.shields.io/badge/Redis-8.6-D82C20)
 
 ## TL;DR - What it is?
 
