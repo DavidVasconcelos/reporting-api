@@ -2,21 +2,30 @@ package com.speedyteller.reporting.api.common
 
 import com.speedyteller.reporting.api.domain.dto.page.CustomPageDTO
 import org.springframework.stereotype.Component
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder
+import org.springframework.web.util.UriComponentsBuilder
 
 @Component
 class PaginationComponent {
 
-    fun getPagination(pageSize: Int, page: Int, uri: String, data: List<Any>): CustomPageDTO {
-        val nextPageUrl = uri.substringBeforeLast("").plus("${page.plus(PAGE_INITIAL_SIZE)}")
-        val prevPageUrl =
-            if (page > PAGE_INITIAL_SIZE) {
-                uri.substringBeforeLast("")
-                    .plus("${page.minus(PAGE_INITIAL_SIZE)}")
-            } else {
-                null
-            }
-        val from = (page.minus(PAGE_INITIAL_SIZE)).times(pageSize).plus(PAGE_INITIAL_SIZE)
-        val to = (from.minus(PAGE_INITIAL_SIZE)).plus(data.count())
+    fun <T : Any> getPagination(pageSize: Int, page: Int, uri: String, data: List<T>): CustomPageDTO {
+        val from = ((page - 1) * pageSize) + 1
+        val to = (from - 1) + data.size
+
+        val baseBuilder = UriComponentsBuilder.fromUriString(uri)
+
+        val nextPageUrl = baseBuilder.cloneBuilder()
+            .replaceQueryParam("page", page + 1)
+            .toUriString()
+
+        val prevPageUrl = if (page > 1) {
+            ServletUriComponentsBuilder.fromCurrentRequest()
+                .replaceQueryParam("page", page - 1)
+                .toUriString()
+        } else {
+            null
+        }
+
         return CustomPageDTO(
             perPage = pageSize,
             currentPage = page,
@@ -26,9 +35,5 @@ class PaginationComponent {
             to = to,
             data = data,
         )
-    }
-
-    companion object {
-        const val PAGE_INITIAL_SIZE = 1
     }
 }

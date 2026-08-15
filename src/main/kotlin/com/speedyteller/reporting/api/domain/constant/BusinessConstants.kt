@@ -15,32 +15,6 @@ object BusinessConstants {
             "([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))"
     }
 
-    object DataBaseFields {
-        const val ORIGINAL_AMOUNT = 0
-        const val ORIGINAL_CURRENCY = 1
-        const val NUMBER = 2
-        const val EMAIL = 3
-        const val BILLING_FIRST_NAME = 4
-        const val BILLING_LAST_NAME = 5
-        const val MERCHANT_ID = 6
-        const val MERCHANT_NAME = 7
-        const val RECEIVED = 8
-        const val REFERENCE_NO = 9
-        const val STATUS = 10
-        const val OPERATION = 11
-        const val MESSAGE = 12
-        const val CREATED_AT = 13
-        const val TRANSACTION_ID = 14
-        const val ACQUIRER_ID = 15
-        const val ACQUIRER_NAME = 16
-        const val ACQUIRER_CODE = 17
-        const val ACQUIRER_TYPE = 18
-        const val REFUNDABLE = 19
-        const val COUNT = 0
-        const val TOTAL = 1
-        const val CURRENCY = 2
-    }
-
     object Queries {
         const val QUERY_GET_TRANSACTION_LIST = """SELECT ft.original_amount as originalAmount,
                        ft.original_currency as originalCurrency,

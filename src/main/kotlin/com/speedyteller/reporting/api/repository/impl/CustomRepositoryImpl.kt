@@ -1,26 +1,32 @@
 package com.speedyteller.reporting.api.repository.impl
 
 import com.speedyteller.reporting.api.repository.CustomRepository
-import jakarta.persistence.EntityManager
-import jakarta.persistence.PersistenceContext
 import org.springframework.data.domain.Pageable
+import org.springframework.jdbc.core.DataClassRowMapper
+import org.springframework.jdbc.core.simple.JdbcClient
+import org.springframework.stereotype.Repository
 
-class CustomRepositoryImpl : CustomRepository {
+@Repository
+class CustomRepositoryImpl(private val jdbcClient: JdbcClient) : CustomRepository {
 
-    @PersistenceContext
-    private lateinit var em: EntityManager
-
-    @Suppress("UNCHECKED_CAST")
-    override fun executeNativeQuery(query: String, parameters: Map<String, Any>, page: Pageable?): List<Array<Any>> {
-        val nativeQuery = em.createNativeQuery(query)
-
-        parameters.forEach { (key, value) -> nativeQuery.setParameter(key, value) }
+    override fun <T : Any> executeNativeQuery(
+        query: String,
+        parameters: Map<String, Any>,
+        page: Pageable?,
+        mappedClass: Class<T>,
+    ): List<T> {
+        var finalQuery = query
+        val finalParams = parameters.toMutableMap()
 
         page?.let {
-            nativeQuery.firstResult = it.offset.toInt()
-            nativeQuery.maxResults = it.pageSize
+            finalQuery += " LIMIT :limit OFFSET :offset"
+            finalParams["limit"] = it.pageSize
+            finalParams["offset"] = it.offset.toInt()
         }
 
-        return nativeQuery.resultList as List<Array<Any>>
+        return jdbcClient.sql(finalQuery)
+            .params(finalParams)
+            .query(DataClassRowMapper(mappedClass))
+            .list()
     }
 }

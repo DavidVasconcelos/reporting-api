@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
 import java.time.LocalTime
-import kotlin.streams.toList
 
 @Component
 class GetTransactions(
@@ -21,13 +20,12 @@ class GetTransactions(
     @Transactional(readOnly = true)
     fun handle(request: GetTransactionListRequest, page: Pageable): List<GetTransactionList> {
         val (query, params) = buildQueryWithParams(request)
-        val resultList = transactionRepository.executeNativeQuery(
+        return transactionRepository.executeNativeQuery(
             query = query,
             page = page,
             parameters = params,
+            mappedClass = GetTransactionList::class.java,
         )
-        return resultList.stream().map { record -> GetTransactionList(record) }
-            .toList<GetTransactionList>()
     }
 
     private fun buildQueryWithParams(request: GetTransactionListRequest): Pair<String, Map<String, Any>> {

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
 import java.time.LocalTime
-import kotlin.streams.toList
 
 @Component
 class GetReport(private val transactionRepository: TransactionRepository) {
@@ -16,10 +15,11 @@ class GetReport(private val transactionRepository: TransactionRepository) {
     @Transactional(readOnly = true)
     fun handle(request: GetReportRequest): List<GetReportResponse> {
         val (query, params) = buildQueryWithParams(request)
-        val resultList =
-            transactionRepository.executeNativeQuery(query = query, parameters = params)
-        return resultList.stream().map { record -> GetReportResponse(record = record) }
-            .toList<GetReportResponse>()
+        return transactionRepository.executeNativeQuery(
+            query = query,
+            parameters = params,
+            mappedClass = GetReportResponse::class.java,
+        )
     }
 
     private fun buildQueryWithParams(request: GetReportRequest): Pair<String, Map<String, Any>> {
