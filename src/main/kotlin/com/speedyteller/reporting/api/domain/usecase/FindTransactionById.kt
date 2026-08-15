@@ -7,7 +7,7 @@ import com.speedyteller.reporting.api.domain.model.GetTransaction
 import com.speedyteller.reporting.api.domain.model.Merchant
 import com.speedyteller.reporting.api.domain.model.Transaction
 import com.speedyteller.reporting.api.exception.NotFoundException
-import com.speedyteller.reporting.api.repository.TransactionRepository
+import com.speedyteller.reporting.api.repository.jpa.TransactionRepository
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 

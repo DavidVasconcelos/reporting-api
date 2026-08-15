@@ -1,13 +1,13 @@
 package com.speedyteller.reporting.api.domain.service
 
-import com.speedyteller.reporting.api.controller.TransactionController
-import com.speedyteller.reporting.api.domain.enum.FilterField
-import com.speedyteller.reporting.api.domain.enum.Operation
-import com.speedyteller.reporting.api.domain.enum.PaymentMethod
-import com.speedyteller.reporting.api.domain.enum.Status
+import com.speedyteller.reporting.api.domain.model.enum.FilterField
+import com.speedyteller.reporting.api.domain.model.enum.Operation
+import com.speedyteller.reporting.api.domain.model.enum.PaymentMethod
+import com.speedyteller.reporting.api.domain.model.enum.Status
 import com.speedyteller.reporting.api.domain.model.request.GetTransactionListRequest
 import com.speedyteller.reporting.api.mock.MockTest
 import com.speedyteller.reporting.api.support.annotations.IntegrationTest
+import com.speedyteller.reporting.api.web.controller.TransactionController
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired

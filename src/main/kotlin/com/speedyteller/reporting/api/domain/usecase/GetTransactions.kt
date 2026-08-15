@@ -1,10 +1,10 @@
 package com.speedyteller.reporting.api.domain.usecase
 
+import com.speedyteller.reporting.api.common.BusinessConstants
 import com.speedyteller.reporting.api.common.FilterFieldComponent
-import com.speedyteller.reporting.api.domain.constant.BusinessConstants
 import com.speedyteller.reporting.api.domain.model.GetTransactionList
 import com.speedyteller.reporting.api.domain.model.request.GetTransactionListRequest
-import com.speedyteller.reporting.api.repository.TransactionRepository
+import com.speedyteller.reporting.api.repository.jpa.TransactionRepository
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional

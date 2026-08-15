@@ -1,9 +1,9 @@
 package com.speedyteller.reporting.api.domain.usecase
 
-import com.speedyteller.reporting.api.domain.constant.BusinessConstants
+import com.speedyteller.reporting.api.common.BusinessConstants
 import com.speedyteller.reporting.api.domain.model.request.GetReportRequest
 import com.speedyteller.reporting.api.domain.model.response.GetReportResponse
-import com.speedyteller.reporting.api.repository.TransactionRepository
+import com.speedyteller.reporting.api.repository.jpa.TransactionRepository
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime

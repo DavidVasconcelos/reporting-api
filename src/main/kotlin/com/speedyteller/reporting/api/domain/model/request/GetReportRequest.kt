@@ -1,9 +1,9 @@
 package com.speedyteller.reporting.api.domain.model.request
 
-import com.speedyteller.reporting.api.domain.constant.BusinessConstants.RegexFormats.REGEX_DATE_FORMAT_VALIDATOR
-import com.speedyteller.reporting.api.domain.constant.BusinessConstants.ValidatorMessages.DATE_FORMAT_VALIDATOR_MESSAGE
-import com.speedyteller.reporting.api.domain.dto.request.GetReportRequestDTO
+import com.speedyteller.reporting.api.common.BusinessConstants.RegexFormats.REGEX_DATE_FORMAT_VALIDATOR
+import com.speedyteller.reporting.api.common.BusinessConstants.ValidatorMessages.DATE_FORMAT_VALIDATOR_MESSAGE
 import com.speedyteller.reporting.api.exception.BusinessValidationException
+import com.speedyteller.reporting.api.web.dto.request.GetReportRequestDTO
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 

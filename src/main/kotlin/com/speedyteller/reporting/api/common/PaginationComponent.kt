@@ -1,6 +1,6 @@
 package com.speedyteller.reporting.api.common
 
-import com.speedyteller.reporting.api.domain.dto.page.CustomPageDTO
+import com.speedyteller.reporting.api.web.dto.page.CustomPageDTO
 import org.springframework.stereotype.Component
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 import org.springframework.web.util.UriComponentsBuilder

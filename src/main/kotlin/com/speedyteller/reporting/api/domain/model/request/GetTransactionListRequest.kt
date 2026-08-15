@@ -1,15 +1,15 @@
 package com.speedyteller.reporting.api.domain.model.request
 
-import com.speedyteller.reporting.api.domain.constant.BusinessConstants.RegexFormats.REGEX_DATE_FORMAT_VALIDATOR
-import com.speedyteller.reporting.api.domain.constant.BusinessConstants.ValidatorMessages.DATE_FORMAT_VALIDATOR_MESSAGE
-import com.speedyteller.reporting.api.domain.dto.request.GetTransactionListRequestDTO
-import com.speedyteller.reporting.api.domain.enum.ErrorCode
-import com.speedyteller.reporting.api.domain.enum.FilterField
-import com.speedyteller.reporting.api.domain.enum.Operation
-import com.speedyteller.reporting.api.domain.enum.PaymentMethod
-import com.speedyteller.reporting.api.domain.enum.Status
+import com.speedyteller.reporting.api.common.BusinessConstants.RegexFormats.REGEX_DATE_FORMAT_VALIDATOR
+import com.speedyteller.reporting.api.common.BusinessConstants.ValidatorMessages.DATE_FORMAT_VALIDATOR_MESSAGE
+import com.speedyteller.reporting.api.domain.model.enum.ErrorCode
+import com.speedyteller.reporting.api.domain.model.enum.FilterField
+import com.speedyteller.reporting.api.domain.model.enum.Operation
+import com.speedyteller.reporting.api.domain.model.enum.PaymentMethod
+import com.speedyteller.reporting.api.domain.model.enum.Status
 import com.speedyteller.reporting.api.exception.BusinessValidationException
 import com.speedyteller.reporting.api.extension.toCapital
+import com.speedyteller.reporting.api.web.dto.request.GetTransactionListRequestDTO
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import kotlin.enums.enumEntries
