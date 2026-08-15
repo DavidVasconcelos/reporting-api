@@ -3,6 +3,7 @@ package com.speedyteller.reporting.api.web.controller
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
 import com.speedyteller.reporting.api.common.PaginationComponent
+import com.speedyteller.reporting.api.domain.model.extension.toDTO
 import com.speedyteller.reporting.api.domain.service.ReportService
 import com.speedyteller.reporting.api.domain.service.TransactionService
 import com.speedyteller.reporting.api.mock.MockTest
@@ -15,7 +16,6 @@ import com.speedyteller.reporting.api.web.dto.request.GetTransactionListRequestD
 import com.speedyteller.reporting.api.web.dto.response.GetReportDTO
 import com.speedyteller.reporting.api.web.dto.response.GetReportResponseDTO
 import com.speedyteller.reporting.api.web.dto.response.GetTransactionListResponseDTO
-import com.speedyteller.reporting.api.web.dto.response.GetTransactionResponseDTO
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
 import io.mockk.every
@@ -77,12 +77,12 @@ class TransactionControllerTest {
 
     @Test
     fun `Successful test get transaction`() {
-        val response = mockTest.getTransactionResponse()
+        val transaction = mockTest.getTransaction()
         val transactionId = "1-1444392550-1"
         val expectedTransaction =
-            mapper.writeValueAsString(GetTransactionResponseDTO(model = response)) as String
+            mapper.writeValueAsString(transaction.toDTO()) as String
 
-        every { service.getTransaction(any()) } returns response
+        every { service.getTransaction(any()) } returns transaction
 
         mockMvc.perform(
             MockMvcRequestBuilders.get("/transaction?transactionId=$transactionId")
@@ -96,7 +96,7 @@ class TransactionControllerTest {
 
     @Test
     fun `Returns forbidden when token is not present in the request`() {
-        val response = mockTest.getTransactionResponse()
+        val response = mockTest.getTransaction()
         val transactionId = "1-1444392550-1"
 
         every { service.getTransaction(any()) } returns response

@@ -26,6 +26,10 @@ data class Transaction(
     var refundable: Boolean? = null,
     var errorCode: String? = null,
     var agent: AgentInfo? = null,
+    var customer: Customer? = null,
+    var merchant: Merchant? = null,
+    var fxTransaction: FXTransaction? = null,
+    var acquirer: Acquirer? = null,
 
 ) : Serializable {
     constructor(entity: TransactionEntity) : this() {
@@ -49,6 +53,10 @@ data class Transaction(
         this.refundable = entity.refundable
         this.errorCode = entity.errorCode
         this.agent = entity.agentInfo?.let { AgentInfo(entity = it) } ?: AgentInfo()
+        this.customer = entity.customer?.let { Customer(entity = it) } ?: Customer()
+        this.merchant = entity.merchant?.let { Merchant(entity = it) } ?: Merchant()
+        this.fxTransaction = entity.fxTransaction?.let { FXTransaction(entity = it) } ?: FXTransaction()
+        this.acquirer = entity.acquirer?.let { Acquirer(entity = it) } ?: Acquirer()
     }
 
     companion object {

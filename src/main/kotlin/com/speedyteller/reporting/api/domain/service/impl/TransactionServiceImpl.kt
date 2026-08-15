@@ -1,8 +1,8 @@
 package com.speedyteller.reporting.api.domain.service.impl
 
+import com.speedyteller.reporting.api.domain.model.Transaction
 import com.speedyteller.reporting.api.domain.model.request.GetTransactionListRequest
 import com.speedyteller.reporting.api.domain.model.response.GetTransactionListResponse
-import com.speedyteller.reporting.api.domain.model.response.GetTransactionResponse
 import com.speedyteller.reporting.api.domain.service.TransactionService
 import com.speedyteller.reporting.api.domain.usecase.FindTransactionById
 import com.speedyteller.reporting.api.domain.usecase.GetTransactions
@@ -17,10 +17,9 @@ class TransactionServiceImpl(val findTransactionById: FindTransactionById, val g
     TransactionService {
 
     @Cacheable(value = ["transactions"], keyGenerator = "customKeyGenerator")
-    override fun getTransaction(transactionId: String): GetTransactionResponse {
+    override fun getTransaction(transactionId: String): Transaction {
         logger.info("Looking for transaction $transactionId")
-        val transaction = findTransactionById.handle(transactionId = transactionId)
-        return GetTransactionResponse(model = transaction)
+        return findTransactionById.handle(transactionId = transactionId)
     }
 
     override fun getTransactionList(

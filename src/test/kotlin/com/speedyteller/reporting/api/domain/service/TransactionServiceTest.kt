@@ -25,7 +25,7 @@ class TransactionServiceTest {
 
     @Test
     fun `Get Transaction`() {
-        val expectedTransaction = mockTest.getTransactionResponse()
+        val expectedTransaction = mockTest.getTransaction()
         val savedTransaction = service.getTransaction(transactionId = "1-1444392550-1")
 
         expectedTransaction shouldBeEqualTo savedTransaction

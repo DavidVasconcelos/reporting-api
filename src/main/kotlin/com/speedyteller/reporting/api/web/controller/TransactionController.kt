@@ -1,6 +1,7 @@
 package com.speedyteller.reporting.api.web.controller
 
 import com.speedyteller.reporting.api.common.PaginationComponent
+import com.speedyteller.reporting.api.domain.model.extension.toDTO
 import com.speedyteller.reporting.api.domain.model.request.GetReportRequest
 import com.speedyteller.reporting.api.domain.model.request.GetTransactionListRequest
 import com.speedyteller.reporting.api.domain.service.ReportService
@@ -40,9 +41,9 @@ class TransactionController(
         @RequestParam(name = "transactionId", required = true) transactionId: String,
     ): ResponseEntity<GetTransactionResponseDTO> {
         logger.info("Get transaction called for transactionId: $transactionId")
-        val transactionResponse =
+        val transaction =
             transactionService.getTransaction(transactionId = transactionId)
-        return ResponseEntity.ok(GetTransactionResponseDTO(model = transactionResponse))
+        return ResponseEntity.ok(transaction.toDTO())
     }
 
     @PostMapping("/list")
