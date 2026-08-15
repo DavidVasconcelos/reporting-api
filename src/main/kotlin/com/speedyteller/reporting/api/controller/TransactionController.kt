@@ -53,7 +53,7 @@ class TransactionController(
         @RequestBody dto: GetTransactionListRequestDTO,
     ): ResponseEntity<CustomPageDTO> {
         logger.info("Get transaction list request $dto")
-        val pageRequest = PageRequest.of(page, DEFAULT_PAGE_SIZE)
+        val pageRequest = PageRequest.of(page - 1, DEFAULT_PAGE_SIZE)
         val listOfResponse =
             transactionService.getTransactionList(
                 request = GetTransactionListRequest(dto = dto),

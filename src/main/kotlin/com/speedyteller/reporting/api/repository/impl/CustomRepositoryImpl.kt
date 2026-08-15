@@ -17,14 +17,10 @@ class CustomRepositoryImpl : CustomRepository {
         parameters.forEach { (key, value) -> nativeQuery.setParameter(key, value) }
 
         page?.let {
-            nativeQuery.firstResult = (it.pageNumber.minus(ONE)).times(it.pageSize)
+            nativeQuery.firstResult = it.offset.toInt()
             nativeQuery.maxResults = it.pageSize
         }
 
         return nativeQuery.resultList as List<Array<Any>>
-    }
-
-    companion object {
-        const val ONE = 1
     }
 }

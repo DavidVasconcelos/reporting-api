@@ -1,15 +1,11 @@
 package com.speedyteller.reporting.api.domain.usecase
 
 import com.speedyteller.reporting.api.domain.constant.BusinessConstants
-import com.speedyteller.reporting.api.domain.constant.BusinessConstants.DataBaseFields.COUNT
-import com.speedyteller.reporting.api.domain.constant.BusinessConstants.DataBaseFields.CURRENCY
-import com.speedyteller.reporting.api.domain.constant.BusinessConstants.DataBaseFields.TOTAL
 import com.speedyteller.reporting.api.domain.model.request.GetReportRequest
 import com.speedyteller.reporting.api.domain.model.response.GetReportResponse
 import com.speedyteller.reporting.api.repository.TransactionRepository
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
-import java.math.BigDecimal
 import java.time.LocalDateTime
 import java.time.LocalTime
 import kotlin.streams.toList
@@ -22,7 +18,7 @@ class GetReport(private val transactionRepository: TransactionRepository) {
         val (query, params) = buildQueryWithParams(request)
         val resultList =
             transactionRepository.executeNativeQuery(query = query, parameters = params)
-        return resultList.stream().map { record -> getReportRecord(record = record) }
+        return resultList.stream().map { record -> GetReportResponse(record = record) }
             .toList<GetReportResponse>()
     }
 
@@ -54,10 +50,4 @@ class GetReport(private val transactionRepository: TransactionRepository) {
         query.append(" GROUP BY ft.original_currency")
         return Pair(query.toString(), parameters)
     }
-
-    private fun getReportRecord(record: Array<Any>): GetReportResponse = GetReportResponse(
-        count = record[COUNT] as? Long,
-        total = record[TOTAL] as? BigDecimal,
-        currency = record[CURRENCY] as? String,
-    )
 }

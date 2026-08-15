@@ -47,7 +47,7 @@ class TransactionServiceTest {
                 merchantId = 3,
                 acquirerId = 1,
             ),
-            page = PageRequest.of(1, TransactionController.DEFAULT_PAGE_SIZE),
+            page = PageRequest.of(0, TransactionController.DEFAULT_PAGE_SIZE),
         )
         expectedTransaction shouldBeEqualTo savedTransaction
     }
