@@ -1,7 +1,7 @@
 package com.speedyteller.reporting.api.domain.usecase
 
 import com.speedyteller.reporting.api.domain.model.User
-import com.speedyteller.reporting.api.repository.UserRepository
+import com.speedyteller.reporting.api.repository.jpa.UserRepository
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional

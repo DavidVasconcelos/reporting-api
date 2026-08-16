@@ -1,13 +1,13 @@
 package com.speedyteller.reporting.api.domain.service
 
-import com.speedyteller.reporting.api.controller.TransactionController
-import com.speedyteller.reporting.api.domain.enum.FilterField
-import com.speedyteller.reporting.api.domain.enum.Operation
-import com.speedyteller.reporting.api.domain.enum.PaymentMethod
-import com.speedyteller.reporting.api.domain.enum.Status
-import com.speedyteller.reporting.api.domain.model.request.GetTransactionListRequest
+import com.speedyteller.reporting.api.domain.model.enum.FilterField
+import com.speedyteller.reporting.api.domain.model.enum.Operation
+import com.speedyteller.reporting.api.domain.model.enum.PaymentMethod
+import com.speedyteller.reporting.api.domain.model.enum.Status
+import com.speedyteller.reporting.api.domain.model.request.TransactionSummaryRequest
 import com.speedyteller.reporting.api.mock.MockTest
 import com.speedyteller.reporting.api.support.annotations.IntegrationTest
+import com.speedyteller.reporting.api.web.controller.TransactionController
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -25,17 +25,17 @@ class TransactionServiceTest {
 
     @Test
     fun `Get Transaction`() {
-        val expectedTransaction = mockTest.getTransactionResponse()
+        val expectedTransaction = mockTest.getTransaction()
         val savedTransaction = service.getTransaction(transactionId = "1-1444392550-1")
 
         expectedTransaction shouldBeEqualTo savedTransaction
     }
 
     @Test
-    fun `Get Transaction List`() {
-        val expectedTransaction = mockTest.getTransactionListResponse()
-        val savedTransaction = service.getTransactionList(
-            request = GetTransactionListRequest(
+    fun `Get Transaction Summary`() {
+        val expectedSummaryList = mockTest.getTransactionSummaryList()
+        val savedSummaryList = service.getTransactionList(
+            request = TransactionSummaryRequest(
                 fromDate = LocalDate.of(2015, 9, 29),
                 toDate = LocalDate.of(2015, 10, 29),
                 status = Status.getStatus("APPROVED"),
@@ -47,8 +47,8 @@ class TransactionServiceTest {
                 merchantId = 3,
                 acquirerId = 1,
             ),
-            page = PageRequest.of(1, TransactionController.DEFAULT_PAGE_SIZE),
+            page = PageRequest.of(0, TransactionController.DEFAULT_PAGE_SIZE),
         )
-        expectedTransaction shouldBeEqualTo savedTransaction
+        expectedSummaryList shouldBeEqualTo savedSummaryList
     }
 }

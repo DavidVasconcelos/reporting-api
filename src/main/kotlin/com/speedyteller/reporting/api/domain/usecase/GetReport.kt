@@ -1,32 +1,28 @@
 package com.speedyteller.reporting.api.domain.usecase
 
-import com.speedyteller.reporting.api.domain.constant.BusinessConstants
-import com.speedyteller.reporting.api.domain.constant.BusinessConstants.DataBaseFields.COUNT
-import com.speedyteller.reporting.api.domain.constant.BusinessConstants.DataBaseFields.CURRENCY
-import com.speedyteller.reporting.api.domain.constant.BusinessConstants.DataBaseFields.TOTAL
-import com.speedyteller.reporting.api.domain.model.request.GetReportRequest
-import com.speedyteller.reporting.api.domain.model.response.GetReportResponse
-import com.speedyteller.reporting.api.repository.TransactionRepository
+import com.speedyteller.reporting.api.common.BusinessConstants
+import com.speedyteller.reporting.api.domain.model.Report
+import com.speedyteller.reporting.api.domain.model.request.ReportRequest
+import com.speedyteller.reporting.api.repository.jpa.TransactionRepository
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
-import java.math.BigDecimal
 import java.time.LocalDateTime
 import java.time.LocalTime
-import kotlin.streams.toList
 
 @Component
 class GetReport(private val transactionRepository: TransactionRepository) {
 
     @Transactional(readOnly = true)
-    fun handle(request: GetReportRequest): List<GetReportResponse> {
+    fun handle(request: ReportRequest): List<Report> {
         val (query, params) = buildQueryWithParams(request)
-        val resultList =
-            transactionRepository.executeNativeQuery(query = query, parameters = params)
-        return resultList.stream().map { record -> getReportRecord(record = record) }
-            .toList<GetReportResponse>()
+        return transactionRepository.executeNativeQuery(
+            query = query,
+            parameters = params,
+            mappedClass = Report::class.java,
+        )
     }
 
-    private fun buildQueryWithParams(request: GetReportRequest): Pair<String, Map<String, Any>> {
+    private fun buildQueryWithParams(request: ReportRequest): Pair<String, Map<String, Any>> {
         val query: StringBuilder =
             StringBuilder().append(BusinessConstants.Queries.QUERY_GET_REPORT)
         val parameters = mutableMapOf<String, Any>()
@@ -54,10 +50,4 @@ class GetReport(private val transactionRepository: TransactionRepository) {
         query.append(" GROUP BY ft.original_currency")
         return Pair(query.toString(), parameters)
     }
-
-    private fun getReportRecord(record: Array<Any>): GetReportResponse = GetReportResponse(
-        count = record[COUNT] as? Long,
-        total = record[TOTAL] as? BigDecimal,
-        currency = record[CURRENCY] as? String,
-    )
 }

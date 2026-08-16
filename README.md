@@ -5,7 +5,7 @@
 ![spring_boot version](https://img.shields.io/badge/SpringBoot-4.1.0-8BC34A) 
 ![kotlin_version](https://img.shields.io/badge/Kotlin-2.4.0-7F52FF)
 ![java_version](https://img.shields.io/badge/Java-25-f89820)
-![gradle_version](https://img.shields.io/badge/Gradle-9.5.1-209BC4) 
+![gradle_version](https://img.shields.io/badge/Gradle-9.7.0-209BC4) 
 ![postgres_version](https://img.shields.io/badge/Postgres-18.4-0f5887)
 ![redis_version](https://img.shields.io/badge/Redis-8.6-D82C20)
 

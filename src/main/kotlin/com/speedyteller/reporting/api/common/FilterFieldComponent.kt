@@ -1,6 +1,6 @@
 package com.speedyteller.reporting.api.common
 
-import com.speedyteller.reporting.api.domain.enum.FilterField
+import com.speedyteller.reporting.api.domain.model.enum.FilterField
 import com.speedyteller.reporting.api.exception.BusinessValidationException
 import org.springframework.stereotype.Component
 import java.util.Collections

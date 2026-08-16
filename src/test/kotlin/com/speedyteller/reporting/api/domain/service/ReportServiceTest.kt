@@ -1,6 +1,6 @@
 package com.speedyteller.reporting.api.domain.service
 
-import com.speedyteller.reporting.api.domain.model.request.GetReportRequest
+import com.speedyteller.reporting.api.domain.model.request.ReportRequest
 import com.speedyteller.reporting.api.mock.MockTest
 import com.speedyteller.reporting.api.support.annotations.IntegrationTest
 import org.amshove.kluent.shouldBeEqualTo
@@ -21,7 +21,7 @@ class ReportServiceTest {
     fun `Get Report`() {
         val expectedReport = mockTest.getReportResponse()
         val savedReport = reportService.getReport(
-            GetReportRequest(
+            ReportRequest(
                 fromDate = LocalDate.of(2015, 9, 29),
                 toDate = LocalDate.of(2015, 10, 9),
                 merchant = 1,

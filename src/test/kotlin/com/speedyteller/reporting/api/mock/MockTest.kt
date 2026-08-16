@@ -3,20 +3,11 @@ package com.speedyteller.reporting.api.mock
 import com.speedyteller.reporting.api.domain.model.Acquirer
 import com.speedyteller.reporting.api.domain.model.AgentInfo
 import com.speedyteller.reporting.api.domain.model.Customer
+import com.speedyteller.reporting.api.domain.model.FXTransaction
+import com.speedyteller.reporting.api.domain.model.Merchant
+import com.speedyteller.reporting.api.domain.model.Report
 import com.speedyteller.reporting.api.domain.model.Transaction
-import com.speedyteller.reporting.api.domain.model.response.FXMerchant
-import com.speedyteller.reporting.api.domain.model.response.FXResponse
-import com.speedyteller.reporting.api.domain.model.response.GetReportResponse
-import com.speedyteller.reporting.api.domain.model.response.GetTransactionAcquirerResponse
-import com.speedyteller.reporting.api.domain.model.response.GetTransactionListCustomerResponse
-import com.speedyteller.reporting.api.domain.model.response.GetTransactionListIPNResponse
-import com.speedyteller.reporting.api.domain.model.response.GetTransactionListMerchantResponse
-import com.speedyteller.reporting.api.domain.model.response.GetTransactionListMerchantTransactionResponse
-import com.speedyteller.reporting.api.domain.model.response.GetTransactionListResponse
-import com.speedyteller.reporting.api.domain.model.response.GetTransactionListTransactionResponse
-import com.speedyteller.reporting.api.domain.model.response.GetTransactionMerchantResponse
-import com.speedyteller.reporting.api.domain.model.response.GetTransactionMerchantTransactionResponse
-import com.speedyteller.reporting.api.domain.model.response.GetTransactionResponse
+import com.speedyteller.reporting.api.domain.model.TransactionSummary
 import org.springframework.stereotype.Component
 import java.math.BigDecimal
 import java.time.LocalDate
@@ -49,27 +40,13 @@ class MockTest {
         shippingCountry = "TR"
     }
 
-    fun getTransactionResponse(): GetTransactionResponse = GetTransactionResponse(
-        fx = FXResponse(merchant = this.getFXMerchant()),
-        customerInfo = this.getCustumer(),
-        acquirer = this.getGetTransactionAcquirerResponse(),
-        merchant = GetTransactionMerchantResponse(name = "Dev-Merchant"),
-        transaction = GetTransactionMerchantTransactionResponse(merchant = this.getTransaction()),
-    )
-
-    fun getGetTransactionAcquirerResponse(): GetTransactionAcquirerResponse = GetTransactionAcquirerResponse().apply {
-        name = "Comitten Bank"
-        code = "CB"
-    }
-
-    fun getFXMerchant(): FXMerchant = FXMerchant().apply {
-        originalAmount = BigDecimal("100.00")
-        originalCurrency = "EUR"
-    }
-
     fun getTransaction(): Transaction {
-        val agentInfo =
-            AgentInfo(id = 1, customerIp = "192.168.1.2", customerUserAgent = "Agent", merchantIp = "127.0.0.1")
+        val agentInfo = AgentInfo(
+            id = 1,
+            customerIp = "192.168.1.2",
+            customerUserAgent = "Agent",
+            merchantIp = "127.0.0.1",
+        )
 
         return Transaction().apply {
             referenceNo = "reference_5617ae66281ee"
@@ -90,63 +67,68 @@ class MockTest {
             agent = agentInfo
             customerId = 1
             refundable = true
+
+            customer = getCustumer()
+
+            merchant = Merchant().apply {
+                id = 1
+                name = "Dev-Merchant"
+            }
+
+            acquirer = Acquirer().apply {
+                id = 2
+                name = "Comitten Bank"
+                code = "CB"
+                type = "PAYTOCARD"
+            }
+
+            fxTransaction = FXTransaction().apply {
+                id = 1
+                originalAmount = BigDecimal("100.00")
+                originalCurrency = "EUR"
+            }
         }
     }
 
-    fun getTransactionListResponse(): List<GetTransactionListResponse> {
-        val fxResponse = FXMerchant().apply {
-            originalAmount = BigDecimal("5.00")
-            originalCurrency = "EUR"
-        }
+    fun getTransactionSummaryList(): List<TransactionSummary> {
+        val summary = TransactionSummary(
+            originalAmount = BigDecimal("5.00"),
+            originalCurrency = "EUR",
 
-        val acquirerResponse = Acquirer().apply {
-            id = 1
-            name = "Mergen Bank"
-            code = "MB"
-            type = "CREDITCARD"
-        }
+            number = "448574XXXXXX3395",
+            email = "aykut.aras@bumin.com.tr",
+            billingFirstName = "Aykut",
+            billingLastName = "Aras",
 
-        val customerResponse = GetTransactionListCustomerResponse().apply {
-            number = "448574XXXXXX3395"
-            email = "aykut.aras@bumin.com.tr"
-            billingFirstName = "Aykut"
-            billingLastName = "Aras"
-        }
+            merchantId = 3L,
+            merchantName = "Dev-Merchant",
 
-        val merchantResponse = GetTransactionListMerchantResponse().apply {
-            id = 3
-            name = "Dev-Merchant"
-        }
+            received = true,
 
-        val transactionResponse = GetTransactionListTransactionResponse().apply {
-            referenceNo = "api_560a4a9314208"
-            status = "APPROVED"
-            operation = "3DAUTH"
-            message = "Auth3D is APPROVED"
-            createdAt = LocalDateTime.of(LocalDate.of(2015, 9, 29), LocalTime.of(8, 24, 42))
-            transactionId = "2827-1443515082-3"
-        }
-
-        val getTransactionListResponse = GetTransactionListResponse(
-            fx = FXResponse(merchant = fxResponse),
-            customerInfo = customerResponse,
-            merchant = merchantResponse,
-            ipn = GetTransactionListIPNResponse(received = true),
-            transaction = GetTransactionListMerchantTransactionResponse(merchant = transactionResponse),
-            acquirer = acquirerResponse,
+            referenceNo = "api_560a4a9314208",
+            status = "APPROVED",
+            operation = "3DAUTH",
+            message = "Auth3D is APPROVED",
+            createdAt = LocalDateTime.of(LocalDate.of(2015, 9, 29), LocalTime.of(8, 24, 42)),
+            transactionId = "2827-1443515082-3",
             refundable = true,
+
+            acquirerId = 1L,
+            acquirerName = "Mergen Bank",
+            acquirerCode = "MB",
+            acquirerType = "CREDITCARD",
         )
 
-        return mutableListOf(getTransactionListResponse)
+        return listOf(summary)
     }
 
-    fun getReportResponse(): List<GetReportResponse> = mutableListOf(
-        GetReportResponse(
+    fun getReportResponse(): List<Report> = mutableListOf(
+        Report(
             count = 1,
             total = BigDecimal("100.00"),
             currency = "EUR",
         ),
-        GetReportResponse(
+        Report(
             count = 2,
             total = BigDecimal("375.00"),
             currency = "USD",

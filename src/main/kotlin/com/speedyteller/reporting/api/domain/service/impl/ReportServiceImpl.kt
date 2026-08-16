@@ -1,7 +1,7 @@
 package com.speedyteller.reporting.api.domain.service.impl
 
-import com.speedyteller.reporting.api.domain.model.request.GetReportRequest
-import com.speedyteller.reporting.api.domain.model.response.GetReportResponse
+import com.speedyteller.reporting.api.domain.model.Report
+import com.speedyteller.reporting.api.domain.model.request.ReportRequest
 import com.speedyteller.reporting.api.domain.service.ReportService
 import com.speedyteller.reporting.api.domain.usecase.GetReport
 import org.slf4j.Logger
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service
 @Service
 class ReportServiceImpl(val getReport: GetReport) : ReportService {
 
-    override fun getReport(request: GetReportRequest): List<GetReportResponse> {
+    override fun getReport(request: ReportRequest): List<Report> {
         logger.info("Getting report with request $request")
         return getReport.handle(request = request)
     }

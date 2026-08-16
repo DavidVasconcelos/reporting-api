@@ -1,6 +1,5 @@
 package com.speedyteller.reporting.api.domain.service
 
-import com.speedyteller.reporting.api.domain.model.response.GetCustomerResponse
 import com.speedyteller.reporting.api.mock.MockTest
 import com.speedyteller.reporting.api.support.annotations.IntegrationTest
 import org.amshove.kluent.shouldBeEqualTo
@@ -18,8 +17,7 @@ class CustomerServiceTest {
 
     @Test
     fun `Get Customer`() {
-        val customer = mockTest.getCustumer()
-        val expectedCustomer = GetCustomerResponse(customerInfo = customer)
+        val expectedCustomer = mockTest.getCustumer()
         val savedCustomer = service.getCustomer(transactionId = "1-1444392550-1")
 
         expectedCustomer shouldBeEqualTo savedCustomer
