@@ -32,6 +32,9 @@ jobs:
           gradle-version: wrapper
           cache-read-only: ${{ github.ref != 'refs/heads/main' }}
 
+      - name: Build JAR natively
+        run: ./gradlew assemble --no-daemon --build-cache
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v4
 

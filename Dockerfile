@@ -1,29 +1,6 @@
-FROM eclipse-temurin:25-jdk AS builder
+FROM eclipse-temurin:25-jre
 
 LABEL org.opencontainers.image.source="https://github.com/DavidVasconcelos/reporting-api"
-
-WORKDIR /app
-
-ENV GRADLE_OPTS="-Dorg.gradle.daemon=false -Dorg.gradle.parallel=false -Dorg.gradle.workers.max=2 -Xmx1g"
-
-COPY gradlew .
-COPY gradle/ gradle/
-RUN chmod +x ./gradlew
-
-COPY build.gradle settings.gradle dependencies.gradle gradle.properties ./
-COPY ./gradle/git-hooks/git-hooks.gradle ./gradle/git-hooks/
-
-RUN --mount=type=cache,target=/root/.gradle \
-    ./gradlew dependencies
-
-COPY . .
-
-RUN --mount=type=cache,target=/root/.gradle \
-    ./gradlew assemble --offline
-
-# -----------------------------------------------------------------------------
-
-FROM eclipse-temurin:25-jre
 
 WORKDIR /app
 
@@ -32,7 +9,7 @@ EXPOSE 8080
 RUN addgroup --system spring && adduser --system --ingroup spring spring
 USER spring
 
-COPY --from=builder /app/init.sh /app/
-COPY --from=builder /app/build/libs/reporting-api.jar /app/app.jar
+COPY init.sh /app/
+COPY build/libs/reporting-api.jar /app/app.jar
 
 ENTRYPOINT ["bash", "init.sh"]
