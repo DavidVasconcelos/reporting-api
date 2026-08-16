@@ -1,8 +1,8 @@
 package com.speedyteller.reporting.api.domain.service
 
-import com.speedyteller.reporting.api.domain.model.response.GetCustomerResponse
+import com.speedyteller.reporting.api.domain.model.Customer
 
 fun interface CustomerService {
 
-    fun getCustomer(transactionId: String): GetCustomerResponse
+    fun getCustomer(transactionId: String): Customer
 }

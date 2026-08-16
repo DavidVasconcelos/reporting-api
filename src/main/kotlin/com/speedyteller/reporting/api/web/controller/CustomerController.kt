@@ -1,7 +1,8 @@
 package com.speedyteller.reporting.api.web.controller
 
+import com.speedyteller.reporting.api.domain.model.extension.toDTO
 import com.speedyteller.reporting.api.domain.service.CustomerService
-import com.speedyteller.reporting.api.web.dto.response.GetCustomerResponseDTO
+import com.speedyteller.reporting.api.web.dto.response.CustomerResponseDTO
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
@@ -17,11 +18,11 @@ class CustomerController(private val customerService: CustomerService) {
     @GetMapping
     fun getClient(
         @RequestParam(name = "transactionId", required = true) transactionId: String,
-    ): ResponseEntity<GetCustomerResponseDTO> {
+    ): ResponseEntity<CustomerResponseDTO> {
         logger.info("Get client called for transactionId: $transactionId")
 
-        val customerResponse = customerService.getCustomer(transactionId = transactionId)
-        return ResponseEntity.ok(GetCustomerResponseDTO(model = customerResponse))
+        val model = customerService.getCustomer(transactionId = transactionId)
+        return ResponseEntity.ok(model.toDTO())
     }
 
     companion object {

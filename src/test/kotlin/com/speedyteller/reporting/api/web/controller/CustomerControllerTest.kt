@@ -2,13 +2,12 @@ package com.speedyteller.reporting.api.web.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
-import com.speedyteller.reporting.api.domain.model.response.GetCustomerResponse
+import com.speedyteller.reporting.api.domain.model.extension.toDTO
 import com.speedyteller.reporting.api.domain.service.CustomerService
 import com.speedyteller.reporting.api.mock.MockTest
 import com.speedyteller.reporting.api.security.JwtTokenComponent
 import com.speedyteller.reporting.api.support.annotations.IntegrationTest
 import com.speedyteller.reporting.api.support.annotations.andResultBodyMatches
-import com.speedyteller.reporting.api.web.dto.response.GetCustomerResponseDTO
 import io.mockk.every
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -59,9 +58,9 @@ class CustomerControllerTest {
         val customer = mockTest.getCustumer()
         val transactionId = "1-1444392550-1"
         val expectedCustomer =
-            mapper.writeValueAsString(GetCustomerResponseDTO(GetCustomerResponse(customerInfo = customer))) as String
+            mapper.writeValueAsString(customer.toDTO()) as String
 
-        every { service.getCustomer(any()) } returns GetCustomerResponse(customerInfo = customer)
+        every { service.getCustomer(any()) } returns customer
 
         mockMvc.perform(
             MockMvcRequestBuilders.get("/client?transactionId=$transactionId")
@@ -78,7 +77,7 @@ class CustomerControllerTest {
         val customer = mockTest.getCustumer()
         val transactionId = "1-1444392550-1"
 
-        every { service.getCustomer(any()) } returns GetCustomerResponse(customerInfo = customer)
+        every { service.getCustomer(any()) } returns customer
 
         mockMvc.perform(
             MockMvcRequestBuilders.get("/client?transactionId=$transactionId")
