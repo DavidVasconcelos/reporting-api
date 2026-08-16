@@ -1,6 +1,7 @@
 name: Build and Push Docker Image
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -14,7 +15,10 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v4
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
@@ -41,3 +45,5 @@ jobs:
           tags: |
             davidvasconcelos/reporting_api:latest
             ghcr.io/davidvasconcelos/reporting_api:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

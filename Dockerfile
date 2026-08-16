@@ -13,10 +13,13 @@ RUN chmod +x ./gradlew
 COPY build.gradle settings.gradle dependencies.gradle gradle.properties ./
 COPY ./gradle/git-hooks/git-hooks.gradle ./gradle/git-hooks/
 
-RUN ./gradlew dependencies
+RUN --mount=type=cache,target=/root/.gradle \
+    ./gradlew dependencies
 
 COPY . .
-RUN ./gradlew assemble
+
+RUN --mount=type=cache,target=/root/.gradle \
+    ./gradlew assemble --offline
 
 # -----------------------------------------------------------------------------
 
