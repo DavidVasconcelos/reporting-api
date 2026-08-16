@@ -3,7 +3,7 @@ package com.speedyteller.reporting.api.domain.model
 import java.math.BigDecimal
 import java.time.LocalDateTime
 
-data class GetTransactionList(
+data class TransactionSummary(
     val originalAmount: BigDecimal? = null,
     val originalCurrency: String? = null,
     val number: String? = null,

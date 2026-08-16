@@ -2,7 +2,7 @@ package com.speedyteller.reporting.api.domain.usecase
 
 import com.speedyteller.reporting.api.common.BusinessConstants
 import com.speedyteller.reporting.api.common.FilterFieldComponent
-import com.speedyteller.reporting.api.domain.model.GetTransactionList
+import com.speedyteller.reporting.api.domain.model.TransactionSummary
 import com.speedyteller.reporting.api.domain.model.request.GetTransactionListRequest
 import com.speedyteller.reporting.api.repository.jpa.TransactionRepository
 import org.springframework.data.domain.Pageable
@@ -12,19 +12,19 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 
 @Component
-class GetTransactions(
+class GetTransactionSummary(
     private val transactionRepository: TransactionRepository,
     private val filterFieldComponent: FilterFieldComponent,
 ) {
 
     @Transactional(readOnly = true)
-    fun handle(request: GetTransactionListRequest, page: Pageable): List<GetTransactionList> {
+    fun handle(request: GetTransactionListRequest, page: Pageable): List<TransactionSummary> {
         val (query, params) = buildQueryWithParams(request)
         return transactionRepository.executeNativeQuery(
             query = query,
             page = page,
             parameters = params,
-            mappedClass = GetTransactionList::class.java,
+            mappedClass = TransactionSummary::class.java,
         )
     }
 

@@ -11,7 +11,6 @@ import com.speedyteller.reporting.api.web.dto.request.GetReportRequestDTO
 import com.speedyteller.reporting.api.web.dto.request.GetTransactionListRequestDTO
 import com.speedyteller.reporting.api.web.dto.response.GetReportDTO
 import com.speedyteller.reporting.api.web.dto.response.GetReportResponseDTO
-import com.speedyteller.reporting.api.web.dto.response.GetTransactionListResponseDTO
 import com.speedyteller.reporting.api.web.dto.response.GetTransactionResponseDTO
 import jakarta.validation.Valid
 import jakarta.validation.constraints.Min
@@ -55,12 +54,11 @@ class TransactionController(
     ): ResponseEntity<CustomPageDTO> {
         logger.info("Get transaction list request $dto")
         val pageRequest = PageRequest.of(page - 1, DEFAULT_PAGE_SIZE)
-        val listOfResponse =
-            transactionService.getTransactionList(
-                request = GetTransactionListRequest(dto = dto),
-                page = pageRequest,
-            )
-        val listOfResponseDTO = listOfResponse.map { GetTransactionListResponseDTO(model = it) }
+        val listOfSummaries = transactionService.getTransactionList(
+            request = GetTransactionListRequest(dto = dto),
+            page = pageRequest,
+        )
+        val listOfResponseDTO = listOfSummaries.map { it.toDTO() }
         val pageDTO = paginationComponent.getPagination(
             pageSize = DEFAULT_PAGE_SIZE,
             page = page,

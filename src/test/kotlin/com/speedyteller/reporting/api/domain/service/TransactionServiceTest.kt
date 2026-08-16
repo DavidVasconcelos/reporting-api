@@ -32,9 +32,9 @@ class TransactionServiceTest {
     }
 
     @Test
-    fun `Get Transaction List`() {
-        val expectedTransaction = mockTest.getTransactionListResponse()
-        val savedTransaction = service.getTransactionList(
+    fun `Get Transaction Summary`() {
+        val expectedSummaryList = mockTest.getTransactionSummaryList()
+        val savedSummaryList = service.getTransactionList(
             request = GetTransactionListRequest(
                 fromDate = LocalDate.of(2015, 9, 29),
                 toDate = LocalDate.of(2015, 10, 29),
@@ -49,6 +49,6 @@ class TransactionServiceTest {
             ),
             page = PageRequest.of(0, TransactionController.DEFAULT_PAGE_SIZE),
         )
-        expectedTransaction shouldBeEqualTo savedTransaction
+        expectedSummaryList shouldBeEqualTo savedSummaryList
     }
 }

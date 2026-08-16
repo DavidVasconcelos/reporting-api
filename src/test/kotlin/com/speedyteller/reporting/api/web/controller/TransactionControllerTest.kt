@@ -10,12 +10,10 @@ import com.speedyteller.reporting.api.mock.MockTest
 import com.speedyteller.reporting.api.security.JwtTokenComponent
 import com.speedyteller.reporting.api.support.annotations.IntegrationTest
 import com.speedyteller.reporting.api.support.annotations.andResultBodyMatches
-import com.speedyteller.reporting.api.web.controller.TransactionController
 import com.speedyteller.reporting.api.web.dto.request.GetReportRequestDTO
 import com.speedyteller.reporting.api.web.dto.request.GetTransactionListRequestDTO
 import com.speedyteller.reporting.api.web.dto.response.GetReportDTO
 import com.speedyteller.reporting.api.web.dto.response.GetReportResponseDTO
-import com.speedyteller.reporting.api.web.dto.response.GetTransactionListResponseDTO
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
 import io.mockk.every
@@ -138,11 +136,11 @@ class TransactionControllerTest {
     }
 
     @Test
-    fun `Successful test get transaction list`() {
+    fun `Successful test get transaction summary`() {
         val page = 1
         val request = mapper.writeValueAsString(GetTransactionListRequestDTO())
-        val response = mockTest.getTransactionListResponse()
-        val listResponseDTO = response.map { GetTransactionListResponseDTO(model = it) }
+        val listOfSummaries = mockTest.getTransactionSummaryList()
+        val listResponseDTO = listOfSummaries.map { it.toDTO() }
         val pageDTO = paginationComponent.getPagination(
             pageSize = TransactionController.DEFAULT_PAGE_SIZE,
             page = page,
@@ -151,7 +149,7 @@ class TransactionControllerTest {
         )
         val expectedTransactionList = mapper.writeValueAsString(pageDTO) as String
 
-        every { service.getTransactionList(any(), any()) } returns response
+        every { service.getTransactionList(any(), any()) } returns listOfSummaries
 
         mockMvc.perform(
             MockMvcRequestBuilders.post("/transaction/list?page=$page")
@@ -165,10 +163,10 @@ class TransactionControllerTest {
     }
 
     @Test
-    fun `Returns forbidden when token is not present in the request to get the list`() {
+    fun `Returns forbidden when token is not present in the request to get the summary`() {
         val page = 1
-        val response = mockTest.getTransactionListResponse()
-        val listResponseDTO = response.map { GetTransactionListResponseDTO(model = it) }
+        val listOfSummaries = mockTest.getTransactionSummaryList()
+        val listResponseDTO = listOfSummaries.map { it.toDTO() }
         val pageDTO = paginationComponent.getPagination(
             pageSize = TransactionController.DEFAULT_PAGE_SIZE,
             page = page,
@@ -177,7 +175,7 @@ class TransactionControllerTest {
         )
         val dtoJSON = mapper.writeValueAsString(pageDTO) as String
 
-        every { service.getTransactionList(any(), any()) } returns response
+        every { service.getTransactionList(any(), any()) } returns listOfSummaries
 
         mockMvc.perform(
             MockMvcRequestBuilders.post("/transaction/list/?page=$page")
