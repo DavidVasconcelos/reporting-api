@@ -12,8 +12,7 @@ import com.speedyteller.reporting.api.support.annotations.IntegrationTest
 import com.speedyteller.reporting.api.support.annotations.andResultBodyMatches
 import com.speedyteller.reporting.api.web.dto.request.ReportRequestDTO
 import com.speedyteller.reporting.api.web.dto.request.TransactionSummaryRequestDTO
-import com.speedyteller.reporting.api.web.dto.response.GetReportDTO
-import com.speedyteller.reporting.api.web.dto.response.GetReportResponseDTO
+import com.speedyteller.reporting.api.web.dto.response.ReportResponseDTO
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
 import io.mockk.every
@@ -30,7 +29,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import java.nio.charset.StandardCharsets
-import java.util.Date
+import java.util.*
 
 @IntegrationTest
 @AutoConfigureMockMvc
@@ -191,7 +190,7 @@ class TransactionControllerTest {
     fun `Successful test get report`() {
         val request = mapper.writeValueAsString(ReportRequestDTO())
         val response = mockTest.getReportResponse()
-        val responseDTO = GetReportResponseDTO(response = response.map { GetReportDTO(model = it) })
+        val responseDTO = ReportResponseDTO(response = response.map { it.toDTO() })
         val expectedReport = mapper.writeValueAsString(responseDTO) as String
 
         every { reportService.getReport(any()) } returns response
@@ -210,7 +209,7 @@ class TransactionControllerTest {
     @Test
     fun `Returns forbidden when token is not present in the request to get the report`() {
         val response = mockTest.getReportResponse()
-        val responseDTO = GetReportResponseDTO(response = response.map { GetReportDTO(model = it) })
+        val responseDTO = ReportResponseDTO(response = response.map { it.toDTO() })
         val dtoJSON = mapper.writeValueAsString(responseDTO) as String
 
         every { reportService.getReport(any()) } returns response

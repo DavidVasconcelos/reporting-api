@@ -9,8 +9,7 @@ import com.speedyteller.reporting.api.domain.service.TransactionService
 import com.speedyteller.reporting.api.web.dto.page.CustomPageDTO
 import com.speedyteller.reporting.api.web.dto.request.ReportRequestDTO
 import com.speedyteller.reporting.api.web.dto.request.TransactionSummaryRequestDTO
-import com.speedyteller.reporting.api.web.dto.response.GetReportDTO
-import com.speedyteller.reporting.api.web.dto.response.GetReportResponseDTO
+import com.speedyteller.reporting.api.web.dto.response.ReportResponseDTO
 import com.speedyteller.reporting.api.web.dto.response.TransactionResponseDTO
 import jakarta.validation.Valid
 import jakarta.validation.constraints.Min
@@ -69,11 +68,11 @@ class TransactionController(
     }
 
     @PostMapping("/report")
-    fun getReport(@RequestBody dto: ReportRequestDTO): ResponseEntity<GetReportResponseDTO> {
+    fun getReport(@RequestBody dto: ReportRequestDTO): ResponseEntity<ReportResponseDTO> {
         logger.info("Get report request $dto")
-        val listOfResponse = reportService.getReport(request = ReportRequest(dto = dto))
+        val listOfReport = reportService.getReport(request = ReportRequest(dto = dto))
         val responseDTO =
-            GetReportResponseDTO(response = listOfResponse.map { GetReportDTO(model = it) })
+            ReportResponseDTO(response = listOfReport.map { it.toDTO() })
         return ResponseEntity.ok(responseDTO)
     }
 
