@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-data class GetTransactionListRequestDTO(
+data class TransactionSummaryRequestDTO(
     var fromDate: String? = null,
     var toDate: String? = null,
     var status: String? = null,

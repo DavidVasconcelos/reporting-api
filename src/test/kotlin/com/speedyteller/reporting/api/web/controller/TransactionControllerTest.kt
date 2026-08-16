@@ -10,8 +10,8 @@ import com.speedyteller.reporting.api.mock.MockTest
 import com.speedyteller.reporting.api.security.JwtTokenComponent
 import com.speedyteller.reporting.api.support.annotations.IntegrationTest
 import com.speedyteller.reporting.api.support.annotations.andResultBodyMatches
-import com.speedyteller.reporting.api.web.dto.request.GetReportRequestDTO
-import com.speedyteller.reporting.api.web.dto.request.GetTransactionListRequestDTO
+import com.speedyteller.reporting.api.web.dto.request.ReportRequestDTO
+import com.speedyteller.reporting.api.web.dto.request.TransactionSummaryRequestDTO
 import com.speedyteller.reporting.api.web.dto.response.GetReportDTO
 import com.speedyteller.reporting.api.web.dto.response.GetReportResponseDTO
 import io.jsonwebtoken.Jwts
@@ -138,7 +138,7 @@ class TransactionControllerTest {
     @Test
     fun `Successful test get transaction summary`() {
         val page = 1
-        val request = mapper.writeValueAsString(GetTransactionListRequestDTO())
+        val request = mapper.writeValueAsString(TransactionSummaryRequestDTO())
         val listOfSummaries = mockTest.getTransactionSummaryList()
         val listResponseDTO = listOfSummaries.map { it.toDTO() }
         val pageDTO = paginationComponent.getPagination(
@@ -189,7 +189,7 @@ class TransactionControllerTest {
 
     @Test
     fun `Successful test get report`() {
-        val request = mapper.writeValueAsString(GetReportRequestDTO())
+        val request = mapper.writeValueAsString(ReportRequestDTO())
         val response = mockTest.getReportResponse()
         val responseDTO = GetReportResponseDTO(response = response.map { GetReportDTO(model = it) })
         val expectedReport = mapper.writeValueAsString(responseDTO) as String

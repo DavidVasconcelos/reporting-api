@@ -2,17 +2,17 @@ package com.speedyteller.reporting.api.domain.model.extension
 
 import com.speedyteller.reporting.api.domain.model.TransactionSummary
 import com.speedyteller.reporting.api.extension.toStringPattern
-import com.speedyteller.reporting.api.web.dto.response.GetTransactionSummaryResponseDTO
-import com.speedyteller.reporting.api.web.dto.response.GetTransactionSummaryResponseDTO.Acquirer
-import com.speedyteller.reporting.api.web.dto.response.GetTransactionSummaryResponseDTO.CustomerInfo
-import com.speedyteller.reporting.api.web.dto.response.GetTransactionSummaryResponseDTO.FX
-import com.speedyteller.reporting.api.web.dto.response.GetTransactionSummaryResponseDTO.FXMerchant
-import com.speedyteller.reporting.api.web.dto.response.GetTransactionSummaryResponseDTO.IPN
-import com.speedyteller.reporting.api.web.dto.response.GetTransactionSummaryResponseDTO.Merchant
-import com.speedyteller.reporting.api.web.dto.response.GetTransactionSummaryResponseDTO.MerchantTransaction
-import com.speedyteller.reporting.api.web.dto.response.GetTransactionSummaryResponseDTO.TransactionInfo
+import com.speedyteller.reporting.api.web.dto.response.TransactionSummaryResponseDTO
+import com.speedyteller.reporting.api.web.dto.response.TransactionSummaryResponseDTO.Acquirer
+import com.speedyteller.reporting.api.web.dto.response.TransactionSummaryResponseDTO.CustomerInfo
+import com.speedyteller.reporting.api.web.dto.response.TransactionSummaryResponseDTO.FX
+import com.speedyteller.reporting.api.web.dto.response.TransactionSummaryResponseDTO.FXMerchant
+import com.speedyteller.reporting.api.web.dto.response.TransactionSummaryResponseDTO.IPN
+import com.speedyteller.reporting.api.web.dto.response.TransactionSummaryResponseDTO.Merchant
+import com.speedyteller.reporting.api.web.dto.response.TransactionSummaryResponseDTO.MerchantTransaction
+import com.speedyteller.reporting.api.web.dto.response.TransactionSummaryResponseDTO.TransactionInfo
 
-fun TransactionSummary.toDTO(): GetTransactionSummaryResponseDTO = GetTransactionSummaryResponseDTO(
+fun TransactionSummary.toDTO(): TransactionSummaryResponseDTO = TransactionSummaryResponseDTO(
 
     acquirer = Acquirer(
         id = this.acquirerId,

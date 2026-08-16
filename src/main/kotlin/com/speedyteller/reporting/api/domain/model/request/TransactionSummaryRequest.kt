@@ -9,12 +9,12 @@ import com.speedyteller.reporting.api.domain.model.enum.PaymentMethod
 import com.speedyteller.reporting.api.domain.model.enum.Status
 import com.speedyteller.reporting.api.exception.BusinessValidationException
 import com.speedyteller.reporting.api.extension.toCapital
-import com.speedyteller.reporting.api.web.dto.request.GetTransactionListRequestDTO
+import com.speedyteller.reporting.api.web.dto.request.TransactionSummaryRequestDTO
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import kotlin.enums.enumEntries
 
-data class GetTransactionListRequest(
+data class TransactionSummaryRequest(
     var fromDate: LocalDate? = null,
     var toDate: LocalDate? = null,
     var status: Status? = null,
@@ -26,7 +26,7 @@ data class GetTransactionListRequest(
     var merchantId: Int? = null,
     var acquirerId: Int? = null,
 ) {
-    constructor(dto: GetTransactionListRequestDTO) : this() {
+    constructor(dto: TransactionSummaryRequestDTO) : this() {
         this.validateFields(dto)
         this.fromDate = dto.fromDate?.let { LocalDate.parse(it, DateTimeFormatter.ISO_DATE) }
         this.toDate = dto.toDate?.let { LocalDate.parse(it, DateTimeFormatter.ISO_DATE) }
@@ -41,7 +41,7 @@ data class GetTransactionListRequest(
         this.acquirerId = dto.acquirerId
     }
 
-    private fun validateFields(dto: GetTransactionListRequestDTO) {
+    private fun validateFields(dto: TransactionSummaryRequestDTO) {
         requireDateMatches(dto.fromDate)
         requireDateMatches(dto.toDate)
 

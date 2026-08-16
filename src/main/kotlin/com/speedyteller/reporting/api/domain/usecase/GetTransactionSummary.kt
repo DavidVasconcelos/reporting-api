@@ -3,7 +3,7 @@ package com.speedyteller.reporting.api.domain.usecase
 import com.speedyteller.reporting.api.common.BusinessConstants
 import com.speedyteller.reporting.api.common.FilterFieldComponent
 import com.speedyteller.reporting.api.domain.model.TransactionSummary
-import com.speedyteller.reporting.api.domain.model.request.GetTransactionListRequest
+import com.speedyteller.reporting.api.domain.model.request.TransactionSummaryRequest
 import com.speedyteller.reporting.api.repository.jpa.TransactionRepository
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Component
@@ -18,7 +18,7 @@ class GetTransactionSummary(
 ) {
 
     @Transactional(readOnly = true)
-    fun handle(request: GetTransactionListRequest, page: Pageable): List<TransactionSummary> {
+    fun handle(request: TransactionSummaryRequest, page: Pageable): List<TransactionSummary> {
         val (query, params) = buildQueryWithParams(request)
         return transactionRepository.executeNativeQuery(
             query = query,
@@ -28,7 +28,7 @@ class GetTransactionSummary(
         )
     }
 
-    private fun buildQueryWithParams(request: GetTransactionListRequest): Pair<String, Map<String, Any>> {
+    private fun buildQueryWithParams(request: TransactionSummaryRequest): Pair<String, Map<String, Any>> {
         val query: StringBuilder =
             StringBuilder().append(BusinessConstants.Queries.QUERY_GET_TRANSACTION_LIST)
         val parameters = mutableMapOf<String, Any>()

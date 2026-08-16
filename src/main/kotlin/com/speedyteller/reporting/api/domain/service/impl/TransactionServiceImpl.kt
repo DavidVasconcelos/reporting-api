@@ -2,7 +2,7 @@ package com.speedyteller.reporting.api.domain.service.impl
 
 import com.speedyteller.reporting.api.domain.model.Transaction
 import com.speedyteller.reporting.api.domain.model.TransactionSummary
-import com.speedyteller.reporting.api.domain.model.request.GetTransactionListRequest
+import com.speedyteller.reporting.api.domain.model.request.TransactionSummaryRequest
 import com.speedyteller.reporting.api.domain.service.TransactionService
 import com.speedyteller.reporting.api.domain.usecase.FindTransactionById
 import com.speedyteller.reporting.api.domain.usecase.GetTransactionSummary
@@ -24,7 +24,7 @@ class TransactionServiceImpl(
         return findTransactionById.handle(transactionId = transactionId)
     }
 
-    override fun getTransactionList(request: GetTransactionListRequest, page: Pageable): List<TransactionSummary> {
+    override fun getTransactionList(request: TransactionSummaryRequest, page: Pageable): List<TransactionSummary> {
         logger.info("Looking for transaction summary with request $request")
         return getTransactionSummary.handle(request = request, page = page)
     }

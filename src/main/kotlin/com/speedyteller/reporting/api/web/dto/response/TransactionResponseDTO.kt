@@ -2,7 +2,7 @@ package com.speedyteller.reporting.api.web.dto.response
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-data class GetTransactionResponseDTO(
+data class TransactionResponseDTO(
     val acquirer: Acquirer,
     val customerInfo: CustomerInfo,
     val fx: FX,

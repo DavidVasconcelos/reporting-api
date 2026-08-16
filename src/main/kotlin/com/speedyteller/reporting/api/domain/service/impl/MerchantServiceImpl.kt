@@ -1,7 +1,7 @@
 package com.speedyteller.reporting.api.domain.service.impl
 
+import com.speedyteller.reporting.api.domain.model.Login
 import com.speedyteller.reporting.api.domain.model.request.LoginRequest
-import com.speedyteller.reporting.api.domain.model.response.LoginResponse
 import com.speedyteller.reporting.api.domain.service.MerchantService
 import com.speedyteller.reporting.api.security.JwtTokenComponent
 import org.slf4j.Logger
@@ -22,14 +22,14 @@ class MerchantServiceImpl(
     @Value("\${security.role}") private val role: String,
 ) : MerchantService {
 
-    override fun login(loginRequest: LoginRequest): LoginResponse {
+    override fun login(loginRequest: LoginRequest): Login {
         val user = authenticate(loginRequest)
         logger.info("Client ${user.username} successfully logged in")
 
         val userWithNewRole = updateAuthorities(user)
 
         val accessToken = jwtTokenComponent.generateAccessToken(user = userWithNewRole)
-        return LoginResponse(token = accessToken, expiresIn = jwtExpirationTime)
+        return Login(token = accessToken, expiresIn = jwtExpirationTime)
     }
 
     private fun authenticate(loginRequest: LoginRequest): User {

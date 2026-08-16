@@ -2,17 +2,17 @@ package com.speedyteller.reporting.api.domain.model.extension
 
 import com.speedyteller.reporting.api.domain.model.Transaction
 import com.speedyteller.reporting.api.extension.toStringPattern
-import com.speedyteller.reporting.api.web.dto.response.GetTransactionResponseDTO
-import com.speedyteller.reporting.api.web.dto.response.GetTransactionResponseDTO.Acquirer
-import com.speedyteller.reporting.api.web.dto.response.GetTransactionResponseDTO.Agent
-import com.speedyteller.reporting.api.web.dto.response.GetTransactionResponseDTO.CustomerInfo
-import com.speedyteller.reporting.api.web.dto.response.GetTransactionResponseDTO.FX
-import com.speedyteller.reporting.api.web.dto.response.GetTransactionResponseDTO.FXMerchant
-import com.speedyteller.reporting.api.web.dto.response.GetTransactionResponseDTO.Merchant
-import com.speedyteller.reporting.api.web.dto.response.GetTransactionResponseDTO.MerchantTransaction
-import com.speedyteller.reporting.api.web.dto.response.GetTransactionResponseDTO.TransactionInfo
+import com.speedyteller.reporting.api.web.dto.response.TransactionResponseDTO
+import com.speedyteller.reporting.api.web.dto.response.TransactionResponseDTO.Acquirer
+import com.speedyteller.reporting.api.web.dto.response.TransactionResponseDTO.Agent
+import com.speedyteller.reporting.api.web.dto.response.TransactionResponseDTO.CustomerInfo
+import com.speedyteller.reporting.api.web.dto.response.TransactionResponseDTO.FX
+import com.speedyteller.reporting.api.web.dto.response.TransactionResponseDTO.FXMerchant
+import com.speedyteller.reporting.api.web.dto.response.TransactionResponseDTO.Merchant
+import com.speedyteller.reporting.api.web.dto.response.TransactionResponseDTO.MerchantTransaction
+import com.speedyteller.reporting.api.web.dto.response.TransactionResponseDTO.TransactionInfo
 
-fun Transaction.toDTO(): GetTransactionResponseDTO = GetTransactionResponseDTO(
+fun Transaction.toDTO(): TransactionResponseDTO = TransactionResponseDTO(
     acquirer = this.toAcquirer(),
     customerInfo = this.toCustomerInfo(),
     fx = this.toFX(),

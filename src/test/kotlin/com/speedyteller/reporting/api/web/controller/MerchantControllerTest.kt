@@ -2,7 +2,7 @@ package com.speedyteller.reporting.api.web.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
-import com.speedyteller.reporting.api.domain.model.response.LoginResponse
+import com.speedyteller.reporting.api.domain.model.Login
 import com.speedyteller.reporting.api.domain.service.MerchantService
 import com.speedyteller.reporting.api.security.JwtTokenComponent
 import com.speedyteller.reporting.api.support.annotations.IntegrationTest
@@ -46,7 +46,7 @@ class MerchantControllerTest {
     fun `Successful test login`() {
         val expectedToken =
             jwtTokenComponent.generateAccessToken(User("test", "test", mutableListOf()))
-        val expectedResponse = LoginResponse(expectedToken, expiresIn = jwtExpirationTime)
+        val expectedResponse = Login(expectedToken, expiresIn = jwtExpirationTime)
         val requestDTOJSON =
             mapper.writeValueAsString(LoginRequestDTO(email = "test", password = "teste")) as String
 

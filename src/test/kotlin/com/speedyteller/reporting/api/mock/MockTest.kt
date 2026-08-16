@@ -5,9 +5,9 @@ import com.speedyteller.reporting.api.domain.model.AgentInfo
 import com.speedyteller.reporting.api.domain.model.Customer
 import com.speedyteller.reporting.api.domain.model.FXTransaction
 import com.speedyteller.reporting.api.domain.model.Merchant
+import com.speedyteller.reporting.api.domain.model.Report
 import com.speedyteller.reporting.api.domain.model.Transaction
 import com.speedyteller.reporting.api.domain.model.TransactionSummary
-import com.speedyteller.reporting.api.domain.model.response.GetReportResponse
 import org.springframework.stereotype.Component
 import java.math.BigDecimal
 import java.time.LocalDate
@@ -122,13 +122,13 @@ class MockTest {
         return listOf(summary)
     }
 
-    fun getReportResponse(): List<GetReportResponse> = mutableListOf(
-        GetReportResponse(
+    fun getReportResponse(): List<Report> = mutableListOf(
+        Report(
             count = 1,
             total = BigDecimal("100.00"),
             currency = "EUR",
         ),
-        GetReportResponse(
+        Report(
             count = 2,
             total = BigDecimal("375.00"),
             currency = "USD",

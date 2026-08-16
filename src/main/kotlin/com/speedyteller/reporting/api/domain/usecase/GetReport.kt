@@ -1,8 +1,8 @@
 package com.speedyteller.reporting.api.domain.usecase
 
 import com.speedyteller.reporting.api.common.BusinessConstants
-import com.speedyteller.reporting.api.domain.model.request.GetReportRequest
-import com.speedyteller.reporting.api.domain.model.response.GetReportResponse
+import com.speedyteller.reporting.api.domain.model.Report
+import com.speedyteller.reporting.api.domain.model.request.ReportRequest
 import com.speedyteller.reporting.api.repository.jpa.TransactionRepository
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
@@ -13,16 +13,16 @@ import java.time.LocalTime
 class GetReport(private val transactionRepository: TransactionRepository) {
 
     @Transactional(readOnly = true)
-    fun handle(request: GetReportRequest): List<GetReportResponse> {
+    fun handle(request: ReportRequest): List<Report> {
         val (query, params) = buildQueryWithParams(request)
         return transactionRepository.executeNativeQuery(
             query = query,
             parameters = params,
-            mappedClass = GetReportResponse::class.java,
+            mappedClass = Report::class.java,
         )
     }
 
-    private fun buildQueryWithParams(request: GetReportRequest): Pair<String, Map<String, Any>> {
+    private fun buildQueryWithParams(request: ReportRequest): Pair<String, Map<String, Any>> {
         val query: StringBuilder =
             StringBuilder().append(BusinessConstants.Queries.QUERY_GET_REPORT)
         val parameters = mutableMapOf<String, Any>()

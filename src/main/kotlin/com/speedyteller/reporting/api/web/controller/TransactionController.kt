@@ -2,16 +2,16 @@ package com.speedyteller.reporting.api.web.controller
 
 import com.speedyteller.reporting.api.common.PaginationComponent
 import com.speedyteller.reporting.api.domain.model.extension.toDTO
-import com.speedyteller.reporting.api.domain.model.request.GetReportRequest
-import com.speedyteller.reporting.api.domain.model.request.GetTransactionListRequest
+import com.speedyteller.reporting.api.domain.model.request.ReportRequest
+import com.speedyteller.reporting.api.domain.model.request.TransactionSummaryRequest
 import com.speedyteller.reporting.api.domain.service.ReportService
 import com.speedyteller.reporting.api.domain.service.TransactionService
 import com.speedyteller.reporting.api.web.dto.page.CustomPageDTO
-import com.speedyteller.reporting.api.web.dto.request.GetReportRequestDTO
-import com.speedyteller.reporting.api.web.dto.request.GetTransactionListRequestDTO
+import com.speedyteller.reporting.api.web.dto.request.ReportRequestDTO
+import com.speedyteller.reporting.api.web.dto.request.TransactionSummaryRequestDTO
 import com.speedyteller.reporting.api.web.dto.response.GetReportDTO
 import com.speedyteller.reporting.api.web.dto.response.GetReportResponseDTO
-import com.speedyteller.reporting.api.web.dto.response.GetTransactionResponseDTO
+import com.speedyteller.reporting.api.web.dto.response.TransactionResponseDTO
 import jakarta.validation.Valid
 import jakarta.validation.constraints.Min
 import org.slf4j.Logger
@@ -38,7 +38,7 @@ class TransactionController(
     @GetMapping
     fun getTransaction(
         @RequestParam(name = "transactionId", required = true) transactionId: String,
-    ): ResponseEntity<GetTransactionResponseDTO> {
+    ): ResponseEntity<TransactionResponseDTO> {
         logger.info("Get transaction called for transactionId: $transactionId")
         val transaction =
             transactionService.getTransaction(transactionId = transactionId)
@@ -50,12 +50,12 @@ class TransactionController(
         @Valid
         @Min(value = 1, message = "Use 1 instead 0 on page")
         @RequestParam(name = "page", defaultValue = "1") page: Int,
-        @RequestBody dto: GetTransactionListRequestDTO,
+        @RequestBody dto: TransactionSummaryRequestDTO,
     ): ResponseEntity<CustomPageDTO> {
         logger.info("Get transaction list request $dto")
         val pageRequest = PageRequest.of(page - 1, DEFAULT_PAGE_SIZE)
         val listOfSummaries = transactionService.getTransactionList(
-            request = GetTransactionListRequest(dto = dto),
+            request = TransactionSummaryRequest(dto = dto),
             page = pageRequest,
         )
         val listOfResponseDTO = listOfSummaries.map { it.toDTO() }
@@ -69,9 +69,9 @@ class TransactionController(
     }
 
     @PostMapping("/report")
-    fun getReport(@RequestBody dto: GetReportRequestDTO): ResponseEntity<GetReportResponseDTO> {
+    fun getReport(@RequestBody dto: ReportRequestDTO): ResponseEntity<GetReportResponseDTO> {
         logger.info("Get report request $dto")
-        val listOfResponse = reportService.getReport(request = GetReportRequest(dto = dto))
+        val listOfResponse = reportService.getReport(request = ReportRequest(dto = dto))
         val responseDTO =
             GetReportResponseDTO(response = listOfResponse.map { GetReportDTO(model = it) })
         return ResponseEntity.ok(responseDTO)

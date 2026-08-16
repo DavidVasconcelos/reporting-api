@@ -4,7 +4,7 @@ import com.speedyteller.reporting.api.domain.model.enum.FilterField
 import com.speedyteller.reporting.api.domain.model.enum.Operation
 import com.speedyteller.reporting.api.domain.model.enum.PaymentMethod
 import com.speedyteller.reporting.api.domain.model.enum.Status
-import com.speedyteller.reporting.api.domain.model.request.GetTransactionListRequest
+import com.speedyteller.reporting.api.domain.model.request.TransactionSummaryRequest
 import com.speedyteller.reporting.api.mock.MockTest
 import com.speedyteller.reporting.api.support.annotations.IntegrationTest
 import com.speedyteller.reporting.api.web.controller.TransactionController
@@ -35,7 +35,7 @@ class TransactionServiceTest {
     fun `Get Transaction Summary`() {
         val expectedSummaryList = mockTest.getTransactionSummaryList()
         val savedSummaryList = service.getTransactionList(
-            request = GetTransactionListRequest(
+            request = TransactionSummaryRequest(
                 fromDate = LocalDate.of(2015, 9, 29),
                 toDate = LocalDate.of(2015, 10, 29),
                 status = Status.getStatus("APPROVED"),
